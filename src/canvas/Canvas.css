@@ -1,0 +1,15 @@
+.CanvasContainer {
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.CanvasContainer * {
+    pointer-events: none;
+}
+
+.Canvas {
+    position: relative;
+}
