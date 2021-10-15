@@ -1,0 +1,1 @@
+# hot-stamping-quotation-tool
