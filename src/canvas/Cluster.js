@@ -6,6 +6,7 @@ export function Cluster(props) {
             props.artFragments.map((artFragment, i) => {
                 return <ArtFragment
                             key={i}
+                            highlighted={props.highlighted}
                             selected={props.selected}
                             height={artFragment.height}
                             width={artFragment.width}

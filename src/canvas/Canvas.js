@@ -3,7 +3,6 @@ import "./Canvas.css";
 import { Page } from "./Page";
 
 export function Canvas(props) {
-    let pages = props.pages;
     let [zoom, setZoom] = useState(0);
     let [dragging, setDragging] = useState(false);
     let [canvasRefOffset, setCanvasRefOffset] = useState({x: 0, y: 0});
@@ -42,15 +41,44 @@ export function Canvas(props) {
             window.removeEventListener('mouseup', onMouseUp);
             window.removeEventListener('mousemove', onMouseMove);
         };
-    }, [dragging, setDragging]);
+    });
+
+    let onMouseMoveCanvas = (e) => {
+        let canvasMouse = {
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY,
+        };
+
+        let isOverAnyFragment = false;
+        props.pages.forEach((page, pageIndex) => {
+            let pageMouse = {
+                x: canvasMouse.x - page.xOffset,
+                y: canvasMouse.y - page.yOffset,
+            };
+            page.clusters.forEach((cluster, clusterIndex) => {
+                cluster.artFragments.forEach(artFragment => {
+                    let outsideX = (pageMouse.x < artFragment.xOffset || pageMouse.x > artFragment.xOffset + artFragment.width);
+                    let outsideY = (pageMouse.y < artFragment.yOffset || pageMouse.y > artFragment.yOffset + artFragment.height);
+                    if (!outsideX && !outsideY) {
+                        props.highlight(pageIndex, clusterIndex);
+                        isOverAnyFragment = true;
+                    }
+                });
+            });
+        });
+
+        if (isOverAnyFragment === false) {
+            props.unhighlightAll();
+        }
+    };
 
     let containerStyle = {
         height: props.height,
     };
 
     let padding = 20;
-    let canvasHeight = pages.reduce((a, b) => Math.max(a, b.height), 0);
-    let canvasWidth = pages.reduce((a, b) => a + b.width, 0) + padding * (props.pages.length - 1);
+    let canvasHeight = props.pages.reduce((a, b) => Math.max(a, b.height), 0);
+    let canvasWidth = props.pages.reduce((a, b) => a + b.width, 0) + padding * (props.pages.length - 1);
 
     let canvasStyle = {
         height: 2 * padding + canvasHeight + 'px',
@@ -58,25 +86,28 @@ export function Canvas(props) {
         transform: `translateX(${canvasOffset.x + 'px'}) translateY(${canvasOffset.y + 'px'}) scale(${Math.pow(1.3, zoom)})`,
     };
 
+    props.pages.forEach((page, i) => {
+        page.xOffset = (i + 1) * padding + props.pages.slice(0, i).reduce((a, b) => a + b.width, 0);
+        page.yOffset = padding + (canvasHeight - page.height) / 2;
+    });
+
     return (
         <div 
             className="CanvasContainer"
             style={containerStyle}
             onWheel={onWheel} 
             onMouseDown={onMouseDown} >
-            <div className="Canvas" style={canvasStyle}>
+            <div className="Canvas" style={canvasStyle} onMouseMove={onMouseMoveCanvas}>
                 {
-                    pages.map((page, i) => {
-                        let xOffset = (i + 1) * padding + pages.slice(0, i).reduce((a, b) => a + b.width, 0);
-                        let yOffset = padding + (canvasHeight - page.height) / 2;
-
+                    props.pages.map((page, i) => {
                         return (
                             <Page 
                                 height={page.height}
                                 width={page.width}
-                                xOffset={xOffset}
-                                yOffset={yOffset}
+                                xOffset={page.xOffset}
+                                yOffset={page.yOffset}
                                 clusters={page.clusters}
+                                index={i}
                                 key={i} />
                         );
                     })

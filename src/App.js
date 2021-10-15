@@ -8,6 +8,7 @@ function App() {
       width: 300,
       clusters: [
         {
+          highlighted: false,
           selected: true,
           artFragments: [
             {
@@ -19,6 +20,7 @@ function App() {
           ]
         },
         {
+          highlighted: false,
           selected: false,
           artFragments: [
             {
@@ -36,6 +38,7 @@ function App() {
       width: 200,
       clusters: [
         {
+          highlighted: false,
           selected: false,
           artFragments: [
             {
@@ -55,7 +58,7 @@ function App() {
       ...page,
       clusters: page.clusters.map(cluster => ({
         ...cluster,
-        select: false,
+        selected: false,
       }))
     }));
     setPages(newPages);
@@ -66,7 +69,7 @@ function App() {
       ...page,
       clusters: page.clusters.map((cluster, ci) => ({
         ...cluster,
-        select: (pi === pageIndex && ci === clusterIndex),
+        selected: (pi === pageIndex && ci === clusterIndex),
       }))
     }));
     setPages(newPages);
@@ -77,7 +80,7 @@ function App() {
       ...page,
       clusters: page.clusters.map((cluster, ci) => ({
         ...cluster,
-        select: (pi === pageIndex && ci === clusterIndex ? true : cluster.select),
+        selected: (pi === pageIndex && ci === clusterIndex ? true : cluster.selected),
       }))
     }));
     setPages(newPages);
@@ -88,7 +91,29 @@ function App() {
       ...page,
       clusters: page.clusters.map((cluster, ci) => ({
         ...cluster,
-        select: (pi === pageIndex && ci === clusterIndex ? false : cluster.select),
+        selected: (pi === pageIndex && ci === clusterIndex ? false : cluster.selected),
+      }))
+    }));
+    setPages(newPages);
+  };
+
+  let highlight = (pageIndex, clusterIndex) => {
+    let newPages = pages.map((page, pi) => ({
+      ...page,
+      clusters: page.clusters.map((cluster, ci) => ({
+        ...cluster,
+        highlighted: (pi === pageIndex && ci === clusterIndex),
+      }))
+    }));
+    setPages(newPages);
+  };
+
+  let unhighlightAll = () => {
+    let newPages = pages.map(page => ({
+      ...page,
+      clusters: page.clusters.map(cluster => ({
+        ...cluster,
+        highlighted: false,
       }))
     }));
     setPages(newPages);
@@ -102,7 +127,9 @@ function App() {
         unselectAll={unselectAll}
         selectOnly={selectOnly}
         select={select}
-        unselect={unselect} />
+        unselect={unselect}
+        highlight={highlight}
+        unhighlightAll={unhighlightAll} />
     </div>
   );
 }

@@ -13,7 +13,12 @@ export function Page(props) {
         <div className="Page" style={style}>
             {
                 props.clusters.map((cluster, i) => {
-                    return <Cluster key={i} selected={cluster.selected} artFragments={cluster.artFragments} />
+                    return <Cluster 
+                                highlighted={cluster.highlighted}
+                                selected={cluster.selected}
+                                artFragments={cluster.artFragments}
+                                index={i}
+                                key={i} />
                 })
             }
         </div>
