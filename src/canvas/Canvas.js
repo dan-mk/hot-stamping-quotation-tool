@@ -49,12 +49,12 @@ export function Canvas(props) {
     };
 
     let padding = 20;
-    let mmCanvasHeight = pages.reduce((a, b) => Math.max(a, b.mmHeight), 0);
-    let mmCanvasWidth = pages.reduce((a, b) => a + b.mmWidth, 0) + padding * (props.pages.length - 1);
+    let canvasHeight = pages.reduce((a, b) => Math.max(a, b.height), 0);
+    let canvasWidth = pages.reduce((a, b) => a + b.width, 0) + padding * (props.pages.length - 1);
 
     let canvasStyle = {
-        height: 2 * padding + mmCanvasHeight + 'px',
-        width: 2 * padding + mmCanvasWidth + 'px',
+        height: 2 * padding + canvasHeight + 'px',
+        width: 2 * padding + canvasWidth + 'px',
         transform: `translateX(${canvasOffset.x + 'px'}) translateY(${canvasOffset.y + 'px'}) scale(${Math.pow(1.3, zoom)})`,
     };
 
@@ -67,15 +67,16 @@ export function Canvas(props) {
             <div className="Canvas" style={canvasStyle}>
                 {
                     pages.map((page, i) => {
-                        let hOffset = (i + 1) * padding + pages.slice(0, i).reduce((a, b) => a + b.mmWidth, 0);
-                        let vOffset = padding + (mmCanvasHeight - page.mmHeight) / 2;
+                        let xOffset = (i + 1) * padding + pages.slice(0, i).reduce((a, b) => a + b.width, 0);
+                        let yOffset = padding + (canvasHeight - page.height) / 2;
 
                         return (
                             <Page 
-                                mmHeight={page.mmHeight}
-                                mmWidth={page.mmWidth}
-                                mmHorizontalOffset={hOffset}
-                                mmVerticalOffset={vOffset}
+                                height={page.height}
+                                width={page.width}
+                                xOffset={xOffset}
+                                yOffset={yOffset}
+                                clusters={page.clusters}
                                 key={i} />
                         );
                     })
