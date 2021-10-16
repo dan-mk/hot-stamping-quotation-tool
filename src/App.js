@@ -4,18 +4,18 @@ import { Canvas } from "./canvas/Canvas";
 function App() {
   let [pages, setPages] = useState([
     {
-      height: 200,
-      width: 300,
+      height: 400,
+      width: 600,
       clusters: [
         {
           highlighted: false,
-          selected: true,
+          selected: false,
           artFragments: [
             {
-              height: 20,
-              width: 60,
-              xOffset: 50,
-              yOffset: 50,
+              height: 40,
+              width: 120,
+              xOffset: 100,
+              yOffset: 100,
             }
           ]
         },
@@ -24,28 +24,28 @@ function App() {
           selected: false,
           artFragments: [
             {
-              height: 20,
-              width: 20,
-              xOffset: 120,
-              yOffset: 10,
+              height: 40,
+              width: 40,
+              xOffset: 240,
+              yOffset: 20,
             }
           ]
         },
       ],
     },
     {
-      height: 100,
-      width: 200,
+      height: 200,
+      width: 400,
       clusters: [
         {
           highlighted: false,
           selected: false,
           artFragments: [
             {
-              height: 20,
-              width: 40,
-              xOffset: 120,
-              yOffset: 10,
+              height: 40,
+              width: 80,
+              xOffset: 240,
+              yOffset: 20,
             }
           ]
         },
@@ -122,7 +122,7 @@ function App() {
   return (
     <div>
       <Canvas 
-        height={400}
+        height={600}
         pages={pages}
         unselectAll={unselectAll}
         selectOnly={selectOnly}

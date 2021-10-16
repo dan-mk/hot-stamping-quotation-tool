@@ -43,13 +43,13 @@ export function Canvas(props) {
         };
     });
 
-    let onMouseMoveCanvas = (e) => {
+    let getClusterIndexesUnderMouse = (e) => {
         let canvasMouse = {
             x: e.nativeEvent.offsetX,
             y: e.nativeEvent.offsetY,
         };
 
-        let isOverAnyFragment = false;
+        let result = null;
         props.pages.forEach((page, pageIndex) => {
             let pageMouse = {
                 x: canvasMouse.x - page.xOffset,
@@ -60,15 +60,43 @@ export function Canvas(props) {
                     let outsideX = (pageMouse.x < artFragment.xOffset || pageMouse.x > artFragment.xOffset + artFragment.width);
                     let outsideY = (pageMouse.y < artFragment.yOffset || pageMouse.y > artFragment.yOffset + artFragment.height);
                     if (!outsideX && !outsideY) {
-                        props.highlight(pageIndex, clusterIndex);
-                        isOverAnyFragment = true;
+                        result = [pageIndex, clusterIndex];
                     }
                 });
             });
         });
 
-        if (isOverAnyFragment === false) {
+        return result;
+    }
+
+    let onMouseMoveCanvas = (e) => {
+        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
+        if (clusterIndexesBelowMouse === null) {
             props.unhighlightAll();
+        } else {
+            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
+            props.highlight(pageIndex, clusterIndex);
+        }
+    };
+
+    let onClickCanvas = (e) => {
+        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
+        if (clusterIndexesBelowMouse === null) {
+            props.unselectAll();
+        } else {
+            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
+            let isSelected = props.pages[pageIndex].clusters[clusterIndex].selected;
+            if (e.shiftKey) {
+                if (isSelected) {
+                    props.unselect(pageIndex, clusterIndex);
+                } else {
+                    props.select(pageIndex, clusterIndex);
+                }
+            } else {
+                if (!isSelected) {
+                    props.selectOnly(pageIndex, clusterIndex);
+                }
+            }
         }
     };
 
@@ -97,7 +125,7 @@ export function Canvas(props) {
             style={containerStyle}
             onWheel={onWheel} 
             onMouseDown={onMouseDown} >
-            <div className="Canvas" style={canvasStyle} onMouseMove={onMouseMoveCanvas}>
+            <div className="Canvas" style={canvasStyle} onMouseMove={onMouseMoveCanvas} onClick={onClickCanvas}>
                 {
                     props.pages.map((page, i) => {
                         return (

@@ -2,8 +2,7 @@ import "./ArtFragment.css";
 
 export function ArtFragment(props) {
     let style = {
-        background: props.highlighted ? 'blue' : '',
-        outline: props.selected ? '2px solid orange' : '',
+        background: props.selected ? 'orange' : (props.highlighted ? '#333' : ''),
         height: props.height,
         width: props.width,
         left: props.xOffset,
