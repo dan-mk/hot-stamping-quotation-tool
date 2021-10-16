@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import "./Canvas.css";
 import { Page } from "./Page";
+import { ContextMenuOptions } from "./ContextMenuOptions";
 
 export function Canvas(props) {
     let [zoom, setZoom] = useState(0);
@@ -8,10 +9,13 @@ export function Canvas(props) {
     let [canvasRefOffset, setCanvasRefOffset] = useState({x: 0, y: 0});
     let [canvasDraggingAnchor, setCanvasDraggingAnchor] = useState({x: 0, y: 0});
     let [canvasOffset, setCanvasOffset] = useState({x: 0, y: 0});
+    let [contextMenuOptions, setContextMenuOptions] = useState(null);
+    let [contextMenuPosition, setContextMenuPosition] = useState({x: 0, y: 0});
 
     let onWheel = (e) => {
         let diff = (e.deltaY > 0 ? -1 : 1);
         setZoom(zoom + diff);
+        setContextMenuOptions(null);
     };
 
     let onMouseDown = (e) => {
@@ -32,6 +36,7 @@ export function Canvas(props) {
             x: canvasRefOffset.x + (e.pageX - canvasDraggingAnchor.x),
             y: canvasRefOffset.y + (e.pageY - canvasDraggingAnchor.y),
         });
+        setContextMenuOptions(null);
     };
 
     useEffect(() => {
@@ -82,7 +87,9 @@ export function Canvas(props) {
     let onClickCanvas = (e) => {
         let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
         if (clusterIndexesBelowMouse === null) {
-            props.unselectAll();
+            if (e.shiftKey === false) {
+                props.unselectAll();
+            }
         } else {
             let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
             let isSelected = props.pages[pageIndex].clusters[clusterIndex].selected;
@@ -98,6 +105,25 @@ export function Canvas(props) {
                 }
             }
         }
+    };
+
+    let onRightClickCanvas = (e) => {
+        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
+        if (clusterIndexesBelowMouse !== null) {
+            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
+            let isSelected = props.pages[pageIndex].clusters[clusterIndex].selected;
+            if (isSelected) {
+                setContextMenuOptions([
+                    { description: 'Create cliche', callback: () => console.log('create_cliche') }
+                ]);
+                setContextMenuPosition({x: e.clientX, y: e.clientY});
+            }
+        }
+    };
+
+    let onClickOption = (option) => {
+        option.callback();
+        setContextMenuOptions(null);
     };
 
     let containerStyle = {
@@ -124,8 +150,14 @@ export function Canvas(props) {
             className="CanvasContainer"
             style={containerStyle}
             onWheel={onWheel} 
-            onMouseDown={onMouseDown} >
-            <div className="Canvas" style={canvasStyle} onMouseMove={onMouseMoveCanvas} onClick={onClickCanvas}>
+            onMouseDown={onMouseDown}
+            onContextMenu={(e) => e.preventDefault()} >
+            <div 
+                className="Canvas"
+                style={canvasStyle}
+                onMouseMove={onMouseMoveCanvas}
+                onClick={onClickCanvas}
+                onContextMenu={onRightClickCanvas} >
                 {
                     props.pages.map((page, i) => {
                         return (
@@ -141,6 +173,10 @@ export function Canvas(props) {
                     })
                 }
             </div>
+            {contextMenuOptions && <ContextMenuOptions
+                                        options={contextMenuOptions}
+                                        position={contextMenuPosition}
+                                        onClickOption={onClickOption} />}
         </div>
     );
 }
