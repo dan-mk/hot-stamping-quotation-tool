@@ -1,8 +1,17 @@
 import "./ArtFragment.css";
 
 export function ArtFragment(props) {
+    let bgColor = '';
+    if (props.attachedCliche !== null) {
+        bgColor = 'white';
+    } else if (props.selected) {
+        bgColor = 'orange';
+    } else if (props.highlighted) {
+        bgColor = '#333';
+    }
+
     let style = {
-        background: props.selected ? 'orange' : (props.highlighted ? '#333' : ''),
+        background: bgColor,
         height: props.height,
         width: props.width,
         left: props.xOffset,

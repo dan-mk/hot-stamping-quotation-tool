@@ -8,6 +8,7 @@ export function Cluster(props) {
                             key={i}
                             highlighted={props.highlighted}
                             selected={props.selected}
+                            attachedCliche={props.attachedCliche}
                             height={artFragment.height}
                             width={artFragment.width}
                             xOffset={artFragment.xOffset}

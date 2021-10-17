@@ -39,6 +39,17 @@ export function Canvas(props) {
         setContextMenuOptions(null);
     };
 
+    let onClick = (e) => {
+        setContextMenuOptions(null);
+        props.unselectAll();
+    };
+
+    let onRightClick = (e) => {
+        e.preventDefault();
+        setContextMenuOptions([{ option: 'nothing' }]);
+        setContextMenuPosition({x: e.clientX, y: e.clientY});
+    };
+
     useEffect(() => {
         window.addEventListener('mouseup', onMouseUp);
         window.addEventListener('mousemove', onMouseMove);
@@ -47,6 +58,31 @@ export function Canvas(props) {
             window.removeEventListener('mousemove', onMouseMove);
         };
     });
+
+    let getClicheIndexesUnderMouse = (e) => {
+        let canvasMouse = {
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY,
+        };
+
+        let result = null;
+        props.pages.forEach((page, pageIndex) => {
+            let pageMouse = {
+                x: canvasMouse.x - page.xOffset,
+                y: canvasMouse.y - page.yOffset,
+            };
+            page.cliches.forEach((cliche, clicheIndex) => {
+                let clicheResource = props.resources.cliches.find(c => c.id === cliche.id);
+                let outsideX = (pageMouse.x < cliche.xOffset || pageMouse.x > cliche.xOffset + clicheResource.width);
+                let outsideY = (pageMouse.y < cliche.yOffset || pageMouse.y > cliche.yOffset + clicheResource.height);
+                if (!outsideX && !outsideY) {
+                    result = [pageIndex, clicheIndex];
+                }
+            });
+        });
+
+        return result;
+    };
 
     let getClusterIndexesUnderMouse = (e) => {
         let canvasMouse = {
@@ -72,53 +108,82 @@ export function Canvas(props) {
         });
 
         return result;
-    }
+    };
+
+    let getElementUnderMouse = (e) => {
+        let clicheIndexesUnderMouse = getClicheIndexesUnderMouse(e);
+        let clusterIndexesUnderMouse = getClusterIndexesUnderMouse(e);
+        if (clicheIndexesUnderMouse !== null) {
+            return [...clicheIndexesUnderMouse, 'cliche'];
+        } else if (clusterIndexesUnderMouse !== null) {
+            return [...clusterIndexesUnderMouse, 'cluster'];
+        }
+        return null;
+    };
 
     let onMouseMoveCanvas = (e) => {
-        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
-        if (clusterIndexesBelowMouse === null) {
+        let elementUnderMouse = getElementUnderMouse(e);
+        if (elementUnderMouse === null) {
             props.unhighlightAll();
         } else {
-            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
-            props.highlight(pageIndex, clusterIndex);
+            let [pageIndex, elementIndex, elementType] = elementUnderMouse;
+            if (elementType === 'cluster') {
+                props.highlight(pageIndex, elementIndex);
+            }
         }
     };
 
     let onClickCanvas = (e) => {
-        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
-        if (clusterIndexesBelowMouse === null) {
+        setContextMenuOptions(null);
+        let elementUnderMouse = getElementUnderMouse(e);
+        if (elementUnderMouse === null) {
             if (e.shiftKey === false) {
                 props.unselectAll();
             }
         } else {
-            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
-            let isSelected = props.pages[pageIndex].clusters[clusterIndex].selected;
-            if (e.shiftKey) {
-                if (isSelected) {
-                    props.unselect(pageIndex, clusterIndex);
-                } else {
-                    props.select(pageIndex, clusterIndex);
+            let [pageIndex, elementIndex, elementType] = elementUnderMouse;
+            if (elementType === 'cliche') {
+                if (e.shiftKey === false) {
+                    props.unselectAll();
                 }
             } else {
-                if (!isSelected) {
-                    props.selectOnly(pageIndex, clusterIndex);
+                let isSelected = props.pages[pageIndex].clusters[elementIndex].selected;
+                if (e.shiftKey) {
+                    if (isSelected) {
+                        props.unselect(pageIndex, elementIndex);
+                    } else {
+                        props.select(pageIndex, elementIndex);
+                    }
+                } else {
+                    if (!isSelected) {
+                        props.selectOnly(pageIndex, elementIndex);
+                    }
                 }
             }
         }
+        e.stopPropagation();
     };
 
     let onRightClickCanvas = (e) => {
-        let clusterIndexesBelowMouse = getClusterIndexesUnderMouse(e);
-        if (clusterIndexesBelowMouse !== null) {
-            let [pageIndex, clusterIndex] = clusterIndexesBelowMouse;
-            let isSelected = props.pages[pageIndex].clusters[clusterIndex].selected;
-            if (isSelected) {
-                setContextMenuOptions([
-                    { description: 'Create cliche', callback: () => console.log('create_cliche') }
-                ]);
-                setContextMenuPosition({x: e.clientX, y: e.clientY});
+        let elementUnderMouse = getElementUnderMouse(e);
+        if (elementUnderMouse !== null) {
+            let [pageIndex, elementIndex, elementType] = elementUnderMouse;
+            if (elementType === 'cluster') {
+                let isSelected = props.pages[pageIndex].clusters[elementIndex].selected;
+                if (!isSelected) {
+                    props.selectOnly(pageIndex, elementIndex);
+                }
+                setContextMenuOptions([{ option: 'createCliche' }]);
+            } else {
+                let clicheId = props.pages[pageIndex].cliches[elementIndex].id;
+                setContextMenuOptions([{ option: 'deleteCliche', args: [clicheId] }]);
             }
+        } else {
+            setContextMenuOptions([{ option: 'nothing' }]);
         }
+        setContextMenuPosition({x: e.clientX, y: e.clientY});
+        e.preventDefault();
+        e.stopPropagation();
     };
 
     let onClickOption = (option) => {
@@ -145,13 +210,23 @@ export function Canvas(props) {
         page.yOffset = padding + (canvasHeight - page.height) / 2;
     });
 
+    let contextMenuCompleteOptions = null;
+    if (contextMenuOptions) {
+        contextMenuCompleteOptions = contextMenuOptions.map(option => ({
+            createCliche: { description: 'Create cliche', callback: () => props.createCliche() },
+            deleteCliche: { description: 'Delete cliche', callback: () => props.deleteCliche(...option.args) },
+            nothing: { description: 'No available action', callback: () => {} }
+        }[option.option]))
+    }
+
     return (
         <div 
             className="CanvasContainer"
             style={containerStyle}
             onWheel={onWheel} 
             onMouseDown={onMouseDown}
-            onContextMenu={(e) => e.preventDefault()} >
+            onClick={onClick}
+            onContextMenu={onRightClick} >
             <div 
                 className="Canvas"
                 style={canvasStyle}
@@ -166,7 +241,9 @@ export function Canvas(props) {
                                 width={page.width}
                                 xOffset={page.xOffset}
                                 yOffset={page.yOffset}
+                                resources={props.resources}
                                 clusters={page.clusters}
+                                cliches={page.cliches}
                                 index={i}
                                 key={i} />
                         );
@@ -174,7 +251,7 @@ export function Canvas(props) {
                 }
             </div>
             {contextMenuOptions && <ContextMenuOptions
-                                        options={contextMenuOptions}
+                                        options={contextMenuCompleteOptions}
                                         position={contextMenuPosition}
                                         onClickOption={onClickOption} />}
         </div>
