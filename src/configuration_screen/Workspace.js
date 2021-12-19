@@ -12,6 +12,7 @@ export function Workspace(props) {
     // const [mouseCheckpointPosition, setMouseCheckpointPosition] = useState({ x: 0, y: 0 });
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
+    const size = { height: art.height, width: art.width };
 
     let onWheel = (e) => {
         const direction = (e.deltaY > 0 ? -1 : 1);
@@ -77,7 +78,7 @@ export function Workspace(props) {
     return (
         <div style={style} onWheel={onWheel}>
             <div style={paperContainerStyle}>
-                <Paper size={{ height: art.height, width: art.width }} focusPoint={focusPoint} zoomMultiplier={zoomMultiplier} />
+                <Paper art={art} size={size} focusPoint={focusPoint} zoomMultiplier={zoomMultiplier} />
             </div>
             <div style={overlayStyle}></div>
         </div>
