@@ -5,7 +5,7 @@ import produce from "immer";
 //     data: {}
 // }
 
-const initialState = {"next_id":4,"data":{"1":{"id":1,"art_id":1,"x":12,"y":34,"height":12,"width":34,"data":[[]]},"2":{"id":2,"art_id":1,"x":78,"y":56,"height":34,"width":12,"data":[[]]},"3":{"id":3,"art_id":2,"x":78,"y":56,"height":34,"width":12,"data":[[]]}}};
+const initialState = {"next_id":5,"data":{"1":{"id":1,"art_id":1,"x":12,"y":34,"height":12,"width":34,"data":[[]]},"2":{"id":2,"art_id":1,"x":78,"y":56,"height":34,"width":12,"data":[[]]},"3":{"id":3,"art_id":2,"x":78,"y":56,"height":34,"width":12,"data":[[]]},"4":{"id":4,"art_id":1,"x":225,"y":60,"height":8,"width":6,"data":[[]]}}};
 
 const artFragmentReducer = produce((draft, action) => {
     switch (action.type) {

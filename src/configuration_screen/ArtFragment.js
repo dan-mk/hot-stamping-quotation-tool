@@ -2,9 +2,10 @@ export function ArtFragment(props) {
     const position = props.position;
     const size = props.size;
     const zoomMultiplier = props.zoomMultiplier;
+    const selected = props.selected;
 
     let style = {
-        background: 'black',
+        background: selected ? 'blue' : 'black',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y) + 'px',

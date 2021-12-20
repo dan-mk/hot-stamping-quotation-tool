@@ -7,6 +7,7 @@ export function Paper(props) {
     const size = props.size;
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
+    const selectedArtFragments = props.selectedArtFragments;
 
     let stylePaper = {
         background: 'white',
@@ -22,10 +23,11 @@ export function Paper(props) {
     return (
         <div style={stylePaper}>
             {
-                artFragments.map(artFragment => {
+                artFragments.map((artFragment, i) => {
                     const position = { x: artFragment.x, y: artFragment.y };
                     const size = { height: artFragment.height, width: artFragment.width };
-                    return <ArtFragment position={position} size={size} zoomMultiplier={zoomMultiplier} />;
+                    const selected = selectedArtFragments.includes(artFragment.id);
+                    return <ArtFragment key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} selected={selected} />;
                 })
             }
         </div>
