@@ -5,3 +5,7 @@ export function getConfigurationArts(state, configuration) {
 export function getArtFragments(state, art) {
     return Object.values(state.art_fragments.data).filter(artFragment => artFragment.art_id === art.id);
 }
+
+export function getConfigurationCliches(state, configuration) {
+    return Object.values(state.cliches.data).filter(cliche => cliche.configuration_id === configuration.id);
+}

@@ -51,7 +51,7 @@ let store = {
             '1': {
                 id: '1',
                 quote_id: '1',
-                description: 'Simulation 1',
+                description: 'Configuration 1',
                 arts: {
                     '1': {
                         id: '1',
@@ -59,7 +59,6 @@ let store = {
                         steps: {
                             '1': {
                                 id: '1',
-                                sequence: '1',
                                 positioned_cliches: {
                                     '1': {
                                         id: '1',
@@ -88,7 +87,7 @@ let store = {
         data: {
             '1': {
                 id: '1',
-                simulation_id: '1',
+                configuration_id: '1',
                 height: 12,
                 width: 34,
             }

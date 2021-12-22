@@ -62,3 +62,29 @@ export const addConfiguration = (quote_id, description, art_ids) => {
         }
     }
 }
+
+export const addCliche = (configuration_id, height, width) => {
+    return {
+        type: 'ADD_CLICHE',
+        payload: {
+            configuration_id,
+            height,
+            width,
+        }
+    }
+}
+
+export const addClicheToStep = (configuration_id, art_id, step_id, cliche_id, art_fragments_ids, x, y) => {
+    return {
+        type: 'ADD_CLICHE_TO_STEP',
+        payload: {
+            configuration_id,
+            art_id,
+            step_id,
+            cliche_id,
+            art_fragments_ids,
+            x,
+            y
+        }
+    };
+}

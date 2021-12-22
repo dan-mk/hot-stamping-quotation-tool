@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
+import { Toolbar } from './Toolbar';
 import { getArtFragments } from '../helpers';
+import { addCliche, addClicheToStep } from '../actions';
 
 export function Workspace(props) {
     const art = props.art;
+    const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
     const zoomBase = 1.3;
 
@@ -90,6 +93,15 @@ export function Workspace(props) {
         });
     };
 
+    const dispatch = useDispatch();
+
+    const onClickNewCliche = () => {
+        // TODO: setar tamanho do clichê
+        dispatch(addCliche(configuration.id, 12, 34));
+        // TODO: setar ID do novo clichê e posição
+        dispatch(addClicheToStep(configuration.id, art.id, 1, 1, selectedArtFragments, 0, 0))
+    };
+
     useEffect(() => {
         setFocusPoint({ x: 0, y: 0 });
         setZoom(0);
@@ -129,19 +141,22 @@ export function Workspace(props) {
     };
 
     return (
-        <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
-            <div style={paperContainerStyle}>
-                <Paper 
-                    art={art}
-                    size={size}
-                    focusPoint={focusPoint}
-                    zoomMultiplier={zoomMultiplier}
-                    selectedArtFragments={selectedArtFragments} />
+        <>
+            <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
+                <div style={paperContainerStyle}>
+                    <Paper 
+                        art={art}
+                        size={size}
+                        focusPoint={focusPoint}
+                        zoomMultiplier={zoomMultiplier}
+                        selectedArtFragments={selectedArtFragments} />
+                </div>
+                { selectionStartPosition !== null && 
+                    <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
+                }
+                <div style={overlayStyle}></div>
             </div>
-            { selectionStartPosition !== null && 
-                <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
-            }
-            <div style={overlayStyle}></div>
-        </div>
+            <Toolbar onClickNewCliche={onClickNewCliche} />
+        </>
     );
 }
