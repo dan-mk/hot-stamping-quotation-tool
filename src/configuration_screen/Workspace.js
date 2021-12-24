@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
-import { getArtFragments } from '../helpers';
+import { getArtFragments, getNextClicheId } from '../helpers';
 import { addCliche, addClicheToStep } from '../actions';
 
 export function Workspace(props) {
     const art = props.art;
     const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
+    const nextClicheId = useSelector(state => getNextClicheId(state));
     const zoomBase = 1.3;
 
     const [zoom, setZoom] = useState((() => {
@@ -25,6 +26,11 @@ export function Workspace(props) {
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
     const size = { height: art.height, width: art.width };
+
+    const positionedCliches = Object.values(configuration.arts[art.id].steps[1].positioned_cliches);
+    const usedArtFragments = positionedCliches.reduce((list, positionedCliche) => {
+        return [...list, ...positionedCliche.art_fragments_ids];
+    }, []);
 
     let onWheel = (e) => {
         const direction = (e.deltaY > 0 ? -1 : 1);
@@ -80,7 +86,8 @@ export function Workspace(props) {
                 artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
                 artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
             );
-            return horizontalCheck && verticalCheck;
+            const used = usedArtFragments.includes(artFragment.id);
+            return horizontalCheck && verticalCheck && !used;
         }).map(artFragment => artFragment.id);
         
         setSelectedArtFragments(selected);
@@ -96,10 +103,22 @@ export function Workspace(props) {
     const dispatch = useDispatch();
 
     const onClickNewCliche = () => {
-        // TODO: setar tamanho do clichê
-        dispatch(addCliche(configuration.id, 12, 34));
-        // TODO: setar ID do novo clichê e posição
-        dispatch(addClicheToStep(configuration.id, art.id, 1, 1, selectedArtFragments, 0, 0))
+        if (selectedArtFragments.length === 0) return;
+
+        let minY = Infinity, maxY = -Infinity;
+        let minX = Infinity, maxX = -Infinity;
+
+        selectedArtFragments.forEach((artFragmentId) => {
+            const artFragment = artFragments.find(artFragment => artFragment.id === artFragmentId);
+            minY = Math.min(minY, artFragment.y);
+            maxY = Math.max(maxY, artFragment.y + artFragment.height);
+            minX = Math.min(minX, artFragment.x);
+            maxX = Math.max(maxX, artFragment.x + artFragment.width);
+        });
+
+        dispatch(addCliche(configuration.id, configuration.next_cliche_sequence, (maxY - minY) + 20, (maxX - minX) + 20));
+        dispatch(addClicheToStep(configuration.id, art.id, 1, nextClicheId, selectedArtFragments, minX - 10, minY - 10));
+        setSelectedArtFragments([]);
     };
 
     useEffect(() => {
@@ -121,7 +140,7 @@ export function Workspace(props) {
     });
 
     const style = {
-        background: 'gray',
+        background: '#d0d0d0',
         height: '500px',
         overflow: 'hidden',
         position: 'relative',
@@ -146,6 +165,9 @@ export function Workspace(props) {
                 <div style={paperContainerStyle}>
                     <Paper 
                         art={art}
+                        configuration={configuration}
+                        usedArtFragments={usedArtFragments}
+                        positionedCliches={positionedCliches}
                         size={size}
                         focusPoint={focusPoint}
                         zoomMultiplier={zoomMultiplier}

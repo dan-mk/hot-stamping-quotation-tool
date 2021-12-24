@@ -14,6 +14,9 @@ const clicheReducer = produce((draft, action) => {
             };
             draft.next_id += 1;
             break;
+        case 'DELETE_CLICHE':
+            delete draft.data[action.payload.cliche_id];
+            break;
         default:
             break;
     }

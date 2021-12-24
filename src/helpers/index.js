@@ -9,3 +9,7 @@ export function getArtFragments(state, art) {
 export function getConfigurationCliches(state, configuration) {
     return Object.values(state.cliches.data).filter(cliche => cliche.configuration_id === configuration.id);
 }
+
+export function getNextClicheId(state) {
+    return state.cliches.next_id;
+}

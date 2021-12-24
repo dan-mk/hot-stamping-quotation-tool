@@ -58,16 +58,18 @@ export const addConfiguration = (quote_id, description, art_ids) => {
         payload: {
             quote_id,
             description,
+            next_cliche_sequence: 1,
             arts: arts
         }
     }
 }
 
-export const addCliche = (configuration_id, height, width) => {
+export const addCliche = (configuration_id, sequence, height, width) => {
     return {
         type: 'ADD_CLICHE',
         payload: {
             configuration_id,
+            sequence,
             height,
             width,
         }
@@ -88,3 +90,12 @@ export const addClicheToStep = (configuration_id, art_id, step_id, cliche_id, ar
         }
     };
 }
+
+export const deleteCliche = (cliche_id) => {
+    return {
+        type: 'DELETE_CLICHE',
+        payload: {
+            cliche_id 
+        }
+    };
+};
