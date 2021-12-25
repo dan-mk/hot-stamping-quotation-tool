@@ -68,11 +68,13 @@ let store = {
                                         y: 0,
                                     }
                                 },
-                                foils: {
+                                positioned_foils: {
                                     '1': {
                                         id: '1',
                                         foil_type_id: '1',
                                         positioned_cliches_ids: ['1'],
+                                        x: 10,
+                                        width: 50,
                                     }
                                 }
                             }
@@ -93,7 +95,7 @@ let store = {
             }
         }
     },
-    foil_type: {
+    foil_types: {
         next_id: 2,
         data: {
             '1': {

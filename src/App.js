@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Canvas } from "./canvas/Canvas";
 import { ConfigurationScreen } from "./configuration_screen/ConfigurationScreen";
 import { useSelector, useDispatch } from 'react-redux';
-import { addQuote, addArt, addArtFragment, addConfiguration } from './actions';
+import { addQuote, addArt, addArtFragment, addConfiguration, addFoilType } from './actions';
 
 function App() {
   // let [pages, setPages] = useState([
@@ -215,6 +215,7 @@ function App() {
   // const quotes = useSelector(state => state.quotes);
   // const arts = useSelector(state => state.arts);
   // const artFragments = useSelector(state => state.art_fragments);
+  // const foilTypes = useSelector(state => state.foil_types);
   const configurations = useSelector(state => state.configurations);
 
   // const dispatch = useDispatch();
@@ -229,6 +230,8 @@ function App() {
       <button onClick={() => dispatch(addArtFragment(1, 0, 0, 12, 34, [[]]))}>Add</button>
       <div>{JSON.stringify(configurations)}</div>
       <button onClick={() => dispatch(addConfigurations(1, 'Aha', [1]))}>Add</button> */}
+      {/* <div>{JSON.stringify(foilTypes)}</div>
+      <button onClick={() => dispatch(addFoilType('Golden', 123, 12200, 123))}>Add</button> */}
       <ConfigurationScreen configuration={configurations.data[1]} />
     </>
   );

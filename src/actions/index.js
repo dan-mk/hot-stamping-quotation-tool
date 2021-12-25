@@ -47,7 +47,7 @@ export const addConfiguration = (quote_id, description, art_ids) => {
                     id: 1,
                     sequence: 1,
                     positioned_cliches: {},
-                    foils: {}
+                    positioned_foils: {}
                 }
             }
         }
@@ -98,4 +98,16 @@ export const deleteCliche = (cliche_id) => {
             cliche_id 
         }
     };
+};
+
+export const addFoilType = (description, width, length, price) => {
+    return {
+        type: 'ADD_FOIL_TYPE',
+        payload: {
+            description,
+            width,
+            length,
+            price,
+        }
+    }
 };
