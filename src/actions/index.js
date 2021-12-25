@@ -117,3 +117,13 @@ export const addFoil = (configuration_id, art_id, step_id, foil_type_id, cliches
         }
     };
 }
+
+export const deleteFoil = (configuration_id, foil_id) => {
+    return {
+        type: 'DELETE_FOIL',
+        payload: {
+            configuration_id,
+            foil_id 
+        }
+    };
+};

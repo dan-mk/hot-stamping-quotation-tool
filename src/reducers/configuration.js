@@ -64,6 +64,18 @@ const configurationReducer = produce((draft, action) => {
             };
             configuration.next_foil_id += 1;
         }   break;
+        case 'DELETE_FOIL': {
+            const { configuration_id, foil_id } = action.payload;
+            const configuration =  draft.data[configuration_id];
+
+            for (let artId in configuration.arts) {
+                const art = configuration.arts[artId];
+                for (let stepId in art.steps) {
+                    const step = art.steps[stepId];
+                    delete step.foils.data[foil_id];
+                }
+            }
+        }   break;
         default:
             break;
     }
