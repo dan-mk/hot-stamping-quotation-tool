@@ -56,44 +56,36 @@ export const addConfiguration = (quote_id, description, art_ids) => {
         type: 'ADD_CONFIGURATION',
         payload: {
             quote_id,
+            next_cliche_id: 1,
+            next_cliche_group_id: 1,
+            next_foil_id: 1,
             description,
-            next_cliche_sequence: 1,
             arts: arts
         }
     }
 }
 
-export const addCliche = (configuration_id, sequence, height, width) => {
+export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width) => {
     return {
         type: 'ADD_CLICHE',
         payload: {
             configuration_id,
-            sequence,
-            height,
-            width,
-        }
-    }
-}
-
-export const addClicheToStep = (configuration_id, art_id, step_id, cliche_id, art_fragments_ids, x, y) => {
-    return {
-        type: 'ADD_CLICHE_TO_STEP',
-        payload: {
-            configuration_id,
             art_id,
             step_id,
-            cliche_id,
             art_fragments_ids,
             x,
-            y
+            y,
+            height,
+            width
         }
     };
 }
 
-export const deleteCliche = (cliche_id) => {
+export const deleteCliche = (configuration_id, cliche_id) => {
     return {
         type: 'DELETE_CLICHE',
         payload: {
+            configuration_id,
             cliche_id 
         }
     };
@@ -111,15 +103,15 @@ export const addFoilType = (description, width, length, price) => {
     };
 };
 
-export const addFoilToStep = (configuration_id, art_id, step_id, foil_type_id, positioned_cliches_ids, x, width) => {
+export const addFoil = (configuration_id, art_id, step_id, foil_type_id, cliches_ids, x, width) => {
     return {
-        type: 'ADD_FOIL_TO_STEP',
+        type: 'ADD_FOIL',
         payload: {
             configuration_id,
             art_id,
             step_id,
             foil_type_id,
-            positioned_cliches_ids,
+            cliches_ids,
             x,
             width
         }

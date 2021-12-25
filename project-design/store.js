@@ -51,7 +51,9 @@ let store = {
             '1': {
                 id: '1',
                 quote_id: '1',
-                next_cliche_sequence: '2',
+                next_cliche_id: 2,
+                next_cliche_group_id: 2,
+                next_foil_id: 2,
                 description: 'Configuration 1',
                 arts: {
                     '1': {
@@ -60,22 +62,28 @@ let store = {
                         steps: {
                             '1': {
                                 id: '1',
-                                positioned_cliches: {
-                                    '1': {
-                                        id: '1',
-                                        cliche_id: '1',
-                                        art_fragments_ids: ['1'],
-                                        x: 0,
-                                        y: 0,
+                                cliches: {
+                                    data: {
+                                        '1': {
+                                            id: '1',
+                                            group_id: '1',
+                                            art_fragments_ids: ['1'],
+                                            x: 0,
+                                            y: 0,
+                                            height: 12,
+                                            width: 34,
+                                        }
                                     }
                                 },
-                                positioned_foils: {
-                                    '1': {
-                                        id: '1',
-                                        foil_type_id: '1',
-                                        positioned_cliches_ids: ['1'],
-                                        x: 10,
-                                        width: 50,
+                                foils: {
+                                    data: {
+                                        '1': {
+                                            id: '1',
+                                            foil_type_id: '1',
+                                            cliches_ids: ['1'],
+                                            x: 10,
+                                            width: 50,
+                                        }
                                     }
                                 }
                             }
@@ -85,23 +93,13 @@ let store = {
             }
         }
     },
-    cliches: {
-        next_id: 2,
-        data: {
-            '1': {
-                id: '1',
-                configuration_id: '1',
-                height: 12,
-                width: 34,
-            }
-        }
-    },
     foil_types: {
         next_id: 2,
         data: {
             '1': {
                 id: '1',
                 description: 'Golden',
+                color: '#ffff00',
                 width: 123,
                 length: 12200,
                 price: 123,

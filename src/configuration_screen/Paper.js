@@ -2,18 +2,18 @@ import { ArtFragment } from "./ArtFragment";
 import { Cliche } from "./Cliche";
 import { Foil } from "./Foil";
 import { useSelector } from 'react-redux';
-import { getArtFragments, getConfigurationCliches } from '../helpers';
+import { getArtFragments } from '../helpers';
 
 export function Paper(props) {
     const art = props.art;
     const configuration = props.configuration;
     const usedArtFragments = props.usedArtFragments;
-    const positionedCliches = props.positionedCliches;
+    const cliches = props.cliches;
     const size = props.size;
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
     const selectedArtFragments = props.selectedArtFragments;
-    const selectedPositionedCliches = props.selectedPositionedCliches;
+    const selectedCliches = props.selectedCliches;
 
     let stylePaper = {
         background: 'white',
@@ -24,25 +24,23 @@ export function Paper(props) {
         width: zoomMultiplier * size.width,
     };
 
-    const cliches = useSelector(state => getConfigurationCliches(state, configuration));
     const artFragments = useSelector(state => getArtFragments(state, art));
-    const positionedFoils = Object.values(configuration.arts[art.id].steps[1].positioned_foils);
+    const foils = Object.values(configuration.arts[art.id].steps[1].foils.data);
 
     return (
         <div style={stylePaper}>
             {
-                positionedFoils.map((positionedFoil, i) => {
-                    const position = { x: positionedFoil.x, y: -10 };
-                    const size = { height: art.height + 20, width: positionedFoil.width };
+                foils.map((foil, i) => {
+                    const position = { x: foil.x, y: -10 };
+                    const size = { height: art.height + 20, width: foil.width };
                     return <Foil key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} />;
                 })
             }
             {
-                positionedCliches.map((positionedCliche, i) => {
-                    const position = { x: positionedCliche.x, y: positionedCliche.y };
-                    const cliche = cliches.find(cliche => cliche.id === positionedCliche.cliche_id);
+                cliches.map((cliche, i) => {
+                    const position = { x: cliche.x, y: cliche.y };
                     const size = { height: cliche.height, width: cliche.width };
-                    const selected = selectedPositionedCliches.includes(cliche.id);
+                    const selected = selectedCliches.includes(cliche.id);
                     return <Cliche key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} selected={selected} />;
                 })
             }

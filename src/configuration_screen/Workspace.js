@@ -3,15 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
-import { getArtFragments, getStepCliches, getNextClicheId } from '../helpers';
-import { addCliche, addClicheToStep, addFoilToStep } from '../actions';
+import { getArtFragments } from '../helpers';
+import { addCliche, addFoil } from '../actions';
 
 export function Workspace(props) {
     const art = props.art;
     const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
-    const cliches = useSelector(state => getStepCliches(state, configuration.arts[art.id].steps[1]));
-    const nextClicheId = useSelector(state => getNextClicheId(state));
     const zoomBase = 1.3;
 
     const [zoom, setZoom] = useState((() => {
@@ -23,20 +21,20 @@ export function Workspace(props) {
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragments, setSelectedArtFragments] = useState([]);
-    const [selectedPositionedCliches, setSelectedPositionedCliches] = useState([]);
+    const [selectedCliches, setSelectedCliches] = useState([]);
     const [selectionType, setSelectionType] = useState('art_fragments');
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
     const size = { height: art.height, width: art.width };
 
-    const positionedCliches = Object.values(configuration.arts[art.id].steps[1].positioned_cliches);
-    const usedArtFragments = positionedCliches.reduce((list, positionedCliche) => {
-        return [...list, ...positionedCliche.art_fragments_ids];
+    const cliches = Object.values(configuration.arts[art.id].steps[1].cliches.data);
+    const usedArtFragments = cliches.reduce((list, cliche) => {
+        return [...list, ...cliche.art_fragments_ids];
     }, []);
-    const positionedFoils = Object.values(configuration.arts[art.id].steps[1].positioned_foils);
-    const usedCliches = positionedFoils.reduce((list, positionedFoil) => {
-        return [...list, ...positionedFoil.positioned_cliches_ids];
+    const foils = Object.values(configuration.arts[art.id].steps[1].foils.data);
+    const usedCliches = foils.reduce((list, foil) => {
+        return [...list, ...foil.cliches_ids];
     }, []);
 
     let onWheel = (e) => {
@@ -100,21 +98,20 @@ export function Workspace(props) {
             
             setSelectedArtFragments(selected);
         } else if (selectionType === 'cliches') {
-            const selected = positionedCliches.filter(positionedCliche => {
-                const cliche = cliches.find(cliche => cliche.id === positionedCliche.cliche_id);
+            const selected = cliches.filter(cliche => {
                 const horizontalCheck = (
-                    positionedCliche.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
-                    positionedCliche.x + cliche.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
+                    cliche.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
+                    cliche.x + cliche.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
                 );
                 const verticalCheck = (
-                    positionedCliche.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
-                    positionedCliche.y + cliche.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
+                    cliche.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
+                    cliche.y + cliche.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
                 );
                 const used = usedCliches.includes(cliche.id);
                 return horizontalCheck && verticalCheck && !used;
-            }).map(positionedCliche => positionedCliche.id);
+            }).map(cliche => cliche.id);
             
-            setSelectedPositionedCliches(selected);
+            setSelectedCliches(selected);
         }
     };
 
@@ -129,7 +126,7 @@ export function Workspace(props) {
 
     const onClickSelectArtFragments = () => {
         setSelectionType('art_fragments');
-        setSelectedPositionedCliches([]);
+        setSelectedCliches([]);
     };
 
     const onClickSelectCliches = () => {
@@ -151,25 +148,23 @@ export function Workspace(props) {
             maxX = Math.max(maxX, artFragment.x + artFragment.width);
         });
 
-        dispatch(addCliche(configuration.id, configuration.next_cliche_sequence, (maxY - minY) + 20, (maxX - minX) + 20));
-        dispatch(addClicheToStep(configuration.id, art.id, 1, nextClicheId, selectedArtFragments, minX - 10, minY - 10));
+        dispatch(addCliche(configuration.id, art.id, 1, selectedArtFragments, minX - 10, minY - 10, (maxY - minY) + 20, (maxX - minX) + 20));
         setSelectedArtFragments([]);
     };
 
     const onClickNewFoil = () => {
-        if (selectedPositionedCliches.length === 0) return;
+        if (selectedCliches.length === 0) return;
 
         let minX = Infinity, maxX = -Infinity;
 
-        selectedPositionedCliches.forEach((positionedClicheId) => {
-            const positionedCliche = positionedCliches.find(positionedCliche => positionedCliche.id === positionedClicheId);
-            const cliche = cliches.find(cliche => cliche.id === positionedClicheId);
-            minX = Math.min(minX, positionedCliche.x);
-            maxX = Math.max(maxX, positionedCliche.x + cliche.width);
+        selectedCliches.forEach((clicheId) => {
+            const cliche = cliches.find(cliche => cliche.id === clicheId);
+            minX = Math.min(minX, cliche.x);
+            maxX = Math.max(maxX, cliche.x + cliche.width);
         });
 
-        dispatch(addFoilToStep(configuration.id, art.id, 1, 1, selectedPositionedCliches, minX - 10, maxX - minX + 20));
-        setSelectedPositionedCliches([]);
+        dispatch(addFoil(configuration.id, art.id, 1, 1, selectedCliches, minX - 10, maxX - minX + 20));
+        setSelectedCliches([]);
     };
 
     useEffect(() => {
@@ -218,12 +213,12 @@ export function Workspace(props) {
                         art={art}
                         configuration={configuration}
                         usedArtFragments={usedArtFragments}
-                        positionedCliches={positionedCliches}
+                        cliches={cliches}
                         size={size}
                         focusPoint={focusPoint}
                         zoomMultiplier={zoomMultiplier}
                         selectedArtFragments={selectedArtFragments}
-                        selectedPositionedCliches={selectedPositionedCliches} />
+                        selectedCliches={selectedCliches} />
                 </div>
                 { selectionStartPosition !== null && 
                     <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
