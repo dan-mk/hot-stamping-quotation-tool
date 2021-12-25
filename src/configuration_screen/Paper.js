@@ -12,7 +12,7 @@ export function Paper(props) {
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
     const selectedArtFragments = props.selectedArtFragments;
-    const selectedCliches = [];
+    const selectedCliches = props.selectedCliches;
 
     let stylePaper = {
         background: 'white',

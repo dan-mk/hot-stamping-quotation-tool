@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
-import { getArtFragments, getNextClicheId } from '../helpers';
+import { getArtFragments, getStepCliches, getNextClicheId } from '../helpers';
 import { addCliche, addClicheToStep } from '../actions';
 
 export function Workspace(props) {
     const art = props.art;
     const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
+    const cliches = useSelector(state => getStepCliches(state, configuration.arts[art.id].steps[1]));
     const nextClicheId = useSelector(state => getNextClicheId(state));
     const zoomBase = 1.3;
 
@@ -22,6 +23,8 @@ export function Workspace(props) {
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragments, setSelectedArtFragments] = useState([]);
+    const [selectedCliches, setSelectedCliches] = useState([]);
+    const [selectionType, setSelectionType] = useState('art_fragments');
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
@@ -31,6 +34,7 @@ export function Workspace(props) {
     const usedArtFragments = positionedCliches.reduce((list, positionedCliche) => {
         return [...list, ...positionedCliche.art_fragments_ids];
     }, []);
+    const usedCliches = []; // TODO
 
     let onWheel = (e) => {
         const direction = (e.deltaY > 0 ? -1 : 1);
@@ -77,20 +81,38 @@ export function Workspace(props) {
         const selectionArtStartPoint = convertToArtPosition(selectionStartPosition);
         const selectionArtEndPoint = convertToArtPosition(mousePosition);
 
-        const selected = artFragments.filter(artFragment => {
-            const horizontalCheck = (
-                artFragment.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
-                artFragment.x + artFragment.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
-            );
-            const verticalCheck = (
-                artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
-                artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
-            );
-            const used = usedArtFragments.includes(artFragment.id);
-            return horizontalCheck && verticalCheck && !used;
-        }).map(artFragment => artFragment.id);
-        
-        setSelectedArtFragments(selected);
+        if (selectionType === 'art_fragments') {
+            const selected = artFragments.filter(artFragment => {
+                const horizontalCheck = (
+                    artFragment.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
+                    artFragment.x + artFragment.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
+                );
+                const verticalCheck = (
+                    artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
+                    artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
+                );
+                const used = usedArtFragments.includes(artFragment.id);
+                return horizontalCheck && verticalCheck && !used;
+            }).map(artFragment => artFragment.id);
+            
+            setSelectedArtFragments(selected);
+        } else if (selectionType === 'cliches') {
+            const selected = positionedCliches.filter(positionedCliche => {
+                const cliche = cliches.find(cliche => cliche.id === positionedCliche.cliche_id);
+                const horizontalCheck = (
+                    positionedCliche.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
+                    positionedCliche.x + cliche.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
+                );
+                const verticalCheck = (
+                    positionedCliche.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
+                    positionedCliche.y + cliche.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
+                );
+                const used = usedCliches.includes(cliche.id);
+                return horizontalCheck && verticalCheck && !used;
+            }).map(cliche => cliche.id);
+            
+            setSelectedCliches(selected);
+        }
     };
 
     const onMouseMove = (e) => {
@@ -101,6 +123,16 @@ export function Workspace(props) {
     };
 
     const dispatch = useDispatch();
+
+    const onClickSelectArtFragments = () => {
+        setSelectionType('art_fragments');
+        setSelectedCliches([]);
+    };
+
+    const onClickSelectCliches = () => {
+        setSelectionType('cliches');
+        setSelectedArtFragments([]);
+    };
 
     const onClickNewCliche = () => {
         if (selectedArtFragments.length === 0) return;
@@ -171,14 +203,18 @@ export function Workspace(props) {
                         size={size}
                         focusPoint={focusPoint}
                         zoomMultiplier={zoomMultiplier}
-                        selectedArtFragments={selectedArtFragments} />
+                        selectedArtFragments={selectedArtFragments}
+                        selectedCliches={selectedCliches} />
                 </div>
                 { selectionStartPosition !== null && 
                     <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                 }
                 <div style={overlayStyle}></div>
             </div>
-            <Toolbar onClickNewCliche={onClickNewCliche} />
+            <Toolbar 
+                onClickSelectArtFragments={onClickSelectArtFragments}
+                onClickSelectCliches={onClickSelectCliches}
+                onClickNewCliche={onClickNewCliche} />
         </>
     );
 }

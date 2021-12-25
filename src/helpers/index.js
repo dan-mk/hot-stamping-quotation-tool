@@ -13,3 +13,8 @@ export function getConfigurationCliches(state, configuration) {
 export function getNextClicheId(state) {
     return state.cliches.next_id;
 }
+
+export function getStepCliches(state, step) {
+    const clicheIds = Object.keys(step.positioned_cliches);
+    return clicheIds.map(clicheId => state.cliches.data[clicheId]);
+}
