@@ -4,7 +4,7 @@ import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
 import { getArtFragments, getStepCliches, getNextClicheId } from '../helpers';
-import { addCliche, addClicheToStep } from '../actions';
+import { addCliche, addClicheToStep, addFoilToStep } from '../actions';
 
 export function Workspace(props) {
     const art = props.art;
@@ -23,7 +23,7 @@ export function Workspace(props) {
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragments, setSelectedArtFragments] = useState([]);
-    const [selectedCliches, setSelectedCliches] = useState([]);
+    const [selectedPositionedCliches, setSelectedPositionedCliches] = useState([]);
     const [selectionType, setSelectionType] = useState('art_fragments');
     const refViewport = useRef(null);
 
@@ -34,7 +34,10 @@ export function Workspace(props) {
     const usedArtFragments = positionedCliches.reduce((list, positionedCliche) => {
         return [...list, ...positionedCliche.art_fragments_ids];
     }, []);
-    const usedCliches = []; // TODO
+    const positionedFoils = Object.values(configuration.arts[art.id].steps[1].positioned_foils);
+    const usedCliches = positionedFoils.reduce((list, positionedFoil) => {
+        return [...list, ...positionedFoil.positioned_cliches_ids];
+    }, []);
 
     let onWheel = (e) => {
         const direction = (e.deltaY > 0 ? -1 : 1);
@@ -109,9 +112,9 @@ export function Workspace(props) {
                 );
                 const used = usedCliches.includes(cliche.id);
                 return horizontalCheck && verticalCheck && !used;
-            }).map(cliche => cliche.id);
+            }).map(positionedCliche => positionedCliche.id);
             
-            setSelectedCliches(selected);
+            setSelectedPositionedCliches(selected);
         }
     };
 
@@ -126,7 +129,7 @@ export function Workspace(props) {
 
     const onClickSelectArtFragments = () => {
         setSelectionType('art_fragments');
-        setSelectedCliches([]);
+        setSelectedPositionedCliches([]);
     };
 
     const onClickSelectCliches = () => {
@@ -151,6 +154,22 @@ export function Workspace(props) {
         dispatch(addCliche(configuration.id, configuration.next_cliche_sequence, (maxY - minY) + 20, (maxX - minX) + 20));
         dispatch(addClicheToStep(configuration.id, art.id, 1, nextClicheId, selectedArtFragments, minX - 10, minY - 10));
         setSelectedArtFragments([]);
+    };
+
+    const onClickNewFoil = () => {
+        if (selectedPositionedCliches.length === 0) return;
+
+        let minX = Infinity, maxX = -Infinity;
+
+        selectedPositionedCliches.forEach((positionedClicheId) => {
+            const positionedCliche = positionedCliches.find(positionedCliche => positionedCliche.id === positionedClicheId);
+            const cliche = cliches.find(cliche => cliche.id === positionedClicheId);
+            minX = Math.min(minX, positionedCliche.x);
+            maxX = Math.max(maxX, positionedCliche.x + cliche.width);
+        });
+
+        dispatch(addFoilToStep(configuration.id, art.id, 1, 1, selectedPositionedCliches, minX - 10, maxX - minX + 20));
+        setSelectedPositionedCliches([]);
     };
 
     useEffect(() => {
@@ -204,7 +223,7 @@ export function Workspace(props) {
                         focusPoint={focusPoint}
                         zoomMultiplier={zoomMultiplier}
                         selectedArtFragments={selectedArtFragments}
-                        selectedCliches={selectedCliches} />
+                        selectedPositionedCliches={selectedPositionedCliches} />
                 </div>
                 { selectionStartPosition !== null && 
                     <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
@@ -214,7 +233,8 @@ export function Workspace(props) {
             <Toolbar 
                 onClickSelectArtFragments={onClickSelectArtFragments}
                 onClickSelectCliches={onClickSelectCliches}
-                onClickNewCliche={onClickNewCliche} />
+                onClickNewCliche={onClickNewCliche}
+                onClickNewFoil={onClickNewFoil} />
         </>
     );
 }

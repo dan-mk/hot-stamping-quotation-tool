@@ -1,5 +1,6 @@
 import { ArtFragment } from "./ArtFragment";
 import { Cliche } from "./Cliche";
+import { Foil } from "./Foil";
 import { useSelector } from 'react-redux';
 import { getArtFragments, getConfigurationCliches } from '../helpers';
 
@@ -12,7 +13,7 @@ export function Paper(props) {
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
     const selectedArtFragments = props.selectedArtFragments;
-    const selectedCliches = props.selectedCliches;
+    const selectedPositionedCliches = props.selectedPositionedCliches;
 
     let stylePaper = {
         background: 'white',
@@ -25,15 +26,23 @@ export function Paper(props) {
 
     const cliches = useSelector(state => getConfigurationCliches(state, configuration));
     const artFragments = useSelector(state => getArtFragments(state, art));
+    const positionedFoils = Object.values(configuration.arts[art.id].steps[1].positioned_foils);
 
     return (
         <div style={stylePaper}>
+            {
+                positionedFoils.map((positionedFoil, i) => {
+                    const position = { x: positionedFoil.x, y: -10 };
+                    const size = { height: art.height + 20, width: positionedFoil.width };
+                    return <Foil key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} />;
+                })
+            }
             {
                 positionedCliches.map((positionedCliche, i) => {
                     const position = { x: positionedCliche.x, y: positionedCliche.y };
                     const cliche = cliches.find(cliche => cliche.id === positionedCliche.cliche_id);
                     const size = { height: cliche.height, width: cliche.width };
-                    const selected = selectedCliches.includes(cliche.id);
+                    const selected = selectedPositionedCliches.includes(cliche.id);
                     return <Cliche key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} selected={selected} />;
                 })
             }

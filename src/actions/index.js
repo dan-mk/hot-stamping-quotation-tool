@@ -45,7 +45,6 @@ export const addConfiguration = (quote_id, description, art_ids) => {
             steps: {
                 '1': {
                     id: 1,
-                    sequence: 1,
                     positioned_cliches: {},
                     positioned_foils: {}
                 }
@@ -109,5 +108,20 @@ export const addFoilType = (description, width, length, price) => {
             length,
             price,
         }
-    }
+    };
 };
+
+export const addFoilToStep = (configuration_id, art_id, step_id, foil_type_id, positioned_cliches_ids, x, width) => {
+    return {
+        type: 'ADD_FOIL_TO_STEP',
+        payload: {
+            configuration_id,
+            art_id,
+            step_id,
+            foil_type_id,
+            positioned_cliches_ids,
+            x,
+            width
+        }
+    };
+}

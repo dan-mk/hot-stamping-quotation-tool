@@ -51,6 +51,7 @@ let store = {
             '1': {
                 id: '1',
                 quote_id: '1',
+                next_cliche_sequence: '2',
                 description: 'Configuration 1',
                 arts: {
                     '1': {
