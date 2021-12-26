@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
+import { StepsTabs } from './StepsTabs';
 import { getArtFragments } from '../helpers';
 import { addCliche, addFoil } from '../actions';
 
 export function Workspace(props) {
+    const show = props.show;
     const art = props.art;
     const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
@@ -23,16 +25,23 @@ export function Workspace(props) {
     const [selectedArtFragments, setSelectedArtFragments] = useState([]);
     const [selectedCliches, setSelectedCliches] = useState([]);
     const [selectionType, setSelectionType] = useState('art_fragments');
+    const [currentStep, setCurrentStep] = useState(1);
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
     const size = { height: art.height, width: art.width };
 
-    const cliches = Object.values(configuration.arts[art.id].steps[1].cliches.data);
+    const cliches = Object.values(configuration.arts[art.id].steps[currentStep].cliches.data);
     const usedArtFragments = cliches.reduce((list, cliche) => {
         return [...list, ...cliche.art_fragments_ids];
     }, []);
-    const foils = Object.values(configuration.arts[art.id].steps[1].foils.data);
+    const clichesAllSteps = Object.values(configuration.arts[art.id].steps).reduce((list, step) => {
+        return [...list, ...Object.values(step.cliches.data)];
+    }, []);
+    const usedArtFragmentsAllSteps = clichesAllSteps.reduce((list, cliche) => {
+        return [...list, ...cliche.art_fragments_ids];
+    }, []);
+    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
     const usedCliches = foils.reduce((list, foil) => {
         return [...list, ...foil.cliches_ids];
     }, []);
@@ -92,7 +101,7 @@ export function Workspace(props) {
                     artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
                     artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
                 );
-                const used = usedArtFragments.includes(artFragment.id);
+                const used = usedArtFragmentsAllSteps.includes(artFragment.id);
                 return horizontalCheck && verticalCheck && !used;
             }).map(artFragment => artFragment.id);
             
@@ -148,7 +157,7 @@ export function Workspace(props) {
             maxX = Math.max(maxX, artFragment.x + artFragment.width);
         });
 
-        dispatch(addCliche(configuration.id, art.id, 1, selectedArtFragments, minX - 10, minY - 10, (maxY - minY) + 20, (maxX - minX) + 20));
+        dispatch(addCliche(configuration.id, art.id, currentStep, selectedArtFragments, minX - 10, minY - 10, (maxY - minY) + 20, (maxX - minX) + 20));
         setSelectedArtFragments([]);
     };
 
@@ -163,15 +172,13 @@ export function Workspace(props) {
             maxX = Math.max(maxX, cliche.x + cliche.width);
         });
 
-        dispatch(addFoil(configuration.id, art.id, 1, 1, selectedCliches, minX - 10, maxX - minX + 20));
+        dispatch(addFoil(configuration.id, art.id, currentStep, 1, selectedCliches, minX - 10, maxX - minX + 20));
         setSelectedCliches([]);
     };
 
-    useEffect(() => {
-        setFocusPoint({ x: 0, y: 0 });
-        setZoom(0);
-        setSelectedArtFragments([]);
-    }, [art]);
+    const onClickStep = (step) => {
+        setCurrentStep(step.id);
+    }
 
     useEffect(() => {
         setViewportWidth(refViewport.current.clientWidth);
@@ -206,30 +213,33 @@ export function Workspace(props) {
     };
 
     return (
-        <>
+        <div style={{ display: (show ? 'block' : 'none') }}>
             <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
                 <div style={paperContainerStyle}>
                     <Paper 
                         art={art}
                         configuration={configuration}
                         usedArtFragments={usedArtFragments}
+                        usedArtFragmentsAllSteps={usedArtFragmentsAllSteps}
                         cliches={cliches}
                         size={size}
                         focusPoint={focusPoint}
                         zoomMultiplier={zoomMultiplier}
                         selectedArtFragments={selectedArtFragments}
-                        selectedCliches={selectedCliches} />
+                        selectedCliches={selectedCliches}
+                        currentStep={currentStep} />
                 </div>
                 { selectionStartPosition !== null && 
                     <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                 }
                 <div style={overlayStyle}></div>
             </div>
+            <StepsTabs configuration={configuration} art={art} onClickStep={onClickStep} />
             <Toolbar 
                 onClickSelectArtFragments={onClickSelectArtFragments}
                 onClickSelectCliches={onClickSelectCliches}
                 onClickNewCliche={onClickNewCliche}
                 onClickNewFoil={onClickNewFoil} />
-        </>
+        </div>
     );
 }

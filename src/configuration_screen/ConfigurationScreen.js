@@ -26,7 +26,9 @@ export function ConfigurationScreen(props) {
             <Header configuration={configuration} />
             <ArtsTabs configuration={configuration} onClickTab={onClickTab} />
             <div style={style}>
-                <Workspace art={currentArt} configuration={configuration} />
+                { arts.map((art, i) => {
+                    return <Workspace show={art.id === currentArt.id} key={i} art={art} configuration={configuration} />
+                }) }
             </div>
             <Resources configuration={configuration} />
         </div>

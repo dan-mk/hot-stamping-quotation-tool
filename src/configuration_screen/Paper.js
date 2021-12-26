@@ -8,12 +8,14 @@ export function Paper(props) {
     const art = props.art;
     const configuration = props.configuration;
     const usedArtFragments = props.usedArtFragments;
+    const usedArtFragmentsAllSteps = props.usedArtFragmentsAllSteps;
     const cliches = props.cliches;
     const size = props.size;
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
     const selectedArtFragments = props.selectedArtFragments;
     const selectedCliches = props.selectedCliches;
+    const currentStep = props.currentStep;
 
     let stylePaper = {
         background: 'white',
@@ -25,7 +27,7 @@ export function Paper(props) {
     };
 
     const artFragments = useSelector(state => getArtFragments(state, art));
-    const foils = Object.values(configuration.arts[art.id].steps[1].foils.data);
+    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
 
     return (
         <div style={stylePaper}>
@@ -49,6 +51,7 @@ export function Paper(props) {
                     const position = { x: artFragment.x, y: artFragment.y };
                     const size = { height: artFragment.height, width: artFragment.width };
                     const selected = selectedArtFragments.includes(artFragment.id);
+                    const usedAllSteps = usedArtFragmentsAllSteps.includes(artFragment.id);
                     const used = usedArtFragments.includes(artFragment.id);
                     return <ArtFragment 
                                 key={i}
@@ -56,6 +59,7 @@ export function Paper(props) {
                                 size={size}
                                 zoomMultiplier={zoomMultiplier}
                                 selected={selected}
+                                usedAllSteps={usedAllSteps}
                                 used={used} />;
                 })
             }

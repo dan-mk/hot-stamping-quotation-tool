@@ -5,7 +5,7 @@ import produce from "immer";
 //     data: {}
 // }
 
-const initialState = {"next_id":2,"data":{"1":{"id":1,"quote_id":1,"next_cliche_id":1,"next_cliche_group_id":1,"next_foil_id":1,"description":"Configuration 1","arts":{"1":{"id":1,"art_id":1,"steps":{"1":{"id":1,"cliches":{"data":{}},"foils":{"data":{}}}}}}}}}
+const initialState = {"next_id":2,"data":{"1":{"id":1,"quote_id":1,"next_cliche_id":1,"next_cliche_group_id":1,"next_foil_id":1,"description":"Configuration 1","arts":{"1":{"id":1,"art_id":1,"steps":{"1":{"id":1,"cliches":{"data":{}},"foils":{"data":{}}}}},"2":{"id":2,"art_id":2,"steps":{"1":{"id":1,"cliches":{"data":{}},"foils":{"data":{}}}}}}}}}
 
 const configurationReducer = produce((draft, action) => {
     switch (action.type) {
@@ -75,6 +75,17 @@ const configurationReducer = produce((draft, action) => {
                     delete step.foils.data[foil_id];
                 }
             }
+        }   break;
+        case 'ADD_STEP': {
+            const { configuration_id, art_id } = action.payload;
+            const art = draft.data[configuration_id].arts[art_id];
+
+            const numOfSteps = Object.keys(art.steps).length;
+            art.steps[numOfSteps + 1] = {
+                id: numOfSteps + 1,
+                cliches: { data: {} },
+                foils: { data: {} }
+            };
         }   break;
         default:
             break;

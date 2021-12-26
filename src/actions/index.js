@@ -45,8 +45,8 @@ export const addConfiguration = (quote_id, description, art_ids) => {
             steps: {
                 '1': {
                     id: 1,
-                    positioned_cliches: {},
-                    positioned_foils: {}
+                    cliches: { data: {} },
+                    foils: { data: {} }
                 }
             }
         }
@@ -124,6 +124,16 @@ export const deleteFoil = (configuration_id, foil_id) => {
         payload: {
             configuration_id,
             foil_id 
+        }
+    };
+};
+
+export const addStep = (configuration_id, art_id) => {
+    return {
+        type: 'ADD_STEP',
+        payload: {
+            configuration_id,
+            art_id
         }
     };
 };
