@@ -3,6 +3,7 @@ import { Canvas } from "./canvas/Canvas";
 import { ConfigurationScreen } from "./configuration_screen/ConfigurationScreen";
 import { useSelector, useDispatch } from 'react-redux';
 import { addQuote, addArt, addArtFragment, addConfiguration, addFoilType } from './actions';
+import { createArtFragments } from './helpers';
 
 function App() {
   // let [pages, setPages] = useState([
@@ -218,6 +219,31 @@ function App() {
   // const foilTypes = useSelector(state => state.foil_types);
   const configurations = useSelector(state => state.configurations);
 
+  const onFileChange = event => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+        const data = new Uint8Array(imageData.data.buffer);
+
+        console.log(createArtFragments(data, img));
+      }
+
+      img.src = e.target.result;
+    }
+
+    reader.readAsDataURL(event.target.files[0]);  
+  };
+
   // const dispatch = useDispatch();
 
   return (
@@ -232,6 +258,7 @@ function App() {
       <button onClick={() => dispatch(addConfigurations(1, 'Aha', [1]))}>Add</button> */}
       {/* <div>{JSON.stringify(foilTypes)}</div>
       <button onClick={() => dispatch(addFoilType('Golden', 123, 12200, 123))}>Add</button> */}
+      <input type="file" onChange={onFileChange} />
       <ConfigurationScreen configuration={configurations.data[1]} />
     </>
   );
