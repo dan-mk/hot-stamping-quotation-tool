@@ -1,9 +1,11 @@
 import { useDispatch } from 'react-redux';
 import { addStep } from '../actions';
+import '../css/steps-tabs.css';
 
 export function StepsTabs(props) {
     const configuration = props.configuration;
     const art = props.art;
+    const currentStep = props.currentStep;
     const steps = Object.values(configuration.arts[art.id].steps);
 
     const dispatch = useDispatch();
@@ -13,9 +15,9 @@ export function StepsTabs(props) {
     };
 
     return (
-        <ul>
-            { steps.map((step, i) => <li onClick={() => props.onClickStep(step)} key={i}>Step {i + 1}</li>)}
-            <li onClick={onClickAddStep} key={'add'}>Add step</li>
+        <ul id="steps-nav">
+            { steps.map((step, i) => <li className={currentStep === i + 1 ? 'selected-step' : ''} onClick={() => props.onClickStep(step)} key={i}>Step {i + 1}</li>)}
+            <li id="add-step" onClick={onClickAddStep} key={'add'}>+</li>
         </ul>
     );
 }

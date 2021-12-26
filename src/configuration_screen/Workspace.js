@@ -6,6 +6,7 @@ import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
 import { getArtFragments } from '../helpers';
 import { addCliche, addFoil } from '../actions';
+import '../css/workspace.css';
 
 export function Workspace(props) {
     const show = props.show;
@@ -194,7 +195,7 @@ export function Workspace(props) {
 
     const style = {
         background: '#d0d0d0',
-        height: '500px',
+        flexGrow: '1',
         overflow: 'hidden',
         position: 'relative',
         userSelect: 'none',
@@ -213,33 +214,38 @@ export function Workspace(props) {
     };
 
     return (
-        <div style={{ display: (show ? 'block' : 'none') }}>
-            <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
-                <div style={paperContainerStyle}>
-                    <Paper 
-                        art={art}
-                        configuration={configuration}
-                        usedArtFragments={usedArtFragments}
-                        usedArtFragmentsAllSteps={usedArtFragmentsAllSteps}
-                        cliches={cliches}
-                        size={size}
-                        focusPoint={focusPoint}
-                        zoomMultiplier={zoomMultiplier}
-                        selectedArtFragments={selectedArtFragments}
-                        selectedCliches={selectedCliches}
-                        currentStep={currentStep} />
-                </div>
-                { selectionStartPosition !== null && 
-                    <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
-                }
-                <div style={overlayStyle}></div>
+        <div id="workspace-subcontainer" style={{ display: (show ? 'flex' : 'none') }}>
+            <div id="toolbar-container">
+                <Toolbar 
+                    onClickSelectArtFragments={onClickSelectArtFragments}
+                    onClickSelectCliches={onClickSelectCliches}
+                    onClickNewCliche={onClickNewCliche}
+                    onClickNewFoil={onClickNewFoil}
+                    selectionType={selectionType} />
             </div>
-            <StepsTabs configuration={configuration} art={art} onClickStep={onClickStep} />
-            <Toolbar 
-                onClickSelectArtFragments={onClickSelectArtFragments}
-                onClickSelectCliches={onClickSelectCliches}
-                onClickNewCliche={onClickNewCliche}
-                onClickNewFoil={onClickNewFoil} />
+            <div id="paper-container">
+                <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
+                    <div style={paperContainerStyle}>
+                        <Paper 
+                            art={art}
+                            configuration={configuration}
+                            usedArtFragments={usedArtFragments}
+                            usedArtFragmentsAllSteps={usedArtFragmentsAllSteps}
+                            cliches={cliches}
+                            size={size}
+                            focusPoint={focusPoint}
+                            zoomMultiplier={zoomMultiplier}
+                            selectedArtFragments={selectedArtFragments}
+                            selectedCliches={selectedCliches}
+                            currentStep={currentStep} />
+                    </div>
+                    { selectionStartPosition !== null && 
+                        <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
+                    }
+                    <div style={overlayStyle}></div>
+                </div>
+                <StepsTabs configuration={configuration} art={art} onClickStep={onClickStep} currentStep={currentStep} />
+            </div>
         </div>
     );
 }

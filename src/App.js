@@ -4,6 +4,7 @@ import { ConfigurationScreen } from "./configuration_screen/ConfigurationScreen"
 import { useSelector, useDispatch } from 'react-redux';
 import { addQuote, addArt, addArtFragment, addConfiguration, addFoilType } from './actions';
 import { createArtFragments } from './helpers';
+import './css/app.css';
 
 function App() {
   // let [pages, setPages] = useState([
@@ -220,6 +221,7 @@ function App() {
   // const artFragments = useSelector(state => state.art_fragments);
   // const foilTypes = useSelector(state => state.foil_types);
   const configurations = useSelector(state => state.configurations);
+  const arts = useSelector(state => state.arts);
 
   const onFileChange = event => {
     const reader = new FileReader();
@@ -263,8 +265,16 @@ function App() {
       <button onClick={() => dispatch(addConfigurations(1, 'Aha', [1]))}>Add</button> */}
       {/* <div>{JSON.stringify(foilTypes)}</div>
       <button onClick={() => dispatch(addFoilType('Golden', 123, 12200, 123))}>Add</button> */}
-      <input type="file" onChange={onFileChange} />
-      <ConfigurationScreen configuration={configurations.data[1]} />
+
+      { Object.keys(arts.data).length === 0 && <div id="page-container">
+        <section id="import-modal">
+          <h1>Hot stamping quotation tool</h1>
+          <p>Choose an image file to begin. The image must have a dpi of 300.</p>
+          <input type="file" onChange={onFileChange} />
+        </section>
+      </div>}
+
+      { Object.keys(arts.data).length > 0 && <ConfigurationScreen configuration={configurations.data[1]} /> }
     </>
   );
 }

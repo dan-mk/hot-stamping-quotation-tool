@@ -1,0 +1,10 @@
+#arts-nav {
+    display: flex;
+}
+
+#arts-nav li {
+    background: lightcyan;
+    cursor: pointer;
+    padding: 10px 20px;
+    user-select: none;
+}

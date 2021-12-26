@@ -1,0 +1,10 @@
+.toolbar-option {
+    cursor: pointer;
+    padding: 12px 10px;
+    text-align: center;
+    user-select: none;
+}
+
+.selected {
+    background: lightcyan;
+}

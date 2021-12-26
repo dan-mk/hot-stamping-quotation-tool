@@ -1,0 +1,18 @@
+#steps-nav {
+    display: flex;
+}
+
+#steps-nav li {
+    cursor: pointer;
+    padding: 10px 20px;
+    user-select: none;
+}
+
+#add-step {
+    font-size: 22px;
+    line-height: 15px;
+}
+
+.selected-step {
+    background: lightcyan;
+}

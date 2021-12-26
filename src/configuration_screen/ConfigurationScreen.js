@@ -4,7 +4,8 @@ import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import '../css/configuration-screen.css';
 
 export function ConfigurationScreen(props) {
     const configuration = props.configuration;
@@ -16,29 +17,22 @@ export function ConfigurationScreen(props) {
         setCurrentArt(art);
     };
 
-    const style = {
-        marginLeft: '100px',
-        width: '600px',
-    };
-
-    useEffect(() => {
-        setCurrentArt(arts[0]);
-    }, [arts]);
-
-    if (currentArt === undefined) {
-        return <></>;
-    }
-
     return (
-        <div>
-            <Header configuration={configuration} />
-            <ArtsTabs configuration={configuration} onClickTab={onClickTab} />
-            <div style={style}>
-                { arts.map((art, i) => {
-                    return <Workspace show={art.id === currentArt.id} key={i} art={art} configuration={configuration} />
-                }) }
+        <div id="content-container">
+            <div>
+                <Header configuration={configuration} />
             </div>
-            <Resources configuration={configuration} />
+            <div id="bottom-container">
+                <div id="workspace-container">
+                    <ArtsTabs configuration={configuration} onClickTab={onClickTab} />
+                    { arts.map((art, i) => {
+                        return <Workspace show={art.id === currentArt.id} key={i} art={art} configuration={configuration} />
+                    }) }
+                </div>
+                <div id="resources-container">
+                    <Resources configuration={configuration} />
+                </div>
+            </div>
         </div>
     );
 }
