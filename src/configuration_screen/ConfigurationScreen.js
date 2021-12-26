@@ -4,7 +4,7 @@ import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function ConfigurationScreen(props) {
     const configuration = props.configuration;
@@ -20,6 +20,14 @@ export function ConfigurationScreen(props) {
         marginLeft: '100px',
         width: '600px',
     };
+
+    useEffect(() => {
+        setCurrentArt(arts[0]);
+    }, [arts]);
+
+    if (currentArt === undefined) {
+        return <></>;
+    }
 
     return (
         <div>

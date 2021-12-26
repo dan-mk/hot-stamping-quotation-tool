@@ -21,6 +21,22 @@ export function createArtFragments(data, img) {
 
     const computeLightness = i => 0.2126 * data[i] + 0.715 * data[i + 1] + 0.0722 * data[i + 2];
 
+    const minList = list => {
+        let m = list[0];
+        for (let i = 0; i < list.length; i++) {
+            m = Math.min(m, list[i]);
+        }
+        return m;
+    };
+
+    const maxList = list => {
+        let m = list[0];
+        for (let i = 0; i < list.length; i++) {
+            m = Math.max(m, list[i]);
+        }
+        return m;
+    };
+
     const visited = data.map(n => 0);
     for (let i = 0; i < data.length; i += 4) {
         if (visited[i]) continue;
@@ -79,7 +95,6 @@ export function createArtFragments(data, img) {
                     }
                 }
             }
-            
         }
 
         const normalizedArtFragment = artFragment.map(n => n / 4);
@@ -87,14 +102,14 @@ export function createArtFragments(data, img) {
         let iList = normalizedArtFragment.map(n => parseInt(n / img.width));
         let jList = normalizedArtFragment.map(n => n % img.width);
 
-        const minI = Math.min(...iList);
-        const minJ = Math.min(...jList);
+        const minI = minList(iList);
+        const minJ = minList(jList);
 
         iList = iList.map(n => n - minI);
         jList = jList.map(n => n - minJ);
 
-        const maxI = Math.max(...iList);
-        const maxJ = Math.max(...jList);
+        const maxI = maxList(iList);
+        const maxJ = maxList(jList);
 
         const finalArtFragment = new Array(maxI + 1).fill(0);
         for (let l = 0; l < finalArtFragment.length; l++) {
@@ -105,7 +120,13 @@ export function createArtFragments(data, img) {
             finalArtFragment[iList[l]][jList[l]] = 1;
         }
 
-        artFragments.push(finalArtFragment);
+        artFragments.push({
+            data: finalArtFragment,
+            x: minJ,
+            y: minI,
+            height: maxI + 1,
+            width: maxJ + 1,
+        });
     }
 
     return artFragments;

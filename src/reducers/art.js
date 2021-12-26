@@ -1,11 +1,11 @@
 import produce from "immer";
 
-// const initialState = {
-//     next_id: 1,
-//     data: {}
-// }
+const initialState = {
+    next_id: 1,
+    data: {}
+}
 
-const initialState = {"next_id":3,"data":{"1":{"id":1,"quote_id":1,"dpi":300,"height":123,"width":456},"2":{"id":2,"quote_id":1,"dpi":300,"height":456,"width":123}}};
+// const initialState = {"next_id":3,"data":{"1":{"id":1,"quote_id":1,"dpi":300,"height":123,"width":456},"2":{"id":2,"quote_id":1,"dpi":300,"height":456,"width":123}}};
 
 const artReducer = produce((draft, action) => {
     switch (action.type) {

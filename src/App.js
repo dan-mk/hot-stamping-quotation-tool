@@ -213,6 +213,8 @@ function App() {
   //   </div>
   // );
 
+  const dispatch = useDispatch();
+
   // const quotes = useSelector(state => state.quotes);
   // const arts = useSelector(state => state.arts);
   // const artFragments = useSelector(state => state.art_fragments);
@@ -235,7 +237,12 @@ function App() {
         const imageData = ctx.getImageData(0, 0, img.width, img.height);
         const data = new Uint8Array(imageData.data.buffer);
 
-        console.log(createArtFragments(data, img));
+        dispatch(addArt(1, 300, img.height, img.width));
+
+        const artFragments = createArtFragments(data, img);
+        artFragments.forEach(artFragment => {
+          dispatch(addArtFragment(1, artFragment.x, artFragment.y, artFragment.height, artFragment.width, artFragment.data));
+        });
       }
 
       img.src = e.target.result;
@@ -243,8 +250,6 @@ function App() {
 
     reader.readAsDataURL(event.target.files[0]);  
   };
-
-  // const dispatch = useDispatch();
 
   return (
     <>

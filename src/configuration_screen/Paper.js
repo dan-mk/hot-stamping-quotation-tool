@@ -53,6 +53,7 @@ export function Paper(props) {
                     const selected = selectedArtFragments.includes(artFragment.id);
                     const usedAllSteps = usedArtFragmentsAllSteps.includes(artFragment.id);
                     const used = usedArtFragments.includes(artFragment.id);
+                    const data = artFragment.data;
                     return <ArtFragment 
                                 key={i}
                                 position={position}
@@ -60,7 +61,8 @@ export function Paper(props) {
                                 zoomMultiplier={zoomMultiplier}
                                 selected={selected}
                                 usedAllSteps={usedAllSteps}
-                                used={used} />;
+                                used={used}
+                                data={data} />;
                 })
             }
         </div>

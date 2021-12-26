@@ -5,7 +5,7 @@ export function Cliche(props) {
     const selected = props.selected;
 
     let style = {
-        background: selected ? 'blue' : 'gray',
+        background: selected ? 'rgb(255, 127, 0)' : 'gray',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y) + 'px',
