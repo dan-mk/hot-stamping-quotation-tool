@@ -10,6 +10,7 @@ export function Paper(props) {
     const usedArtFragments = props.usedArtFragments;
     const usedArtFragmentsAllSteps = props.usedArtFragmentsAllSteps;
     const cliches = props.cliches;
+    const usedCliches = props.usedCliches;
     const size = props.size;
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
@@ -19,6 +20,7 @@ export function Paper(props) {
 
     let stylePaper = {
         background: 'white',
+        boxShadow: '5px 5px 0 #00000025',
         position: 'absolute',
         left: -zoomMultiplier * (focusPoint.x + size.width / 2) + 'px',
         top: -zoomMultiplier * (focusPoint.y + size.height / 2) + 'px',
@@ -43,7 +45,14 @@ export function Paper(props) {
                     const position = { x: cliche.x, y: cliche.y };
                     const size = { height: cliche.height, width: cliche.width };
                     const selected = selectedCliches.includes(cliche.id);
-                    return <Cliche key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} selected={selected} />;
+                    const used = usedCliches.includes(cliche.id);
+                    return <Cliche
+                                key={i}
+                                position={position}
+                                size={size}
+                                zoomMultiplier={zoomMultiplier}
+                                selected={selected}
+                                used={used} />;
                 })
             }
             {

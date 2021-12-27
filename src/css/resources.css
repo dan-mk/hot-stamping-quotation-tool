@@ -1,0 +1,21 @@
+#resources-subcontainer {
+    background: rgb(225, 225, 225);
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+
+#resources-header {
+    padding: 14px 16px;
+}
+
+#resources-header h1 {
+    font-weight: normal;
+    font-size: 18px;
+}
+
+#resources-content {
+    flex-grow: 1;
+    padding: 6px 16px;
+}

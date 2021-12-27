@@ -4,7 +4,7 @@ export function Foil(props) {
     const zoomMultiplier = props.zoomMultiplier;
 
     let style = {
-        background: 'yellow',
+        background: '#ffff0088',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y) + 'px',

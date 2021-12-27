@@ -8,7 +8,7 @@ export function Toolbar(props) {
     const selectionType = props.selectionType;
 
     return (
-        <>
+        <div id="toolbar-subcontainer">
             <div
                 className={(selectionType === 'art_fragments' ? 'selected ' : '') + "toolbar-option"}
                 onClick={onClickSelectArtFragments}>
@@ -21,6 +21,6 @@ export function Toolbar(props) {
             </div>
             <div className="toolbar-option" onClick={onClickNewCliche}>NC</div>
             <div className="toolbar-option" onClick={onClickNewFoil}>NF</div>
-        </>
+        </div>
     );
 }

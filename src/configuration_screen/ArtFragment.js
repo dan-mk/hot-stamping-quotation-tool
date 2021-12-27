@@ -36,11 +36,11 @@ export function ArtFragment(props) {
         const canvas = refContainer.current.querySelector('canvas');
         const ctx = canvas.getContext('2d');
 
-        let color = [255, 0, 0];
+        let color = [237, 0, 0];
         if (used) {
             color = [255, 255, 255];
         } else if (usedAllSteps) {
-            color = [0, 0, 255];
+            color = [50, 50, 255];
         } else if (selected) {
             color = [255, 127, 0];
         }

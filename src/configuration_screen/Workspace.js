@@ -179,6 +179,8 @@ export function Workspace(props) {
 
     const onClickStep = (step) => {
         setCurrentStep(step.id);
+        setSelectedArtFragments([]);
+        setSelectedCliches([]);
     }
 
     useEffect(() => {
@@ -195,6 +197,7 @@ export function Workspace(props) {
 
     const style = {
         background: '#d0d0d0',
+        border: '1px solid #b0b0b0',
         flexGrow: '1',
         overflow: 'hidden',
         position: 'relative',
@@ -232,6 +235,7 @@ export function Workspace(props) {
                             usedArtFragments={usedArtFragments}
                             usedArtFragmentsAllSteps={usedArtFragmentsAllSteps}
                             cliches={cliches}
+                            usedCliches={usedCliches}
                             size={size}
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}

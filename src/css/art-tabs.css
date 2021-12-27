@@ -1,10 +1,15 @@
 #arts-nav {
+    background: rgb(225, 225, 225);
     display: flex;
+    padding: 5px 0;
+    padding-left: 45px;
 }
 
 #arts-nav li {
-    background: lightcyan;
+    background: rgb(192, 192, 192);
+    border-radius: 6px;
     cursor: pointer;
+    margin: 0 5px;
     padding: 10px 20px;
     user-select: none;
 }
