@@ -30,14 +30,16 @@ export function Paper(props) {
 
     const artFragments = useSelector(state => getArtFragments(state, art));
     const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
+    const foilTypes = useSelector(state => state.foil_types.data);
 
     return (
         <div style={stylePaper}>
             {
                 foils.map((foil, i) => {
-                    const position = { x: foil.x, y: -10 };
-                    const size = { height: art.height + 20, width: foil.width };
-                    return <Foil key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} />;
+                    const position = { x: foil.x, y: -0.1 * art.height };
+                    const size = { height: 1.2 * art.height, width: foil.width };
+                    const color = foilTypes[foil.foil_type_id].color;
+                    return <Foil key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} color={color} />;
                 })
             }
             {
