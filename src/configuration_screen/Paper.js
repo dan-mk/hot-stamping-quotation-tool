@@ -39,7 +39,14 @@ export function Paper(props) {
                     const position = { x: foil.x, y: -0.1 * art.height };
                     const size = { height: 1.2 * art.height, width: foil.width };
                     const color = foilTypes[foil.foil_type_id].color;
-                    return <Foil key={i} position={position} size={size} zoomMultiplier={zoomMultiplier} color={color} />;
+                    return <Foil 
+                                key={i}
+                                position={position}
+                                size={size}
+                                zoomMultiplier={zoomMultiplier}
+                                color={color}
+                                configurationId={configuration.id}
+                                id={foil.id} />;
                 })
             }
             {
@@ -54,7 +61,10 @@ export function Paper(props) {
                                 size={size}
                                 zoomMultiplier={zoomMultiplier}
                                 selected={selected}
-                                used={used} />;
+                                used={used}
+                                configurationId={configuration.id}
+                                id={cliche.id}
+                                groupId={cliche.group_id} />;
                 })
             }
             {
