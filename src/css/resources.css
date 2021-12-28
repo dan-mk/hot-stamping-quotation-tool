@@ -7,7 +7,7 @@
 
 
 #resources-header {
-    padding: 14px 16px;
+    padding: 15px 16px;
 }
 
 #resources-header h1 {
@@ -17,5 +17,46 @@
 
 #resources-content {
     flex-grow: 1;
-    padding: 6px 16px;
+    padding: 2px 16px;
+}
+
+#resources-content li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.foil-icon {
+    border: 2px solid #00000033;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    height: 40px;
+    width: 40px;
+}
+
+.foil-icon div {
+    background: rgb(225, 225, 225);
+    outline: 2px solid #00000033;
+    border-radius: 100%;
+    height: 12px;
+    width: 12px;
+}
+
+.cliche-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    overflow: hidden;
+    height: 40px;
+    width: 40px;
+}
+
+.cliche-icon div {
+    border: 2px dashed black;
+    background: gray;
 }

@@ -4,7 +4,7 @@ import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
-import { getArtFragments } from '../helpers';
+import { getArtFragments, getAllUniqueCliches } from '../helpers';
 import { addCliche, addFoil } from '../actions';
 import '../css/workspace.css';
 
@@ -32,6 +32,7 @@ export function Workspace(props) {
     const zoomMultiplier = Math.pow(zoomBase, zoom);
     const size = { height: art.height, width: art.width };
 
+    const allUniqueCliches = getAllUniqueCliches(configuration);
     const cliches = Object.values(configuration.arts[art.id].steps[currentStep].cliches.data);
     const usedArtFragments = cliches.reduce((list, cliche) => {
         return [...list, ...cliche.art_fragments_ids];
@@ -158,7 +159,46 @@ export function Workspace(props) {
             maxX = Math.max(maxX, artFragment.x + artFragment.width);
         });
 
-        dispatch(addCliche(configuration.id, art.id, currentStep, selectedArtFragments, minX - 10, minY - 10, (maxY - minY) + 20, (maxX - minX) + 20));
+        dispatch(
+            addCliche(
+                configuration.id,
+                art.id,
+                currentStep,
+                selectedArtFragments,
+                minX - 10,
+                minY - 10,
+                (maxY - minY) + 20,
+                (maxX - minX) + 20
+            )
+        );
+        setSelectedArtFragments([]);
+    };
+
+    const onClickReuseCliche = (reusedCliche) => {
+        if (selectedArtFragments.length === 0) return;
+
+        let minY = Infinity;
+        let minX = Infinity;
+
+        selectedArtFragments.forEach((artFragmentId) => {
+            const artFragment = artFragments.find(artFragment => artFragment.id === artFragmentId);
+            minY = Math.min(minY, artFragment.y);
+            minX = Math.min(minX, artFragment.x);
+        });
+
+        dispatch(
+            addCliche(
+                configuration.id,
+                art.id,
+                currentStep,
+                selectedArtFragments,
+                minX - 10,
+                minY - 10,
+                reusedCliche.height,
+                reusedCliche.width,
+                reusedCliche.group_id
+            )
+        );
         setSelectedArtFragments([]);
     };
 
@@ -223,9 +263,12 @@ export function Workspace(props) {
                     onClickSelectArtFragments={onClickSelectArtFragments}
                     onClickSelectCliches={onClickSelectCliches}
                     onClickNewCliche={onClickNewCliche}
+                    onClickReuseCliche={onClickReuseCliche}
                     onClickNewFoil={onClickNewFoil}
                     selectionType={selectionType}
                     clicheDisabled={selectedArtFragments.length === 0}
+                    cliches={cliches}
+                    allUniqueCliches={allUniqueCliches}
                     foilDisabled={selectedCliches.length === 0} />
             </div>
             <div id="paper-container">

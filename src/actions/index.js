@@ -65,7 +65,7 @@ export const addConfiguration = (quote_id, description, art_ids) => {
     }
 }
 
-export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width) => {
+export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width, group_id = null) => {
     return {
         type: 'ADD_CLICHE',
         payload: {
@@ -76,7 +76,8 @@ export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, 
             x,
             y,
             height,
-            width
+            width,
+            group_id
         }
     };
 }

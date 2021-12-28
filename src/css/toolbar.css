@@ -4,6 +4,10 @@
     height: 100%;
 }
 
+#toolbar-subcontainer span {
+    position: relative;
+}
+
 .toolbar-option {
     border-radius: 6px;
     cursor: pointer;
@@ -35,4 +39,35 @@
 
 .selected:hover {
     background: rgb(192, 192, 192) !important;
+}
+
+.expanded-toolbar-options {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #00000088;
+    display: none;
+    padding: 4px;
+    position: absolute;
+    top: -2px;
+    left: 50px;
+    width: 200px;
+    z-index: 999;
+}
+
+.expanded-toolbar-options div {
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 8px;
+    user-select: none;
+}
+
+.expanded-toolbar-options div:hover {
+    background: rgb(231, 231, 231);
+}
+
+.expanded-toolbar-options span {
+    display: block;
+    font-size: 12px;
+    padding: 4px 8px;
+    user-select: none;
 }

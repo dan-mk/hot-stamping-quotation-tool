@@ -36,7 +36,7 @@ export function Cliche(props) {
     let styleX = {
         color: 'red',
         cursor: 'pointer',
-        paddingLeft: '8px',
+        marginLeft: '8px',
         position: 'relative',
     };
 

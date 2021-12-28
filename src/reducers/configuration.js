@@ -17,13 +17,13 @@ const configurationReducer = produce((draft, action) => {
             draft.next_id += 1;
             break;
         case 'ADD_CLICHE': {
-            const { configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width } = action.payload;
+            const { configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width, group_id } = action.payload;
             const configuration =  draft.data[configuration_id];
             const step = configuration.arts[art_id].steps[step_id];
 
             step.cliches.data[configuration.next_cliche_id] = {
                 id: configuration.next_cliche_id,
-                group_id: configuration.next_cliche_group_id,
+                group_id: (group_id ? group_id : configuration.next_cliche_group_id),
                 art_fragments_ids,
                 x,
                 y,
@@ -31,7 +31,9 @@ const configurationReducer = produce((draft, action) => {
                 width
             };
             configuration.next_cliche_id += 1;
-            configuration.next_cliche_group_id += 1;
+            if (!group_id) {
+                configuration.next_cliche_group_id += 1;
+            }
         }   break;
         case 'DELETE_CLICHE': {
             const { configuration_id, cliche_id } = action.payload;
