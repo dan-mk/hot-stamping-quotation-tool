@@ -23,7 +23,7 @@ export function Foil(props) {
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y + size.height) + 'px',
-        height: zoomMultiplier * 0.12 * size.height,
+        height: zoomMultiplier * 0.1 * size.height,
         width: zoomMultiplier * size.width,
     };
 
@@ -37,7 +37,7 @@ export function Foil(props) {
         padding: '3px 6px',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
-        top: (zoomMultiplier * (position.y + 1.12 * size.height) + 5) + 'px',
+        top: (zoomMultiplier * (position.y + 1.1 * size.height) + 5) + 'px',
         zIndex: '1',
     }
 

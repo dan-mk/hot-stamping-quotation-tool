@@ -224,7 +224,9 @@ export function Workspace(props) {
                     onClickSelectCliches={onClickSelectCliches}
                     onClickNewCliche={onClickNewCliche}
                     onClickNewFoil={onClickNewFoil}
-                    selectionType={selectionType} />
+                    selectionType={selectionType}
+                    clicheDisabled={selectedArtFragments.length === 0}
+                    foilDisabled={selectedCliches.length === 0} />
             </div>
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
