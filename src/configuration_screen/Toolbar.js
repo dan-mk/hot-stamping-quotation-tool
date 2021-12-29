@@ -62,7 +62,7 @@ export function Toolbar(props) {
                 <div className="expanded-toolbar-options" title="" style={{ display: (clicheOptionsOpen ? 'block' : '') }}>
                     <div onClick={onClickNewCliche}>Create new cliche</div>
                     { reusableCliches.length > 0 && <span>or reuse</span> }
-                    { reusableCliches.map(cliche => <div onClick={() => onClickReuseCliche(cliche)}>
+                    { reusableCliches.map(cliche => <div key={'reuse' + cliche.group_id} onClick={() => onClickReuseCliche(cliche)}>
                         Cliche {cliche.group_id}
                     </div>) }
                 </div>

@@ -89,6 +89,18 @@ const configurationReducer = produce((draft, action) => {
                 foils: { data: {} }
             };
         }   break;
+        case 'DELETE_STEP': {
+            const { configuration_id, art_id, step_id } = action.payload;
+            const art = draft.data[configuration_id].arts[art_id];
+            
+            const previousSteps = Object.values(art.steps).filter(step => step.id != step_id);
+            art.steps = {};
+
+            previousSteps.forEach((step, i) => {
+                step.id = i + 1;
+                art.steps[step.id] = step;
+            });
+        }   break;
         default:
             break;
     }

@@ -293,7 +293,12 @@ export function Workspace(props) {
                     }
                     <div style={overlayStyle}></div>
                 </div>
-                <StepsTabs configuration={configuration} art={art} onClickStep={onClickStep} currentStep={currentStep} />
+                <StepsTabs
+                    configuration={configuration}
+                    art={art}
+                    onClickStep={onClickStep}
+                    currentStep={currentStep}
+                    setCurrentStep={setCurrentStep} />
             </div>
         </div>
     );

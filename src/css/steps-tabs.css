@@ -29,3 +29,20 @@
 .selected-step:hover {
     background: rgb(192, 192, 192) !important;
 }
+
+#remove-step {
+    font-size: 22px;
+    line-height: 16px;
+    margin-right: 0 !important;
+    padding: 10px 12px !important;
+    margin-left: auto;
+}
+
+#remove-step img {
+    width: 11px;
+}
+
+.delete-step-disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}

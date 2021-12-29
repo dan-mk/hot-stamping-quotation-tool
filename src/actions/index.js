@@ -138,3 +138,14 @@ export const addStep = (configuration_id, art_id) => {
         }
     };
 };
+
+export const deleteStep = (configuration_id, art_id, step_id) => {
+    return {
+        type: 'DELETE_STEP',
+        payload: {
+            configuration_id,
+            art_id,
+            step_id
+        }
+    };
+}
