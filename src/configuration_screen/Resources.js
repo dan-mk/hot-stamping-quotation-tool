@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getAllUniqueCliches, getAllFoils } from '../helpers';
+import { getAllUniqueCliches, getAllFoils, pixelsToCm } from '../helpers';
 import '../css/resources.css';
 
 export function Resources(props) {
@@ -23,7 +23,10 @@ export function Resources(props) {
                         <div className="cliche-icon">
                             <div style={{ width: multiplier * cliche.width, height: multiplier * cliche.height }}></div>
                         </div>
-                        Cliche {cliche.group_id}
+                        <div>
+                            Cliche {cliche.group_id}<br/>
+                            <small>{ pixelsToCm(cliche.width) + ' x ' + pixelsToCm(cliche.height) } cm</small>
+                        </div>
                     </li>
                 }) }
                 { foils.map(foil => (
@@ -31,7 +34,10 @@ export function Resources(props) {
                         <div className="foil-icon" style={{ background: foilTypes[foil.foil_type_id].color }}>
                             <div></div>
                         </div>
-                        Foil {foil.id}
+                        <div>
+                            Foil {foil.id}<br/>
+                            <small>{ pixelsToCm(foil.width) } cm</small>
+                        </div>
                     </li>
                 )) }
             </ul>

@@ -2,7 +2,7 @@ import { ArtFragment } from "./ArtFragment";
 import { Cliche } from "./Cliche";
 import { Foil } from "./Foil";
 import { useSelector } from 'react-redux';
-import { getArtFragments } from '../helpers';
+import { getArtFragments, pixelsToCm } from '../helpers';
 
 export function Paper(props) {
     const art = props.art;
@@ -86,6 +86,9 @@ export function Paper(props) {
                                 data={data} />;
                 })
             }
+            <div style={{ position: 'absolute', left: '0', top: '-20px' }}>
+                { pixelsToCm(size.width) + ' x ' + pixelsToCm(size.height) } cm
+            </div>
         </div>
     );
 }
