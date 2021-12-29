@@ -224,33 +224,38 @@ function App() {
   const arts = useSelector(state => state.arts);
 
   const onFileChange = event => {
-    const reader = new FileReader();
+    dispatch(addConfiguration(1, 'Configuration 1', [...Array(event.target.files.length).keys()].map(n => n + 1)));
 
-    reader.onload = (e) => {
-      const img = new Image();
+    for (let i = 0; i < event.target.files.length; i++) {
+      const file = event.target.files[i];
+      const reader = new FileReader();
 
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
+      reader.onload = (e) => {
+        const img = new Image();
 
-        const imageData = ctx.getImageData(0, 0, img.width, img.height);
-        const data = new Uint8Array(imageData.data.buffer);
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
 
-        dispatch(addArt(1, 300, img.height, img.width));
+          const imageData = ctx.getImageData(0, 0, img.width, img.height);
+          const data = new Uint8Array(imageData.data.buffer);
 
-        const artFragments = createArtFragments(data, img);
-        artFragments.forEach(artFragment => {
-          dispatch(addArtFragment(1, artFragment.x, artFragment.y, artFragment.height, artFragment.width, artFragment.data));
-        });
+          dispatch(addArt(1, 300, img.height, img.width));
+
+          const artFragments = createArtFragments(data, img);
+          artFragments.forEach(artFragment => {
+            dispatch(addArtFragment(i + 1, artFragment.x, artFragment.y, artFragment.height, artFragment.width, artFragment.data));
+          });
+        }
+
+        img.src = e.target.result;
       }
 
-      img.src = e.target.result;
-    }
-
-    reader.readAsDataURL(event.target.files[0]);  
+      reader.readAsDataURL(file);  
+    };
   };
 
   return (
@@ -270,7 +275,7 @@ function App() {
         <section id="import-modal">
           <h1>Hot stamping quotation tool</h1>
           <p>Choose an image file to begin. The image must have a dpi of 300.</p>
-          <input type="file" onChange={onFileChange} />
+          <input type="file" onChange={onFileChange} multiple="multiple" />
         </section>
       </div>}
 

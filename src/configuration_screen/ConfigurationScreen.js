@@ -11,10 +11,10 @@ export function ConfigurationScreen(props) {
     const configuration = props.configuration;
 
     const arts = useSelector(state => getConfigurationArts(state, configuration));
-    let [currentArt, setCurrentArt] = useState(arts[0]);
+    const [currentArt, setCurrentArt] = useState(1);
 
-    const onClickTab = (art) => {
-        setCurrentArt(art);
+    const onClickTab = (artIndex) => {
+        setCurrentArt(artIndex);
     };
 
     return (
@@ -24,9 +24,9 @@ export function ConfigurationScreen(props) {
             </div>
             <div id="bottom-container">
                 <div id="workspace-container">
-                    <ArtsTabs configuration={configuration} onClickTab={onClickTab} />
+                    <ArtsTabs configuration={configuration} onClickTab={onClickTab} currentArt={currentArt} />
                     { arts.map((art, i) => {
-                        return <Workspace show={art.id === currentArt.id} key={i} art={art} configuration={configuration} />
+                        return <Workspace show={i + 1 === currentArt} key={i} art={art} configuration={configuration} />
                     }) }
                 </div>
                 <div id="resources-container">
