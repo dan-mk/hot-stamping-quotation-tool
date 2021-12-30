@@ -13,6 +13,7 @@ export function StepsTabs(props) {
 
     const onClickAddStep = () => {
         dispatch(addStep(configuration.id, art.id));
+        setCurrentStep(steps.length + 1);
     };
 
     const onClickDeleteStep = () => {
