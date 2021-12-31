@@ -149,6 +149,10 @@ export function createArtFragments(data, img) {
     return artFragments;
 }
 
-export function pixelsToCm(num, dpi = 300) {
-    return (num / dpi * 2.54).toFixed(2);
+export function pixelsToCm(pixels, dpi = 300) {
+    return (pixels / dpi * 2.54).toFixed(2);
+}
+
+export function cmToPixels(cm, dpi = 300) {
+    return parseInt(cm * dpi / 2.54);
 }

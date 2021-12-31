@@ -4,7 +4,7 @@ import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
-import { getArtFragments, getAllUniqueCliches } from '../helpers';
+import { getArtFragments, getAllUniqueCliches, cmToPixels } from '../helpers';
 import { addCliche, addFoil } from '../actions';
 import '../css/workspace.css';
 
@@ -23,9 +23,7 @@ export function Workspace(props) {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
-    const [selectedArtFragments, setSelectedArtFragments] = useState([]);
-    const [selectedCliches, setSelectedCliches] = useState([]);
-    const [selectionType, setSelectionType] = useState('art_fragments');
+    const [selectedArtFragmentIds, setSelectedArtFragmentIds] = useState([]);
     const [currentStep, setCurrentStep] = useState(1);
     const refViewport = useRef(null);
 
@@ -34,19 +32,56 @@ export function Workspace(props) {
 
     const allUniqueCliches = getAllUniqueCliches(configuration);
     const cliches = Object.values(configuration.arts[art.id].steps[currentStep].cliches.data);
-    const usedArtFragments = cliches.reduce((list, cliche) => {
+    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
+
+    const artFragmentIdsWithCliches = cliches.reduce((list, cliche) => {
         return [...list, ...cliche.art_fragments_ids];
     }, []);
+    const artFragmentIdsWithFoils = foils.reduce((list, foil) => {
+        return [...list, ...foil.art_fragments_ids];
+    }, []);
+
     const clichesAllSteps = Object.values(configuration.arts[art.id].steps).reduce((list, step) => {
         return [...list, ...Object.values(step.cliches.data)];
     }, []);
-    const usedArtFragmentsAllSteps = clichesAllSteps.reduce((list, cliche) => {
+    const foilsAllSteps = Object.values(configuration.arts[art.id].steps).reduce((list, step) => {
+        return [...list, ...Object.values(step.foils.data)];
+    }, []);
+
+    const artFragmentIdsWithClichesAllSteps = clichesAllSteps.reduce((list, cliche) => {
         return [...list, ...cliche.art_fragments_ids];
     }, []);
-    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
-    const usedCliches = foils.reduce((list, foil) => {
-        return [...list, ...foil.cliches_ids];
+    const artFragmentIdsWithFoilsAllSteps = foilsAllSteps.reduce((list, foil) => {
+        return [...list, ...foil.art_fragments_ids];
     }, []);
+
+    const artFragmentsData = {};
+    artFragments.forEach(artFragment => {
+        const artFragmentData = {};
+
+        artFragmentData.selected = selectedArtFragmentIds.includes(artFragment.id);
+        artFragmentData.hasClicheCurrentStep = artFragmentIdsWithCliches.includes(artFragment.id);
+        artFragmentData.hasFoilCurrentStep = artFragmentIdsWithFoils.includes(artFragment.id);
+        artFragmentData.hasClicheAnyStep = artFragmentIdsWithClichesAllSteps.includes(artFragment.id);
+        artFragmentData.hasFoilAnyStep = artFragmentIdsWithFoilsAllSteps.includes(artFragment.id);
+        artFragmentData.hasClicheOtherStep = (artFragmentData.hasClicheAnyStep && !artFragmentData.hasClicheCurrentStep);
+        artFragmentData.hasFoilOtherStep = (artFragmentData.hasFoilAnyStep && !artFragmentData.hasFoilCurrentStep);
+        artFragmentData.hasEverythingCurrentStep = (artFragmentData.hasClicheCurrentStep && artFragmentData.hasFoilCurrentStep);
+        artFragmentData.hasEverythingOtherStep = (artFragmentData.hasClicheOtherStep && artFragmentData.hasFoilOtherStep);
+        artFragmentData.hasAnythingOtherStep = (artFragmentData.hasClicheOtherStep || artFragmentData.hasFoilOtherStep);
+
+        artFragmentsData[artFragment.id] = artFragmentData;
+    });
+
+    const clicheDisabled = (
+        selectedArtFragmentIds.length === 0 ||
+        selectedArtFragmentIds.some(artFragmentId => artFragmentsData[artFragmentId].hasClicheAnyStep)
+    );
+    const foilDisabled = (
+        selectedArtFragmentIds.length === 0 ||
+        selectedArtFragmentIds.some(artFragmentId => artFragmentsData[artFragmentId].hasFoilAnyStep)
+    );
+    const reusableCliches = allUniqueCliches.filter(cliche => !cliches.map(c => c.id).includes(cliche.id));
 
     let onWheel = (e) => {
         const direction = (e.deltaY > 0 ? -1 : 1);
@@ -93,37 +128,19 @@ export function Workspace(props) {
         const selectionArtStartPoint = convertToArtPosition(selectionStartPosition);
         const selectionArtEndPoint = convertToArtPosition(mousePosition);
 
-        if (selectionType === 'art_fragments') {
-            const selected = artFragments.filter(artFragment => {
-                const horizontalCheck = (
-                    artFragment.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
-                    artFragment.x + artFragment.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
-                );
-                const verticalCheck = (
-                    artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
-                    artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
-                );
-                const used = usedArtFragmentsAllSteps.includes(artFragment.id);
-                return horizontalCheck && verticalCheck && !used;
-            }).map(artFragment => artFragment.id);
-            
-            setSelectedArtFragments(selected);
-        } else if (selectionType === 'cliches') {
-            const selected = cliches.filter(cliche => {
-                const horizontalCheck = (
-                    cliche.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
-                    cliche.x + cliche.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
-                );
-                const verticalCheck = (
-                    cliche.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
-                    cliche.y + cliche.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
-                );
-                const used = usedCliches.includes(cliche.id);
-                return horizontalCheck && verticalCheck && !used;
-            }).map(cliche => cliche.id);
-            
-            setSelectedCliches(selected);
-        }
+        const selected = artFragments.filter(artFragment => {
+            const horizontalCheck = (
+                artFragment.x >= Math.min(selectionArtStartPoint.x, selectionArtEndPoint.x) && 
+                artFragment.x + artFragment.width <= Math.max(selectionArtStartPoint.x, selectionArtEndPoint.x)
+            );
+            const verticalCheck = (
+                artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
+                artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
+            );
+            return horizontalCheck && verticalCheck && !artFragmentsData[artFragment.id].hasAnythingOtherStep;
+        }).map(artFragment => artFragment.id);
+        
+        setSelectedArtFragmentIds(selected);
     };
 
     const onMouseMove = (e) => {
@@ -135,23 +152,13 @@ export function Workspace(props) {
 
     const dispatch = useDispatch();
 
-    const onClickSelectArtFragments = () => {
-        setSelectionType('art_fragments');
-        setSelectedCliches([]);
-    };
-
-    const onClickSelectCliches = () => {
-        setSelectionType('cliches');
-        setSelectedArtFragments([]);
-    };
-
     const onClickNewCliche = () => {
-        if (selectedArtFragments.length === 0) return;
+        if (selectedArtFragmentIds.length === 0) return;
 
         let minY = Infinity, maxY = -Infinity;
         let minX = Infinity, maxX = -Infinity;
 
-        selectedArtFragments.forEach((artFragmentId) => {
+        selectedArtFragmentIds.forEach((artFragmentId) => {
             const artFragment = artFragments.find(artFragment => artFragment.id === artFragmentId);
             minY = Math.min(minY, artFragment.y);
             maxY = Math.max(maxY, artFragment.y + artFragment.height);
@@ -164,23 +171,23 @@ export function Workspace(props) {
                 configuration.id,
                 art.id,
                 currentStep,
-                selectedArtFragments,
-                minX - 10,
-                minY - 10,
-                (maxY - minY) + 20,
-                (maxX - minX) + 20
+                selectedArtFragmentIds,
+                minX - cmToPixels(0.5),
+                minY - cmToPixels(0.5),
+                (maxY - minY) + cmToPixels(1),
+                (maxX - minX) + cmToPixels(1)
             )
         );
-        setSelectedArtFragments([]);
+        setSelectedArtFragmentIds([]);
     };
 
     const onClickReuseCliche = (reusedCliche) => {
-        if (selectedArtFragments.length === 0) return;
+        if (selectedArtFragmentIds.length === 0) return;
 
         let minY = Infinity;
         let minX = Infinity;
 
-        selectedArtFragments.forEach((artFragmentId) => {
+        selectedArtFragmentIds.forEach((artFragmentId) => {
             const artFragment = artFragments.find(artFragment => artFragment.id === artFragmentId);
             minY = Math.min(minY, artFragment.y);
             minX = Math.min(minX, artFragment.x);
@@ -191,36 +198,45 @@ export function Workspace(props) {
                 configuration.id,
                 art.id,
                 currentStep,
-                selectedArtFragments,
-                minX - 10,
-                minY - 10,
+                selectedArtFragmentIds,
+                minX - cmToPixels(0.5),
+                minY - cmToPixels(0.5),
                 reusedCliche.height,
                 reusedCliche.width,
                 reusedCliche.group_id
             )
         );
-        setSelectedArtFragments([]);
+        setSelectedArtFragmentIds([]);
     };
 
     const onClickNewFoil = () => {
-        if (selectedCliches.length === 0) return;
+        if (selectedArtFragmentIds.length === 0) return;
 
         let minX = Infinity, maxX = -Infinity;
 
-        selectedCliches.forEach((clicheId) => {
-            const cliche = cliches.find(cliche => cliche.id === clicheId);
-            minX = Math.min(minX, cliche.x);
-            maxX = Math.max(maxX, cliche.x + cliche.width);
+        selectedArtFragmentIds.forEach((artFragmentId) => {
+            const artFragment = artFragments.find(artFragment => artFragment.id === artFragmentId);
+            minX = Math.min(minX, artFragment.x);
+            maxX = Math.max(maxX, artFragment.x + artFragment.width);
         });
 
-        dispatch(addFoil(configuration.id, art.id, currentStep, 1, selectedCliches, minX - 10, maxX - minX + 20));
-        setSelectedCliches([]);
+        dispatch(
+            addFoil(
+                configuration.id,
+                art.id,
+                currentStep,
+                1,
+                selectedArtFragmentIds,
+                minX - cmToPixels(1),
+                maxX - minX + cmToPixels(2)
+            )
+        );
+        setSelectedArtFragmentIds([]);
     };
 
     const onClickStep = (step) => {
         setCurrentStep(step.id);
-        setSelectedArtFragments([]);
-        setSelectedCliches([]);
+        setSelectedArtFragmentIds([]);
     }
 
     useEffect(() => {
@@ -260,16 +276,12 @@ export function Workspace(props) {
         <div id="workspace-subcontainer" style={{ display: (show ? 'flex' : 'none') }}>
             <div id="toolbar-container">
                 <Toolbar 
-                    onClickSelectArtFragments={onClickSelectArtFragments}
-                    onClickSelectCliches={onClickSelectCliches}
                     onClickNewCliche={onClickNewCliche}
                     onClickReuseCliche={onClickReuseCliche}
                     onClickNewFoil={onClickNewFoil}
-                    selectionType={selectionType}
-                    clicheDisabled={selectedArtFragments.length === 0}
-                    cliches={cliches}
-                    allUniqueCliches={allUniqueCliches}
-                    foilDisabled={selectedCliches.length === 0} />
+                    clicheDisabled={clicheDisabled}
+                    foilDisabled={foilDisabled}
+                    reusableCliches={reusableCliches} />
             </div>
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
@@ -277,15 +289,11 @@ export function Workspace(props) {
                         <Paper 
                             art={art}
                             configuration={configuration}
-                            usedArtFragments={usedArtFragments}
-                            usedArtFragmentsAllSteps={usedArtFragmentsAllSteps}
+                            artFragmentsData={artFragmentsData}
                             cliches={cliches}
-                            usedCliches={usedCliches}
                             size={size}
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}
-                            selectedArtFragments={selectedArtFragments}
-                            selectedCliches={selectedCliches}
                             currentStep={currentStep} />
                     </div>
                     { selectionStartPosition !== null && 

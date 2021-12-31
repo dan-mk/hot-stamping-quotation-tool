@@ -104,7 +104,7 @@ export const addFoilType = (description, width, length, price) => {
     };
 };
 
-export const addFoil = (configuration_id, art_id, step_id, foil_type_id, cliches_ids, x, width) => {
+export const addFoil = (configuration_id, art_id, step_id, foil_type_id, art_fragments_ids, x, width) => {
     return {
         type: 'ADD_FOIL',
         payload: {
@@ -112,7 +112,7 @@ export const addFoil = (configuration_id, art_id, step_id, foil_type_id, cliches
             art_id,
             step_id,
             foil_type_id,
-            cliches_ids,
+            art_fragments_ids,
             x,
             width
         }

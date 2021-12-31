@@ -5,15 +5,13 @@ export function Cliche(props) {
     const position = props.position;
     const size = props.size;
     const zoomMultiplier = props.zoomMultiplier;
-    const selected = props.selected;
-    const used = props.used;
     const configurationId = props.configurationId;
     const id = props.id;
     const groupId = props.groupId;
 
     let style = {
-        background: used ? '#999' : (selected ? 'rgb(255, 127, 0)' : '#ed0000'),
-        border: '3px dashed black',
+        background: '#ccc',
+        border: '2px dashed #00000088',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y) + 'px',

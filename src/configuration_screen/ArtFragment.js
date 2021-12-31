@@ -5,8 +5,9 @@ export function ArtFragment(props) {
     const size = props.size;
     const zoomMultiplier = props.zoomMultiplier;
     const selected = props.selected;
-    const usedAllSteps = props.usedAllSteps;
-    const used = props.used;
+    const hasEverythingCurrentStep = props.hasEverythingCurrentStep;
+    const hasEverythingOtherStep = props.hasEverythingOtherStep;
+    const hasAnythingOtherStep = props.hasAnythingOtherStep;
     const data = props.data;
 
     const refContainer = useRef(null);
@@ -36,19 +37,21 @@ export function ArtFragment(props) {
         const canvas = refContainer.current.querySelector('canvas');
         const ctx = canvas.getContext('2d');
 
-        let color = [237, 0, 0];
-        if (used) {
-            color = [255, 255, 255];
-        } else if (usedAllSteps) {
-            color = [50, 50, 255];
-        } else if (selected) {
-            color = [255, 127, 0];
+        let color = [220, 0, 0];
+        if (selected) {
+            color = [237, 111, 0];
+        } else if (hasEverythingCurrentStep) {
+            color = [30, 30, 255];
+        } else if (hasEverythingOtherStep) {
+            color = [161, 161, 255];
+        } else if (hasAnythingOtherStep) {
+            color = [255, 161, 161];
         }
 
         ctx.globalCompositeOperation = 'source-in';
         ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + "," + 1 + ")";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }, [used, usedAllSteps, selected]);
+    }, [selected, hasEverythingCurrentStep, hasEverythingOtherStep, hasAnythingOtherStep]);
 
     let style = {
         position: 'absolute',

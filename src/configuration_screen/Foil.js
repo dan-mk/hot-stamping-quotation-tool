@@ -10,11 +10,22 @@ export function Foil(props) {
     const id = props.id;
 
     let style = {
-        background: `${color}88`,
+        background: `${color}55`,
+        borderLeft: '2px dashed #00000022',
+        borderRight: '2px dashed #00000022',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y) + 'px',
         height: zoomMultiplier * size.height,
+        width: zoomMultiplier * size.width,
+    };
+
+    let styleRollBorder = {
+        border: '2px solid #00000044',
+        position: 'absolute',
+        left: zoomMultiplier * (position.x) + 'px',
+        top: zoomMultiplier * (position.y + size.height) + 'px',
+        height: zoomMultiplier * 0.1 * size.height,
         width: zoomMultiplier * size.width,
     };
 
@@ -27,7 +38,7 @@ export function Foil(props) {
         width: zoomMultiplier * size.width,
     };
 
-    let styleRollBehind = { ...styleRoll, background: 'black', outline: '2px solid #ffffff44' };
+    let styleRollBehind = { ...styleRoll, background: 'black' };
 
     let styleLabel = {
         background: 'white',
@@ -62,6 +73,7 @@ export function Foil(props) {
             <div style={style}></div>
             <div style={styleRollBehind}></div>
             <div style={styleRoll}></div>
+            <div style={styleRollBorder}></div>
             <div onMouseDown={prevent} onMouseUp={prevent} style={styleLabel}>
                 Foil {id}
                 <b onClick={onClick} style={styleX}>X</b>

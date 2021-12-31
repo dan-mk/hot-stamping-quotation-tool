@@ -44,23 +44,18 @@ const configurationReducer = produce((draft, action) => {
                 for (let stepId in art.steps) {
                     const step = art.steps[stepId];
                     delete step.cliches.data[cliche_id];
-                    for (let foilId in step.foils.data) {
-                        if (step.foils.data[foilId] && step.foils.data[foilId].cliches_ids.includes(cliche_id)) {
-                            delete step.foils.data[foilId];
-                        }
-                    }
                 }
             }
         }   break;
         case 'ADD_FOIL': {
-            const { configuration_id, art_id, step_id, foil_type_id, cliches_ids, x, width } = action.payload;
+            const { configuration_id, art_id, step_id, foil_type_id, art_fragments_ids, x, width } = action.payload;
             const configuration =  draft.data[configuration_id];
             const step = configuration.arts[art_id].steps[step_id];
 
             step.foils.data[configuration.next_foil_id] = {
                 id: configuration.next_foil_id,
                 foil_type_id,
-                cliches_ids,
+                art_fragments_ids,
                 x,
                 width,
             };
