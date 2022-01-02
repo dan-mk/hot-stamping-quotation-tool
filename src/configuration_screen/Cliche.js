@@ -25,6 +25,7 @@ export function Cliche(props) {
         boxShadow: '0 0 3px #00000088',
         fontSize: '14px',
         padding: '3px 6px',
+        pointerEvents: 'none',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: (zoomMultiplier * (position.y + size.height) + 5) + 'px',
@@ -35,6 +36,7 @@ export function Cliche(props) {
         color: 'red',
         cursor: 'pointer',
         marginLeft: '8px',
+        pointerEvents: 'all',
         position: 'relative',
     };
 
@@ -50,9 +52,9 @@ export function Cliche(props) {
     return (
         <>
             <div style={style}></div>
-            <div onMouseDown={prevent} onMouseUp={prevent} style={styleLabel}>
+            <div style={styleLabel}>
                 Cliche {groupId}
-                <b onClick={onClick} style={styleX}>X</b>
+                <b onMouseDown={prevent} onMouseUp={prevent} onWheel={prevent} onClick={onClick} style={styleX}>X</b>
             </div>
         </>
     );

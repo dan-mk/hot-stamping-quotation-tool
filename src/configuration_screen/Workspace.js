@@ -13,7 +13,7 @@ export function Workspace(props) {
     const art = props.art;
     const configuration = props.configuration;
     const artFragments = useSelector(state => getArtFragments(state, art));
-    const zoomBase = 1.3;
+    const zoomBase = 1.25;
 
     const [zoom, setZoom] = useState(0);
     const [focusPoint, setFocusPoint] = useState({ x: 0, y: 0 });
@@ -135,7 +135,9 @@ export function Workspace(props) {
                 artFragment.y >= Math.min(selectionArtStartPoint.y, selectionArtEndPoint.y) && 
                 artFragment.y + artFragment.height <= Math.max(selectionArtStartPoint.y, selectionArtEndPoint.y)
             );
-            return horizontalCheck && verticalCheck && !artFragmentsData[artFragment.id].hasAnythingOtherStep;
+            const hasEverythingCurrentStep = artFragmentsData[artFragment.id].hasEverythingCurrentStep;
+            const hasAnythingOtherStep = artFragmentsData[artFragment.id].hasAnythingOtherStep;
+            return horizontalCheck && verticalCheck && !hasEverythingCurrentStep && !hasAnythingOtherStep;
         }).map(artFragment => artFragment.id);
         
         setSelectedArtFragmentIds(selected);
@@ -249,7 +251,7 @@ export function Workspace(props) {
 
         let idealZoomLevel = Math.floor(Math.min(idealZoomLevelWidth, idealZoomLevelHeight));
         const paddingHorizontal = 16;
-        const paddingVertical = 32;
+        const paddingVertical = 40;
         while (
             vWidth < Math.pow(zoomBase, idealZoomLevel) * artWidth + 2 * paddingHorizontal || 
             vHeight < Math.pow(zoomBase, idealZoomLevel) * artHeight + 2 * paddingVertical

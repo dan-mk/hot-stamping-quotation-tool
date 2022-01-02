@@ -49,7 +49,7 @@ export function Toolbar(props) {
 
     return (
         <div id="toolbar-subcontainer">
-            <span title="Reset viewport">
+            <span title="Restore initial viewport">
                 <div
                     className="toolbar-option" style={{ paddingBottom: '9px', paddingTop: '9px' }}
                     onClick={() => onClickResetToIdealView()}>
