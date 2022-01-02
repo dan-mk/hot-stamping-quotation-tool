@@ -209,7 +209,7 @@ export function Workspace(props) {
         setSelectedArtFragmentIds([]);
     };
 
-    const onClickNewFoil = () => {
+    const onClickNewFoil = (foilTypeId) => {
         if (selectedArtFragmentIds.length === 0) return;
 
         let minX = Infinity, maxX = -Infinity;
@@ -225,7 +225,7 @@ export function Workspace(props) {
                 configuration.id,
                 art.id,
                 currentStep,
-                1,
+                foilTypeId,
                 selectedArtFragmentIds,
                 minX - cmToPixels(1),
                 maxX - minX + cmToPixels(2)

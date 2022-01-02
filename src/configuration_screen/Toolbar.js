@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import '../css/toolbar.css';
 
 export function Toolbar(props) {
@@ -11,9 +12,13 @@ export function Toolbar(props) {
     const reusableCliches = props.reusableCliches;
 
     const [clicheOptionsOpen, setClicheOptionsOpen] = useState(false);
+    const [foilOptionsOpen, setFoilOptionsOpen] = useState(false);
+
+    const foilTypes = useSelector(state => Object.values(state.foil_types.data));
 
     const openClicheOptions = (e) => {
         e.stopPropagation();
+        setFoilOptionsOpen(false);
 
         if (clicheOptionsOpen === false) {
             setClicheOptionsOpen(true);
@@ -24,7 +29,22 @@ export function Toolbar(props) {
         window.addEventListener('click', () => {
             setClicheOptionsOpen(false);
         }, { once: true });
-    }
+    };
+
+    const openFoilOptions = (e) => {
+        e.stopPropagation();
+        setClicheOptionsOpen(false);
+
+        if (foilOptionsOpen === false) {
+            setFoilOptionsOpen(true);
+        } else {
+            setFoilOptionsOpen(false);
+        }
+
+        window.addEventListener('click', () => {
+            setFoilOptionsOpen(false);
+        }, { once: true });
+    };
 
     return (
         <div id="toolbar-subcontainer">
@@ -45,8 +65,13 @@ export function Toolbar(props) {
             <span title="Insert foil">
                 <div
                     className={"toolbar-option" + (foilDisabled ? ' toolbar-option-disabled' : '')}
-                    onClick={onClickNewFoil}>
+                    onClick={openFoilOptions}>
                     <img src='add-foil.png' width="100%" />
+                </div>
+                <div className="expanded-toolbar-options" title="" style={{ display: (foilOptionsOpen ? 'block' : '') }}>
+                    { foilTypes.map(foilType => <div key={'foil' + foilType.id} onClick={() => onClickNewFoil(foilType.id)}>
+                        {foilType.description}
+                    </div>) }
                 </div>
             </span>
         </div>
