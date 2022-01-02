@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { deleteFoil } from '../actions';
+import { cmToPixels } from '../helpers';
 
 export function Foil(props) {
     const position = props.position;
@@ -25,7 +26,7 @@ export function Foil(props) {
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y + size.height) + 'px',
-        height: zoomMultiplier * 0.1 * size.height,
+        height: zoomMultiplier * cmToPixels(2),
         width: zoomMultiplier * size.width,
     };
 
@@ -34,7 +35,7 @@ export function Foil(props) {
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
         top: zoomMultiplier * (position.y + size.height) + 'px',
-        height: zoomMultiplier * 0.1 * size.height,
+        height: zoomMultiplier * cmToPixels(2),
         width: zoomMultiplier * size.width,
     };
 
@@ -48,7 +49,7 @@ export function Foil(props) {
         padding: '3px 6px',
         position: 'absolute',
         left: zoomMultiplier * (position.x) + 'px',
-        top: (zoomMultiplier * (position.y + 1.1 * size.height) + 5) + 'px',
+        top: (zoomMultiplier * (position.y + size.height + cmToPixels(2)) + 5) + 'px',
         zIndex: '1',
     }
 

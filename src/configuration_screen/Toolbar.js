@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import '../css/toolbar.css';
 
 export function Toolbar(props) {
+    const onClickResetToIdealView = props.onClickResetToIdealView;
     const onClickNewCliche = props.onClickNewCliche;
     const onClickReuseCliche = props.onClickReuseCliche;
     const onClickNewFoil = props.onClickNewFoil;
@@ -48,6 +49,13 @@ export function Toolbar(props) {
 
     return (
         <div id="toolbar-subcontainer">
+            <span title="Reset viewport">
+                <div
+                    className="toolbar-option" style={{ paddingBottom: '9px', paddingTop: '9px' }}
+                    onClick={() => onClickResetToIdealView()}>
+                    <img src='reset-ideal-view.png' width="100%" />
+                </div>
+            </span>
             <span title="Insert cliche">
                 <div
                     className={"toolbar-option" + (clicheDisabled ? ' toolbar-option-disabled' : '')}

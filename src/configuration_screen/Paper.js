@@ -3,7 +3,7 @@ import { Cliche } from "./Cliche";
 import { Foil } from "./Foil";
 import { FoilOverlay } from "./FoilOverlay";
 import { useSelector } from 'react-redux';
-import { getArtFragments, pixelsToCm } from '../helpers';
+import { cmToPixels, getArtFragments, pixelsToCm } from '../helpers';
 
 export function Paper(props) {
     const art = props.art;
@@ -43,7 +43,7 @@ export function Paper(props) {
             {
                 foils.map((foil, i) => {
                     const position = { x: foil.x, y: 0 };
-                    const size = { height: 1.1 * art.height, width: foil.width };
+                    const size = { height: cmToPixels(2) + art.height, width: foil.width };
                     const color = foilTypes[foil.foil_type_id].color;
                     return <Foil 
                                 key={i}
@@ -72,7 +72,7 @@ export function Paper(props) {
             {
                 foils.map((foil, i) => {
                     const position = { x: foil.x, y: 0 };
-                    const size = { height: 1.1 * art.height, width: foil.width };
+                    const size = { height: cmToPixels(2) + art.height, width: foil.width };
                     const color = foilTypes[foil.foil_type_id].color;
 
                     return <FoilOverlay 

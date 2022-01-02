@@ -15,9 +15,7 @@ export function Workspace(props) {
     const artFragments = useSelector(state => getArtFragments(state, art));
     const zoomBase = 1.3;
 
-    const [zoom, setZoom] = useState((() => {
-        return 0; // TODO INITIALIZATION AT THE IDEAL VALUE
-    })());
+    const [zoom, setZoom] = useState(0);
     const [focusPoint, setFocusPoint] = useState({ x: 0, y: 0 });
     const [selectionStartPosition, setSelectionStartPosition] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -239,9 +237,37 @@ export function Workspace(props) {
         setSelectedArtFragmentIds([]);
     }
 
+    const resetToIdealView = (vWidth = viewportWidth, vHeight = viewportHeight) => {
+        const artWidth = art.width;
+        const artHeight = cmToPixels(8) + art.height;
+
+        const viewportIdealRatioWidth = vWidth / artWidth;
+        const idealZoomLevelWidth = (Math.log10(viewportIdealRatioWidth) / Math.log10(zoomBase));
+
+        const viewportIdealRatioHeight = vHeight / artHeight;
+        const idealZoomLevelHeight = (Math.log10(viewportIdealRatioHeight) / Math.log10(zoomBase));
+
+        let idealZoomLevel = Math.floor(Math.min(idealZoomLevelWidth, idealZoomLevelHeight));
+        const paddingHorizontal = 16;
+        const paddingVertical = 32;
+        while (
+            vWidth < Math.pow(zoomBase, idealZoomLevel) * artWidth + 2 * paddingHorizontal || 
+            vHeight < Math.pow(zoomBase, idealZoomLevel) * artHeight + 2 * paddingVertical
+        ) {
+            idealZoomLevel -= 1;
+        }
+
+        setZoom(idealZoomLevel);
+        setFocusPoint({ x: 0, y: 0 });
+    };
+
     useEffect(() => {
         setViewportWidth(refViewport.current.clientWidth);
         setViewportHeight(refViewport.current.clientHeight);
+
+        if (viewportWidth === null && refViewport.current.clientWidth) {
+            resetToIdealView(refViewport.current.clientWidth, refViewport.current.clientHeight);
+        }
 
         window.addEventListener('mouseup', onMouseUp);
         window.addEventListener('mousemove', onMouseMove);
@@ -276,6 +302,7 @@ export function Workspace(props) {
         <div id="workspace-subcontainer" style={{ display: (show ? 'flex' : 'none') }}>
             <div id="toolbar-container">
                 <Toolbar 
+                    onClickResetToIdealView={resetToIdealView}
                     onClickNewCliche={onClickNewCliche}
                     onClickReuseCliche={onClickReuseCliche}
                     onClickNewFoil={onClickNewFoil}
