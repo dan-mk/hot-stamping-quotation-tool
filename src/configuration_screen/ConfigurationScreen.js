@@ -2,6 +2,7 @@ import { Header } from "./Header";
 import { ArtsTabs } from "./ArtsTabs";
 import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
+import { OverallQuotationScreen } from "./OverallQuotationScreen";
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
 import { useState } from "react";
@@ -12,6 +13,7 @@ export function ConfigurationScreen(props) {
 
     const arts = useSelector(state => getConfigurationArts(state, configuration));
     const [currentArt, setCurrentArt] = useState(1);
+    const [showQuotationScreen, setShowQuotationScreen] = useState(false);
 
     const onClickTab = (artIndex) => {
         setCurrentArt(artIndex);
@@ -19,8 +21,11 @@ export function ConfigurationScreen(props) {
 
     return (
         <div id="content-container">
-            <div>
+            <div id="header-container">
                 <Header configuration={configuration} />
+                <div id="calculate-container">
+                    <button onClick={() => setShowQuotationScreen(true)}>Calculate</button>
+                </div>
             </div>
             <div id="bottom-container">
                 <div id="workspace-container">
@@ -33,6 +38,9 @@ export function ConfigurationScreen(props) {
                     <Resources configuration={configuration} />
                 </div>
             </div>
+            { showQuotationScreen && <OverallQuotationScreen 
+                                        configuration={configuration}
+                                        onClickClose={() => setShowQuotationScreen(false)} /> }
         </div>
     );
 }

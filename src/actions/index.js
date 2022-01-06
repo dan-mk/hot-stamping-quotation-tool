@@ -9,7 +9,7 @@ export const addQuote = (client_id, description, datetime) => {
     }
 };
 
-export const addArt = (quote_id, dpi, height, width) => {
+export const addArt = (quote_id, dpi, height, width, base64) => {
     return {
         type: 'ADD_ART',
         payload: {
@@ -17,6 +17,7 @@ export const addArt = (quote_id, dpi, height, width) => {
             dpi,
             height,
             width,
+            base64,
         }
     }
 };

@@ -6,6 +6,28 @@
     width: 100%;
 }
 
+#header-container {
+    display: flex;
+}
+
+#calculate-container {
+    display: flex;
+    padding: 20px;
+}
+
+#calculate-container button {
+    background: #e0e0e0;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: center;
+    padding: 8px 14px;
+}
+
+#calculate-container button:hover {
+    background: #e6e6e6;
+}
+
 #bottom-container {
     display: flex;
     flex-grow: 1;

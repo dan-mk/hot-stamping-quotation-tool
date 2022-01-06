@@ -24,17 +24,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9899495"
-     inkscape:cx="2111.1671"
-     inkscape:cy="380.51902"
+     inkscape:zoom="1.979899"
+     inkscape:cx="2526.3619"
+     inkscape:cy="228.29365"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1867"
-     inkscape:window-height="1025"
-     inkscape:window-x="53"
-     inkscape:window-y="27"
+     inkscape:window-width="1366"
+     inkscape:window-height="740"
+     inkscape:window-x="1920"
+     inkscape:window-y="387"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -54,60 +54,53 @@
      id="layer1">
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
-       id="rect423"
-       width="6.8118291"
-       height="2.5152817"
-       x="508.46304"
-       y="31.84437" />
-    <rect
-       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
-       id="rect421"
-       width="34.358162"
-       height="2.5152817"
-       x="566.69824"
-       y="68.796074" />
+       id="rect242"
+       width="12.001706"
+       height="3.3531146"
+       x="706.06165"
+       y="52.408337" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect417"
-       width="34.358162"
+       width="25.881199"
        height="2.5152817"
-       x="566.69824"
+       x="575.17523"
        y="68.796074" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect415"
-       width="34.358162"
+       width="26.157999"
        height="2.5152817"
-       x="566.11993"
+       x="574.32007"
        y="82.180367" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect413"
-       width="34.358162"
+       width="26.994246"
        height="2.5152817"
-       x="567.53656"
+       x="574.90045"
        y="126.89857" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect411"
-       width="34.358162"
+       width="25.996943"
        height="2.7722795"
-       x="566.34406"
+       x="574.70526"
        y="143.39854" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect409"
-       width="34.358162"
+       width="25.993969"
        height="2.5152817"
-       x="566.31067"
+       x="574.67487"
        y="140.32883" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect407"
-       width="34.358162"
+       width="26.052126"
        height="3.1463482"
-       x="526.56616"
-       y="170.62027" />
+       x="535.0058"
+       y="180.94711" />
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect103"
@@ -917,7 +910,7 @@
          id="tspan289"
          x="538.26196"
          y="67.433434"
-         style="font-size:2.00519px;stroke-width:0.264583">Name               Price             Price after manual adjustment</tspan></text>
+         style="font-size:2.00519px;stroke-width:0.264583">Name               Regular price             Final price</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.00519px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -928,7 +921,7 @@
          id="tspan293"
          x="538.26196"
          y="70.775414"
-         style="font-size:2.00519px;stroke-width:0.264583">Cliche 4            $ 332.40       $ 332.40</tspan></text>
+         style="font-size:2.00519px;stroke-width:0.264583">Cliche 4            $ 332.40                    $ 332.40</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.45078px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -950,7 +943,7 @@
          id="tspan301"
          x="538.26196"
          y="80.801353"
-         style="font-size:2.00519px;stroke-width:0.264583">Name               Price            Price after manual adjustment</tspan></text>
+         style="font-size:2.00519px;stroke-width:0.264583">Name               Regular price            Final price</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.00519px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -961,29 +954,29 @@
          id="tspan305"
          x="538.26196"
          y="84.143326"
-         style="font-size:2.00519px;stroke-width:0.264583">Foil 3                $ 808.00      $ 808.00</tspan></text>
+         style="font-size:2.00519px;stroke-width:0.264583">Foil 3                $ 808.00                   $ 808.00</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.00519px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="484.89453"
-       y="169.66273"
+       x="485.02817"
+       y="179.98958"
        id="text311"><tspan
          sodipodi:role="line"
          id="tspan309"
-         x="484.89453"
-         y="169.66273"
-         style="font-size:2.00519px;stroke-width:0.264583">Total of stampings            Price                 Price after manual adjustment</tspan></text>
+         x="485.02817"
+         y="179.98958"
+         style="font-size:2.00519px;stroke-width:0.264583">Total of stampings            Regular price                 Final price</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.00519px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="484.89453"
-       y="173.00473"
+       x="485.02817"
+       y="183.33157"
        id="text315"><tspan
          sodipodi:role="line"
          id="tspan313"
-         x="484.89453"
-         y="173.00473"
-         style="font-size:2.00519px;stroke-width:0.264583">3000                                 $ 300.00           $ 300.00</tspan></text>
+         x="485.02817"
+         y="183.33157"
+         style="font-size:2.00519px;stroke-width:0.264583">3000                                 $ 300.00                        $ 300.00</tspan></text>
     <rect
        style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
        id="rect317"
@@ -1037,7 +1030,7 @@
          id="tspan331"
          x="538.0578"
          y="122.55357"
-         style="font-size:2.01036px;stroke-width:0.264583">Name               Price              Price after manual adjustment</tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Name               Regular price              Final price</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.01036px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1048,7 +1041,7 @@
          id="tspan335"
          x="538.0578"
          y="125.90424"
-         style="font-size:2.01036px;stroke-width:0.264583">Cliche 4            -                     -</tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Cliche 4            -                                 -</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.4571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1070,7 +1063,7 @@
          id="tspan343"
          x="538.0578"
          y="139.02281"
-         style="font-size:2.01036px;stroke-width:0.264583">Name               Price             Price after manual adjustment</tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Name               Regular price             Final price</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.01036px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1081,7 +1074,7 @@
          id="tspan347"
          x="538.0578"
          y="142.37341"
-         style="font-size:2.01036px;stroke-width:0.264583">Foil 7                $ 384.00      $ 384.00</tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Foil 7                $ 384.00                    $ 384.00</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.01036px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1092,7 +1085,7 @@
          id="tspan351"
          x="538.0578"
          y="128.97098"
-         style="font-size:2.01036px;stroke-width:0.264583">Cliche 9            $ 200.00        $ 200.00</tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Cliche 9            $ 200.00                    $ 200.00</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.01036px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1103,7 +1096,7 @@
          id="tspan355"
          x="538.0578"
          y="145.44006"
-         style="font-size:2.01036px;stroke-width:0.264583">Foil 8                $ 1128.00    $ 1128.00 </tspan></text>
+         style="font-size:2.01036px;stroke-width:0.264583">Foil 8                $ 1128.00                  $ 1128.00 </tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.11763px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -1126,17 +1119,6 @@
          x="484.78455"
          y="164.31921"
          style="font-size:3.2316px;stroke-width:0.264583">Production</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:2.55769px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="582.14203"
-       y="12.016054"
-       id="text377"><tspan
-         sodipodi:role="line"
-         id="tspan375"
-         x="582.14203"
-         y="12.016054"
-         style="stroke-width:0.264583">01/02/2021</tspan></text>
     <rect
        style="fill:#cccccc;stroke-width:1.99999;stroke-linecap:round;stroke-linejoin:round"
        id="rect387"
@@ -1194,13 +1176,215 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.77194px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264582"
-       x="484.90305"
-       y="180.04994"
+       x="485.03668"
+       y="190.37679"
        id="text405"><tspan
          sodipodi:role="line"
          id="tspan403"
-         x="484.90305"
-         y="180.04994"
-         style="stroke-width:0.264582">Final price: $2112.34</tspan></text>
+         x="485.03668"
+         y="190.37679"
+         style="stroke-width:0.264582">Final complete price: $2112.34</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+       id="rect203"
+       width="21.902523"
+       height="3.3531146"
+       x="639.91559"
+       y="52.408337" />
+    <rect
+       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+       id="rect205"
+       width="22.088598"
+       height="22.088598"
+       x="639.68292"
+       y="22.130188" />
+    <image
+       width="22.010994"
+       height="10.944693"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWoAAAC0CAYAAAC9m2YIAAAABHNCSVQICAgIfAhkiAAABLpJREFU eJzt3b1RW0sAhuHlDhHBhh5RBwkBASkVkBNAB4RUQKBQHVACnTADDAFDBycg5UbCRpb1D/r26Hki y2LR2nP21c5KiL1SykcBINZ/254AALPtl1JK13XbngcAE2qtpRQ7aoB4Qg0QTqgBwgk1QDihBggn 1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYI J9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAuP1t T2CTaq0rjeu6bqnx469f9vGXfZxlHhuW8VNr5c8xyzz+n2PWnWsf2FFvwOvr61rxhV2yyFqxnr7a K6V89OmZZ9Ld3V25uroqpcx/hh1fHMv+f4zHXV5eltvb2xVm+fX7rDIH2IRF18C6a2Xe2Frrt82h JeN/ox31Bq0Tadgl8+La5/iuQqgBwgk1QDih3qBaa7m5udn2NCBerdULhkvo1dvzNmWZtw6Nb4/H DIfDMhwOZ3499MU6a2XaeGtlOjvqDem6rhweHk69z+4Bfuu6bubPIlgrf7OjnmLVZ/XHx8cvt9/f 38tgMPi8vchbjqAl61zPk2Mnd9rWym921N/o4ODAxQYLmrXT3nVC/QNcfLC809PTbU8hhlADkd7e 3rY9hRhCDUR6eXnZ9hRiCPUG1FrL9fX1zPuB+e/qsFam866PKRa5WCbPnUejURmNRkuNgdatslYW GWetfGVHvQFd15WTk5OZ97vwYP5aOD8/t1am6P3HnAK0ysecAjRCqAHCCTVAOKEGCCfUAOGEGiCc UAOEE2qAcEINEE6oAcIJNUA4oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqhpml+Gyi4QaoBwQg0Qbn/b E4B1zTv+8MubaZ0dNUA4O2qaZ8dM39lRA4QTaoBwQk3T/nXscXx8/MMzge8j1DSt1lru7+//+ruH h4dSa/UDMfSCUNO8s7Ozzz/XWsvFxUXpus6LjPSGUNM7w+Fw21OAjRJqgHBCTdMGg8HnObTzaPpK qGna09NT+fXr12eknUvTR3ullA8XN0Ce8QbEjpqmHR0dzbzfcQh9INQ07fn5+cttYaaPhBognFAD hBNqgHA+j5rmTZ5LO6emb4SapnlrKbvA0QdNs3tmFwg1QDihBggn1ADhvJhI8+adU3vBkdYJNc0T YvrO0QdAOKEGCCfUNM2xB7tAqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYI J9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEG CCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDih Bggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4 oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHB7pZSPbU8CgH+z owYIJ9QA4f4HwL7r9cxkJ2gAAAAASUVORK5CYII= "
+       id="image207"
+       x="639.72174"
+       y="27.702139"
+       style="stroke-width:4.35143" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.4594px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="639.98267"
+       y="47.700245"
+       id="text215"><tspan
+         sodipodi:role="line"
+         id="tspan209"
+         x="639.98267"
+         y="47.700245"
+         style="font-size:2.4594px;stroke-width:0.264583">Art 1</tspan><tspan
+         sodipodi:role="line"
+         x="639.98267"
+         y="50.774494"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan213">Number of pages</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.87553px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="637.15839"
+       y="54.763298"
+       id="text220"><tspan
+         sodipodi:role="line"
+         id="tspan218"
+         x="637.15839"
+         y="54.763298"
+         style="stroke-width:0.264583">1</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+       id="rect222"
+       width="21.902523"
+       height="3.3531146"
+       x="666.37402"
+       y="52.408337" />
+    <rect
+       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+       id="rect224"
+       width="22.088598"
+       height="22.088598"
+       x="666.14136"
+       y="22.130188" />
+    <image
+       width="22.010994"
+       height="10.944693"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWoAAAC0CAYAAAC9m2YIAAAABHNCSVQICAgIfAhkiAAABLpJREFU eJzt3b1RW0sAhuHlDhHBhh5RBwkBASkVkBNAB4RUQKBQHVACnTADDAFDBycg5UbCRpb1D/r26Hki y2LR2nP21c5KiL1SykcBINZ/254AALPtl1JK13XbngcAE2qtpRQ7aoB4Qg0QTqgBwgk1QDihBggn 1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYI J9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAuP1t T2CTaq0rjeu6bqnx469f9vGXfZxlHhuW8VNr5c8xyzz+n2PWnWsf2FFvwOvr61rxhV2yyFqxnr7a K6V89OmZZ9Ld3V25uroqpcx/hh1fHMv+f4zHXV5eltvb2xVm+fX7rDIH2IRF18C6a2Xe2Frrt82h JeN/ox31Bq0Tadgl8+La5/iuQqgBwgk1QDih3qBaa7m5udn2NCBerdULhkvo1dvzNmWZtw6Nb4/H DIfDMhwOZ3499MU6a2XaeGtlOjvqDem6rhweHk69z+4Bfuu6bubPIlgrf7OjnmLVZ/XHx8cvt9/f 38tgMPi8vchbjqAl61zPk2Mnd9rWym921N/o4ODAxQYLmrXT3nVC/QNcfLC809PTbU8hhlADkd7e 3rY9hRhCDUR6eXnZ9hRiCPUG1FrL9fX1zPuB+e/qsFam866PKRa5WCbPnUejURmNRkuNgdatslYW GWetfGVHvQFd15WTk5OZ97vwYP5aOD8/t1am6P3HnAK0ysecAjRCqAHCCTVAOKEGCCfUAOGEGiCc UAOEE2qAcEINEE6oAcIJNUA4oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqhpml+Gyi4QaoBwQg0Qbn/b E4B1zTv+8MubaZ0dNUA4O2qaZ8dM39lRA4QTaoBwQk3T/nXscXx8/MMzge8j1DSt1lru7+//+ruH h4dSa/UDMfSCUNO8s7Ozzz/XWsvFxUXpus6LjPSGUNM7w+Fw21OAjRJqgHBCTdMGg8HnObTzaPpK qGna09NT+fXr12eknUvTR3ullA8XN0Ce8QbEjpqmHR0dzbzfcQh9INQ07fn5+cttYaaPhBognFAD hBNqgHA+j5rmTZ5LO6emb4SapnlrKbvA0QdNs3tmFwg1QDihBggn1ADhvJhI8+adU3vBkdYJNc0T YvrO0QdAOKEGCCfUNM2xB7tAqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYI J9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEG CCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDih Bggn1ADhhBognFADhBNqgHBCDRBOqAHCCTVAOKEGCCfUAOGEGiCcUAOEE2qAcEINEE6oAcIJNUA4 oQYIJ9QA4YQaIJxQA4QTaoBwQg0QTqgBwgk1QDihBggn1ADhhBognFADhBNqgHB7pZSPbU8CgH+z owYIJ9QA4f4HwL7r9cxkJ2gAAAAASUVORK5CYII= "
+       id="image226"
+       x="666.18018"
+       y="27.702139"
+       style="stroke-width:4.35143" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.4594px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="666.4411"
+       y="47.700245"
+       id="text232"><tspan
+         sodipodi:role="line"
+         id="tspan228"
+         x="666.4411"
+         y="47.700245"
+         style="font-size:2.4594px;stroke-width:0.264583">Art 2</tspan><tspan
+         sodipodi:role="line"
+         x="666.4411"
+         y="50.774494"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan230">Number of pages</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.68776px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="707.61908"
+       y="54.696522"
+       id="text240"><tspan
+         sodipodi:role="line"
+         id="tspan238"
+         x="707.61908"
+         y="54.696522"
+         style="stroke-width:0.264583">Customize</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.4594px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="691.31201"
+       y="50.875244"
+       id="text248"><tspan
+         sodipodi:role="line"
+         x="691.31201"
+         y="50.875244"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan246">Price</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.83813px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="691.1875"
+       y="54.650883"
+       id="text255"><tspan
+         sodipodi:role="line"
+         id="tspan253"
+         x="691.1875"
+         y="54.650883"
+         style="stroke-width:0.264583">$ 3000.00</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+       id="rect257"
+       width="6.8666835"
+       height="3.3531146"
+       x="639.91553"
+       y="57.170841" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.68776px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="641.47296"
+       y="59.459026"
+       id="text262"><tspan
+         sodipodi:role="line"
+         id="tspan260"
+         x="641.47296"
+         y="59.459026"
+         style="stroke-width:0.264583">Add</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.64281px;line-height:0;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="639.47406"
+       y="13.574909"
+       id="text268"><tspan
+         sodipodi:role="line"
+         id="tspan264"
+         x="639.47406"
+         y="13.574909"
+         style="font-size:2.82324px;line-height:1.15;stroke-width:0.264583">Bag R - Client S</tspan><tspan
+         sodipodi:role="line"
+         x="639.47406"
+         y="17.892874"
+         style="font-size:4.10652px;line-height:1.15;stroke-width:0.264583"
+         id="tspan266">Configuration 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.43925px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="487.29218"
+       y="170.70435"
+       id="text280"><tspan
+         sodipodi:role="line"
+         id="tspan276"
+         x="487.29218"
+         y="170.70435"
+         style="font-size:2.43925px;stroke-width:0.264583">Art 1, step 1</tspan><tspan
+         sodipodi:role="line"
+         x="487.29218"
+         y="173.7534"
+         style="font-size:2.16822px;stroke-width:0.264583"
+         id="tspan278">1500 stampings</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.43925px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="513.46527"
+       y="170.70435"
+       id="text288"><tspan
+         sodipodi:role="line"
+         id="tspan284"
+         x="513.46527"
+         y="170.70435"
+         style="font-size:2.43925px;stroke-width:0.264583">Art 1, step 2</tspan><tspan
+         sodipodi:role="line"
+         x="513.46527"
+         y="173.7534"
+         style="font-size:2.16822px;stroke-width:0.264583"
+         id="tspan286">1500 stampings</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:1.99999;stroke-linecap:round;stroke-linejoin:round"
+       id="rect290"
+       width="1.1347945"
+       height="5.2793646"
+       x="484.97284"
+       y="168.73621" />
+    <rect
+       style="fill:#cccccc;stroke-width:1.99999;stroke-linecap:round;stroke-linejoin:round"
+       id="rect292"
+       width="1.1347945"
+       height="5.2793646"
+       x="511.24216"
+       y="168.73621" />
   </g>
 </svg>

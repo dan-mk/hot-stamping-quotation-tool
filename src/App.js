@@ -243,7 +243,7 @@ function App() {
           const imageData = ctx.getImageData(0, 0, img.width, img.height);
           const data = new Uint8Array(imageData.data.buffer);
 
-          dispatch(addArt(1, 300, img.height, img.width));
+          dispatch(addArt(1, 300, img.height, img.width, e.target.result));
 
           const artFragments = createArtFragments(data, img);
           artFragments.forEach(artFragment => {

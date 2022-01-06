@@ -1,0 +1,122 @@
+#quotation-container {
+    background: white;
+    border: 30px solid lightgray;
+    overflow: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
+
+#quotation-container header {
+    display: flex;
+    flex-grow: 1;
+    padding: 30px 46px 20px;
+}
+
+#quotation-container header h1 {
+    font-size: 23px;
+    font-weight: normal;
+}
+
+#quotation-container header img {
+    cursor: pointer;
+    align-self: flex-start;
+    width: 20px;
+}
+
+#overall-quotation-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 30px;
+}
+
+#overall-quotation-content-container div {
+    display: flex;
+    gap: 16px;
+}
+
+#overall-quotation-content-container div div {
+    width: 140px;
+}
+
+#overall-quotation-content-container div div:first-child {
+    flex-direction: column;
+    align-items: flex-end;
+    width: 12px;
+}
+
+#overall-quotation-content-container div div:last-child {
+    width: 230px;
+}
+
+#overall-quotation-content-container div div input {
+    width: 100%;
+}
+
+.overall-quotation-image-cell {
+    background: lightgray;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 2px;
+    height: 140px;
+}
+
+.overall-quotation-image-cell img {
+    object-fit: contain;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.overall-quotation-title-cell {
+    font-size: 20px;
+    margin: 12px 0 6px;
+}
+
+.overall-quotation-header-cell {
+    margin: 0 0 4px;
+}
+
+.overall-quotation-options-row {
+    padding: 4px 0;
+}
+
+.overall-quotation-options-row div {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.overall-quotation-add-row {
+    padding: 4px 0;
+}
+
+.quotation-input {
+    border: 1px solid gray;
+    border-radius: 2px;
+    padding: 4px 5px;
+}
+
+.quotation-button {
+    background: #e0e0e0;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+    user-select: none;
+}
+
+.quotation-button:hover {
+    background: #e6e6e6;
+}
+
+.quotation-button-disabled {
+    color: rgb(150, 150, 150);
+    pointer-events: none;
+}
+
+.overall-quotation-price {
+    width: 90px;
+}
