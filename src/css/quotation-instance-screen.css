@@ -1,0 +1,159 @@
+#quotation-instance-container {
+    background: white;
+    border: 40px solid lightgray;
+    overflow: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
+
+#quotation-instance-container header {
+    display: flex;
+    flex-grow: 1;
+    padding: 30px 46px 20px;
+}
+
+#quotation-instance-container header h1 {
+    font-size: 23px;
+    font-weight: normal;
+}
+
+#quotation-instance-container header img {
+    cursor: pointer;
+    align-self: flex-start;
+    width: 20px;
+}
+
+#quotation-instance-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 46px 30px;
+}
+
+#quotation-instance-arts-container {
+    display: flex;
+    padding: 0 0 10px;
+}
+
+.quotation-instance-image-cell {
+    background: lightgray;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 2px;
+    height: 140px;
+    width: 140px;
+}
+
+.quotation-instance-image-cell img {
+    object-fit: contain;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.quotation-instance-art-details-cell {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 16px;
+    width: 160px;
+}
+
+.quotation-instance-art-details-cell p {
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+#quotation-instance-resources, #quotation-instance-production {
+    padding: 15px 0 0;
+}
+
+#quotation-instance-resources h1, #quotation-instance-production h1 {
+    font-size: 21px;
+    font-weight: normal;
+}
+
+.quotation-instance-step-container {
+    display: flex;
+    margin: 10px 0;
+}
+
+.quotation-instance-step-image {
+    background: lightgray;
+    height: 350px;
+    width: 350px;
+}
+
+.quotation-instance-step-description {
+    padding: 15px 25px;
+    flex-grow: 1;
+}
+
+.quotation-instance-step-description h1 {
+    font-size: 24px !important;
+    margin-bottom: 10px;
+}
+
+.quotation-instance-step-description h2 {
+    font-size: 20px !important;
+    font-weight: normal;
+    margin: 10px 0 6px;
+}
+
+.quotation-instance-step-price-table-header, .quotation-instance-step-price-table-row {
+    display: flex;
+    flex-grow: 1;
+    padding: 3px 0;
+    max-width: 500px;
+}
+
+.quotation-instance-step-price-table-header div, .quotation-instance-step-price-table-row div {
+    display: flex;
+    align-items: center;
+    width: 150px;
+}
+
+.quotation-instance-production-step-container {
+    display: flex;
+}
+
+.quotation-instance-production-step {
+    border-left: 8px solid lightgray;
+    margin: 16px 0;
+    padding: 0 8px;
+    width: 200px;
+}
+
+.quotation-instance-production-step p {
+    font-size: 19px;
+    margin-bottom: 2px;
+}
+
+.quotation-instance-production-step span {
+    font-size: 17px;
+}
+
+.quotation-instance-production-price-container {
+    margin-bottom: 10px;
+}
+
+.quotation-instance-production-price-container div {
+    display: flex;
+}
+
+.quotation-instance-production-price-container > div {
+    padding: 3px 0;
+}
+
+.quotation-instance-production-price-container div div {
+    display: flex;
+    align-items: center;
+    width: 200px;
+}
+
+#final-price-container {
+    font-size: 22px;
+    margin: 12px 0;
+}

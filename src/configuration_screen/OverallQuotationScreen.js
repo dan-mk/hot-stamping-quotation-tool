@@ -1,8 +1,9 @@
 import { getConfigurationArts } from '../helpers';
+import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import '../css/quotation-screen.css';
 import { useImmer } from 'use-immer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -16,6 +17,8 @@ export function OverallQuotationScreen(props) {
         next_id: 1,
         data: {}
     });
+    const [showQuotationInstanceScreen, setShowQuotationInstanceScreen] = useState(false);
+    const [selectedQuotationInstance, setSelectedQuotationInstance] = useState(null);
 
     const addQuotationInstance = () => {
         const number_of_pages = {};
@@ -30,11 +33,16 @@ export function OverallQuotationScreen(props) {
         });
     };
 
+    const onClickCloseInstance = () => {
+        setShowQuotationInstanceScreen(false);
+    };
+
     useEffect(() => {
         addQuotationInstance();
     }, []);
 
     return (
+        <>
         <div id="quotation-container">
             <header>
                 <div style={{ flexGrow: '1' }}>
@@ -81,6 +89,11 @@ export function OverallQuotationScreen(props) {
                         });
                     };
 
+                    const onClickCustomize = () => {
+                        setSelectedQuotationInstance(quotationInstances.data[quotationInstance.id]);
+                        setShowQuotationInstanceScreen(true);
+                    };
+
                     return (
                         <div className="overall-quotation-options-row">
                             <div>{ i + 1 }</div>
@@ -105,7 +118,9 @@ export function OverallQuotationScreen(props) {
                                 <span class="overall-quotation-price">
                                     $ { areAllValuesFilled ? price.toFixed(2) : '---' }
                                 </span>
-                                <button className={"quotation-button" + (areAllValuesFilled ? "" : " quotation-button-disabled")}>
+                                <button 
+                                    className={"quotation-button" + (areAllValuesFilled ? "" : " quotation-button-disabled")}
+                                    onClick={onClickCustomize}>
                                     Customize
                                 </button>
                                 { Object.values(quotationInstances.data).length > 1 &&
@@ -125,5 +140,11 @@ export function OverallQuotationScreen(props) {
 
             </div>
         </div>
+        { showQuotationInstanceScreen && <QuotationInstanceScreen
+                                            configuration={configuration}
+                                            onClickClose={onClickCloseInstance}
+                                            quotationInstance={selectedQuotationInstance}
+                                                                /> }
+        </>
     );
 }
