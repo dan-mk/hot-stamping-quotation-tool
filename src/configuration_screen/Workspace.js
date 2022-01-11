@@ -12,8 +12,11 @@ export function Workspace(props) {
     const show = props.show;
     const art = props.art;
     const configuration = props.configuration;
+    const showOnlyPaper = props.showOnlyPaper || false;
+    const paddingHorizontal = props.paddingHorizontal || 16;
+    const paddingVertical = props.paddingVertical || 40;
     const artFragments = useSelector(state => getArtFragments(state, art));
-    const zoomBase = 1.25;
+    const zoomBase = props.zoomBase || 1.25;
 
     const [zoom, setZoom] = useState(0);
     const [focusPoint, setFocusPoint] = useState({ x: 0, y: 0 });
@@ -22,7 +25,7 @@ export function Workspace(props) {
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragmentIds, setSelectedArtFragmentIds] = useState([]);
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(props.step || 1);
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
@@ -82,6 +85,8 @@ export function Workspace(props) {
     const reusableCliches = allUniqueCliches.filter(cliche => !cliches.map(c => c.id).includes(cliche.id));
 
     let onWheel = (e) => {
+        if (showOnlyPaper) return;
+
         const direction = (e.deltaY > 0 ? -1 : 1);
         const additionalMultiplier = (direction === 1 ? zoomBase : 1 / zoomBase);
 
@@ -104,12 +109,12 @@ export function Workspace(props) {
     };
 
     const onMouseDown = (e) => {
-        if (e.button !== 0) return;
+        if (e.button !== 0 || showOnlyPaper) return;
         setSelectionStartPosition({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
     };
 
     const onMouseUp = (e) => {
-        if (e.button !== 0) return;
+        if (e.button !== 0 || showOnlyPaper) return;
         setSelectionStartPosition(null);
 
         if (selectionStartPosition === null) return;
@@ -250,8 +255,6 @@ export function Workspace(props) {
         const idealZoomLevelHeight = (Math.log10(viewportIdealRatioHeight) / Math.log10(zoomBase));
 
         let idealZoomLevel = Math.floor(Math.min(idealZoomLevelWidth, idealZoomLevelHeight));
-        const paddingHorizontal = 16;
-        const paddingVertical = 40;
         while (
             vWidth < Math.pow(zoomBase, idealZoomLevel) * artWidth + 2 * paddingHorizontal || 
             vHeight < Math.pow(zoomBase, idealZoomLevel) * artHeight + 2 * paddingVertical
@@ -267,10 +270,6 @@ export function Workspace(props) {
         setViewportWidth(refViewport.current.clientWidth);
         setViewportHeight(refViewport.current.clientHeight);
 
-        if (viewportWidth === null && refViewport.current.clientWidth) {
-            resetToIdealView(refViewport.current.clientWidth, refViewport.current.clientHeight);
-        }
-
         window.addEventListener('mouseup', onMouseUp);
         window.addEventListener('mousemove', onMouseMove);
         return () => {
@@ -278,6 +277,11 @@ export function Workspace(props) {
             window.removeEventListener('mousemove', onMouseMove);
         };
     });
+
+    useEffect(() => {
+        if (show === false || viewportWidth === null || viewportWidth === null) return;
+        resetToIdealView();
+    }, [viewportWidth, viewportWidth]);
 
     const style = {
         background: '#d0d0d0',
@@ -302,7 +306,7 @@ export function Workspace(props) {
 
     return (
         <div id="workspace-subcontainer" style={{ display: (show ? 'flex' : 'none') }}>
-            <div id="toolbar-container">
+            { !showOnlyPaper && <div id="toolbar-container">
                 <Toolbar 
                     onClickResetToIdealView={resetToIdealView}
                     onClickNewCliche={onClickNewCliche}
@@ -311,7 +315,7 @@ export function Workspace(props) {
                     clicheDisabled={clicheDisabled}
                     foilDisabled={foilDisabled}
                     reusableCliches={reusableCliches} />
-            </div>
+            </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
                     <div style={paperContainerStyle}>
@@ -323,19 +327,20 @@ export function Workspace(props) {
                             size={size}
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}
-                            currentStep={currentStep} />
+                            currentStep={currentStep}
+                            showOnlyPaper={showOnlyPaper} />
                     </div>
                     { selectionStartPosition !== null && 
                         <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                     }
                     <div style={overlayStyle}></div>
                 </div>
-                <StepsTabs
+                { !showOnlyPaper && <StepsTabs
                     configuration={configuration}
                     art={art}
                     onClickStep={onClickStep}
                     currentStep={currentStep}
-                    setCurrentStep={setCurrentStep} />
+                    setCurrentStep={setCurrentStep} /> }
             </div>
         </div>
     );

@@ -5,7 +5,8 @@ import { Resources } from "./Resources";
 import { OverallQuotationScreen } from "./OverallQuotationScreen";
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useImmer } from 'use-immer';
 import '../css/configuration-screen.css';
 
 export function ConfigurationScreen(props) {
@@ -14,10 +15,35 @@ export function ConfigurationScreen(props) {
     const arts = useSelector(state => getConfigurationArts(state, configuration));
     const [currentArt, setCurrentArt] = useState(1);
     const [showQuotationScreen, setShowQuotationScreen] = useState(false);
+    const [quotationInstances, setQuotationInstances] = useImmer({
+        next_id: 1,
+        data: {}
+    });
 
     const onClickTab = (artIndex) => {
         setCurrentArt(artIndex);
     };
+
+    const addQuotationInstance = () => {
+        const number_of_pages = {};
+        arts.forEach(art => number_of_pages[art.id] = '');
+
+        setQuotationInstances(draft => {
+            draft.data[draft.next_id] = {
+                id: draft.next_id,
+                locked: false,
+                number_of_pages,
+                cliche_price: {},
+                foil_price: {},
+                production_price: null,
+            }
+            draft.next_id += 1;
+        });
+    };
+
+    useEffect(() => {
+        addQuotationInstance();
+    }, []);
 
     return (
         <div id="content-container">
@@ -40,7 +66,10 @@ export function ConfigurationScreen(props) {
             </div>
             { showQuotationScreen && <OverallQuotationScreen 
                                         configuration={configuration}
-                                        onClickClose={() => setShowQuotationScreen(false)} /> }
+                                        onClickClose={() => setShowQuotationScreen(false)}
+                                        quotationInstances={quotationInstances}
+                                        setQuotationInstances={setQuotationInstances}
+                                        addQuotationInstance={addQuotationInstance} /> }
         </div>
     );
 }

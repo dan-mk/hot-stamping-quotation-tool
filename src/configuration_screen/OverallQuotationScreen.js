@@ -2,44 +2,25 @@ import { getConfigurationArts } from '../helpers';
 import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import '../css/quotation-screen.css';
-import { useImmer } from 'use-immer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
     const onClickClose = props.onClickClose;
+    const quotationInstances = props.quotationInstances;
+    const setQuotationInstances = props.setQuotationInstances;
+    const addQuotationInstance = props.addQuotationInstance;
     const quoteId = configuration.quote_id;
 
     const quote = useSelector(state => state.quotes.data[quoteId]);
     const arts = useSelector(state => getConfigurationArts(state, configuration));
     
-    const [quotationInstances, setQuotationInstances] = useImmer({
-        next_id: 1,
-        data: {}
-    });
     const [showQuotationInstanceScreen, setShowQuotationInstanceScreen] = useState(false);
     const [selectedQuotationInstance, setSelectedQuotationInstance] = useState(null);
-
-    const addQuotationInstance = () => {
-        const number_of_pages = {};
-        arts.forEach(art => number_of_pages[art.id] = '');
-
-        setQuotationInstances(draft => {
-            draft.data[draft.next_id] = {
-                id: draft.next_id,
-                number_of_pages
-            }
-            draft.next_id += 1;
-        });
-    };
 
     const onClickCloseInstance = () => {
         setShowQuotationInstanceScreen(false);
     };
-
-    useEffect(() => {
-        addQuotationInstance();
-    }, []);
 
     return (
         <>

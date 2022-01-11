@@ -1,6 +1,7 @@
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
 import '../css/quotation-instance-screen.css';
+import { Workspace } from './Workspace';
 
 export function QuotationInstanceScreen(props) {
     const configuration = props.configuration;
@@ -8,11 +9,8 @@ export function QuotationInstanceScreen(props) {
     const quotationInstance = props.quotationInstance;
     const quoteId = configuration.quote_id;
     
-
-
     const quote = useSelector(state => state.quotes.data[quoteId]);
     const arts = useSelector(state => getConfigurationArts(state, configuration));
-
 
     return (
         <div id="quotation-instance-container">
@@ -44,12 +42,21 @@ export function QuotationInstanceScreen(props) {
                 <div id="quotation-instance-resources">
                     <h1>Resources</h1>
                     {
-                        Object.values(configuration.arts).map(art => {
-                            return Object.values(art.steps).map(step => {
+                        Object.values(configuration.arts).map((art, i) => {
+                            return Object.values(art.steps).map((step, j) => {
                                 return (
-                                    <div class="quotation-instance-step-container">
+                                    <div key={i + '-' + j} class="quotation-instance-step-container">
                                         <div class="quotation-instance-step-image">
-
+                                            <Workspace 
+                                                show={true}
+                                                key={j}
+                                                art={arts.find(a => a.id === art.id)}
+                                                configuration={configuration}
+                                                showOnlyPaper={true}
+                                                step={step.id}
+                                                paddingHorizontal={8}
+                                                paddingVertical={32}
+                                                zoomBase={1.02} />
                                         </div>
                                         <div class="quotation-instance-step-description">
                                             <h1>Art { art.id }, step { step.id }</h1>
@@ -121,7 +128,9 @@ export function QuotationInstanceScreen(props) {
                             <div>Custom price</div>
                         </div>
                         <div>
-                            <div>0</div>
+                            <div>
+                                { Object.values(quotationInstance.number_of_pages).reduce((sum, n) => sum + n, 0) }
+                            </div>
                             <div>$ 0.00</div>
                             <div><input className='quotation-input' /></div>
                         </div>

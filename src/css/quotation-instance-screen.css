@@ -1,9 +1,7 @@
 #quotation-instance-container {
     background: white;
     border: 40px solid lightgray;
-    overflow: auto;
     position: absolute;
-    height: 100%;
     width: 100%;
     z-index: 2;
 }
@@ -82,6 +80,7 @@
 
 .quotation-instance-step-image {
     background: lightgray;
+    display: flex;
     height: 350px;
     width: 350px;
 }

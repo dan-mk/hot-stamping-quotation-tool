@@ -14,6 +14,7 @@ export function Paper(props) {
     const focusPoint = props.focusPoint;
     const zoomMultiplier = props.zoomMultiplier;
     const currentStep = props.currentStep;
+    const showOnlyPaper = props.showOnlyPaper;
 
     const stylePaper = {
         background: 'white',
@@ -52,7 +53,8 @@ export function Paper(props) {
                                 zoomMultiplier={zoomMultiplier}
                                 color={color}
                                 configurationId={configuration.id}
-                                id={foil.id} />;
+                                id={foil.id}
+                                showOnlyPaper={showOnlyPaper} />;
                 })
             }
             {
@@ -66,7 +68,8 @@ export function Paper(props) {
                                 zoomMultiplier={zoomMultiplier}
                                 configurationId={configuration.id}
                                 id={cliche.id}
-                                groupId={cliche.group_id} />;
+                                groupId={cliche.group_id}
+                                showOnlyPaper={showOnlyPaper} />;
                 })
             }
             {
