@@ -7,10 +7,25 @@ export function QuotationInstanceScreen(props) {
     const configuration = props.configuration;
     const onClickClose = props.onClickClose;
     const quotationInstance = props.quotationInstance;
+    const setQuotationInstances = props.setQuotationInstances;
+    const clichePrices = props.clichePrices;
+    const foilPrices = props.foilPrices;
+    const totalOfStampings = props.totalOfStampings;
+    const productionPrice = props.productionPrice;
+    const totalPrice = props.totalPrice;
+    const totalCustomPrice = props.totalCustomPrice;
     const quoteId = configuration.quote_id;
     
     const quote = useSelector(state => state.quotes.data[quoteId]);
     const arts = useSelector(state => getConfigurationArts(state, configuration));
+
+    const handleChangeProduction = (e) => {
+        setQuotationInstances(draft => {
+            const production_price = draft.data[quotationInstance.id].production_price;
+            const newValue = e.target.validity.valid ? e.target.value : production_price;
+            draft.data[quotationInstance.id].production_price = newValue;
+        });
+    };
 
     return (
         <div id="quotation-instance-container">
@@ -69,11 +84,24 @@ export function QuotationInstanceScreen(props) {
                                                 </div>
                                                 {
                                                     Object.values(step.cliches.data).map(cliche => {
+                                                        const handleChange = (e) => {
+                                                            setQuotationInstances(draft => {
+                                                                const cliche_price = draft.data[quotationInstance.id].cliche_price;
+                                                                const newValue = e.target.validity.valid ? e.target.value : cliche_price[cliche.id];
+                                                                cliche_price[cliche.id] = newValue;
+                                                            });
+                                                        };
                                                         return (
                                                             <div class="quotation-instance-step-price-table-row">
                                                                 <div>Cliche { cliche.group_id }</div>
-                                                                <div>$ 0.00</div>
-                                                                <div><input className='quotation-input' /></div>
+                                                                <div>$ { clichePrices[cliche.id] }</div>
+                                                                <div>
+                                                                    <input
+                                                                        pattern="[0-9]{0,6}(\.[0-9]{0,2})?"
+                                                                        className='quotation-input'
+                                                                        value={quotationInstance.cliche_price[cliche.id]}
+                                                                        onChange={handleChange} />
+                                                                </div>
                                                             </div>
                                                         );
                                                     })
@@ -88,11 +116,24 @@ export function QuotationInstanceScreen(props) {
                                                 </div>
                                                 {
                                                     Object.values(step.foils.data).map(foil => {
+                                                        const handleChange = (e) => {
+                                                            setQuotationInstances(draft => {
+                                                                const foil_price = draft.data[quotationInstance.id].foil_price;
+                                                                const newValue = e.target.validity.valid ? e.target.value : foil_price[foil.id];
+                                                                foil_price[foil.id] = newValue;
+                                                            });
+                                                        };
                                                         return (
                                                             <div class="quotation-instance-step-price-table-row">
                                                                 <div>Foil { foil.id }</div>
-                                                                <div>$ 0.00</div>
-                                                                <div><input className='quotation-input' /></div>
+                                                                <div>$ { foilPrices[foil.id] }</div>
+                                                                <div>
+                                                                    <input
+                                                                        pattern="[0-9]{0,6}(\.[0-9]{0,2})?"
+                                                                        className='quotation-input'
+                                                                        value={quotationInstance.foil_price[foil.id]}
+                                                                        onChange={handleChange} />
+                                                                </div>
                                                             </div>
                                                         );
                                                     })
@@ -129,15 +170,22 @@ export function QuotationInstanceScreen(props) {
                         </div>
                         <div>
                             <div>
-                                { Object.values(quotationInstance.number_of_pages).reduce((sum, n) => sum + n, 0) }
+                                { totalOfStampings }
                             </div>
-                            <div>$ 0.00</div>
-                            <div><input className='quotation-input' /></div>
+                            <div>$ { productionPrice.toFixed(2) }</div>
+                            <div>
+                                <input
+                                    pattern="[0-9]{0,6}(\.[0-9]{0,2})?"
+                                    className='quotation-input'
+                                    value={quotationInstance.production_price}
+                                    onChange={handleChangeProduction} />
+                                </div>
                         </div>
                     </div>
                 </div>
                 <footer id="final-price-container">
-                    Final price: $ 0.00
+                    <small>Final regular price: $ { totalPrice.toFixed(2) }</small><br />
+                    Final custom price: $ { totalCustomPrice.toFixed(2) }
                 </footer>
             </div>
         </div>

@@ -1,8 +1,9 @@
-import { getConfigurationArts } from '../helpers';
+import { getAllFoils, getAllUniqueCliches, getConfigurationArts, pixelsToCm } from '../helpers';
 import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import '../css/quotation-screen.css';
 import { useState } from 'react';
+import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './Formulas.example';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -16,7 +17,8 @@ export function OverallQuotationScreen(props) {
     const arts = useSelector(state => getConfigurationArts(state, configuration));
     
     const [showQuotationInstanceScreen, setShowQuotationInstanceScreen] = useState(false);
-    const [selectedQuotationInstance, setSelectedQuotationInstance] = useState(null);
+    const [selectedQuotationInstanceId, setSelectedQuotationInstanceId] = useState(null);
+    let selectedQuotationInstanceData = {};
 
     const onClickCloseInstance = () => {
         setShowQuotationInstanceScreen(false);
@@ -57,11 +59,48 @@ export function OverallQuotationScreen(props) {
                         return arePreviousValuesFilled && quotationInstance.number_of_pages[art.id];
                     }, true);
 
-                    let price = 0;
+                    const clichePrices = {};
+                    const foilPrices = {};
+                    let totalOfStampings = 0;
+                    let productionPrice = 0;
+                    let totalPrice = 0;
+                    let totalCustomPrice = 0;
                     if (areAllValuesFilled) {
-                        price = arts.reduce((sum, art) => {
-                            return sum + quotationInstance.number_of_pages[art.id];
-                        }, 0);
+                        const cliches = getAllUniqueCliches(configuration);
+                        const foils = getAllFoils(configuration);
+                    
+                        cliches.forEach(cliche => {
+                            clichePrices[cliche.id] = parseFloat(getClichePrice(
+                                parseFloat(pixelsToCm(cliche.width)),
+                                parseFloat(pixelsToCm(cliche.height))
+                            ).toFixed(2));
+                        });
+                    
+                        totalOfStampings = Object.values(quotationInstance.number_of_pages).reduce((sum, n) => sum + n, 0);
+                        foils.forEach(foil => {
+                            foilPrices[foil.id] = parseFloat(getFoilPrice(
+                                parseFloat(pixelsToCm(foil.width)),
+                                parseFloat(pixelsToCm(100 * totalOfStampings)),
+                                100,
+                                1000,
+                                1500
+                            ).toFixed(2));
+                        });
+                    
+                        const totalClichePrice = Object.values(clichePrices).reduce((sum, v) => sum + v, 0);
+                        const totalFoilPrice = Object.values(foilPrices).reduce((sum, v) => sum + v, 0);
+                        productionPrice = parseFloat(getProductionPrice(totalOfStampings).toFixed(2));
+                    
+                        totalPrice = getTotalPrice(totalClichePrice, totalFoilPrice, productionPrice);
+
+                        if (quotationInstance.locked) {
+                            const totalCustomClichePrice = Object.values(quotationInstance.cliche_price).reduce((sum, v) => sum + parseFloat(v || 0), 0);
+                            const totalCustomFoilPrice = Object.values(quotationInstance.foil_price).reduce((sum, v) => sum + parseFloat(v || 0), 0);
+                            const productionCustomPrice = parseFloat(quotationInstance.production_price || 0);
+                        
+                            totalCustomPrice = getTotalPrice(totalCustomClichePrice, totalCustomFoilPrice, productionCustomPrice);
+                        }
+                        
                     }
 
                     const onClickDelete = () => {
@@ -70,8 +109,27 @@ export function OverallQuotationScreen(props) {
                         });
                     };
 
+                    if (showQuotationInstanceScreen && selectedQuotationInstanceId === quotationInstance.id) {
+                        selectedQuotationInstanceData = {
+                            clichePrices: {...clichePrices},
+                            foilPrices: {...foilPrices},
+                            totalOfStampings,
+                            productionPrice,
+                            totalPrice,
+                            totalCustomPrice
+                        };
+                    }
+
                     const onClickCustomize = () => {
-                        setSelectedQuotationInstance(quotationInstances.data[quotationInstance.id]);
+                        setQuotationInstances(draft => {
+                            if (draft.data[quotationInstance.id].locked === false) {
+                                draft.data[quotationInstance.id].cliche_price = {...clichePrices};
+                                draft.data[quotationInstance.id].foil_price = {...foilPrices};
+                                draft.data[quotationInstance.id].production_price = productionPrice;
+                                draft.data[quotationInstance.id].locked = true;
+                            }
+                        });
+                        setSelectedQuotationInstanceId(quotationInstance.id);
                         setShowQuotationInstanceScreen(true);
                     };
 
@@ -92,12 +150,13 @@ export function OverallQuotationScreen(props) {
                                         pattern="[0-9]{0,6}"
                                         value={quotationInstance.number_of_pages[art.id]}
                                         onChange={handleChange}
+                                        readOnly={quotationInstance.locked}
                                         className="quotation-input" />
                                 </div>);
                             }) }
                             <div>
                                 <span class="overall-quotation-price">
-                                    $ { areAllValuesFilled ? price.toFixed(2) : '---' }
+                                    $ { areAllValuesFilled ? (quotationInstance.locked ? totalCustomPrice.toFixed(2) : totalPrice.toFixed(2)) : '---' }
                                 </span>
                                 <button 
                                     className={"quotation-button" + (areAllValuesFilled ? "" : " quotation-button-disabled")}
@@ -124,8 +183,14 @@ export function OverallQuotationScreen(props) {
         { showQuotationInstanceScreen && <QuotationInstanceScreen
                                             configuration={configuration}
                                             onClickClose={onClickCloseInstance}
-                                            quotationInstance={selectedQuotationInstance}
-                                                                /> }
+                                            quotationInstance={quotationInstances.data[selectedQuotationInstanceId]}
+                                            setQuotationInstances={setQuotationInstances}
+                                            clichePrices={selectedQuotationInstanceData.clichePrices}
+                                            foilPrices={selectedQuotationInstanceData.foilPrices}
+                                            totalOfStampings={selectedQuotationInstanceData.totalOfStampings}
+                                            productionPrice={selectedQuotationInstanceData.productionPrice}
+                                            totalPrice={selectedQuotationInstanceData.totalPrice}
+                                            totalCustomPrice={selectedQuotationInstanceData.totalCustomPrice} /> }
         </>
     );
 }

@@ -98,6 +98,12 @@
     padding: 4px 5px;
 }
 
+.quotation-input:read-only {
+    background: rgb(231, 231, 231);
+    border-color: rgb(180, 180, 180);
+    pointer-events: none;
+}
+
 .quotation-button {
     background: #e0e0e0;
     border: 0;
