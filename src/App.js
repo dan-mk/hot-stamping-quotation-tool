@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addQuote, addArt, addArtFragment, addConfiguration, addFoilType } from './actions';
 import { createArtFragments } from './helpers';
 import './css/app.css';
+import { HeightAlgo } from "./configuration_screen/HeightAlgo";
 
 function App() {
   // let [pages, setPages] = useState([
@@ -279,7 +280,8 @@ function App() {
         </section>
       </div>}
 
-      { Object.keys(arts.data).length > 0 && <ConfigurationScreen configuration={configurations.data[1]} /> }
+      {/* { Object.keys(arts.data).length > 0 && <ConfigurationScreen configuration={configurations.data[1]} /> } */}
+      { Object.keys(arts.data).length > 0 && <HeightAlgo art={arts.data[1]} /> }
     </>
   );
 }
