@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addQuote, addArt, addArtFragment, addConfiguration, addFoilType } from './actions';
 import { createArtFragments } from './helpers';
 import './css/app.css';
-import { HeightAlgo } from "./configuration_screen/HeightAlgo";
 
 function App() {
   // let [pages, setPages] = useState([
@@ -215,6 +214,7 @@ function App() {
   //   </div>
   // );
 
+  const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
 
   // const quotes = useSelector(state => state.quotes);
@@ -224,39 +224,47 @@ function App() {
   const configurations = useSelector(state => state.configurations);
   const arts = useSelector(state => state.arts);
 
-  const onFileChange = event => {
+  const onFileChange = async event => {
     dispatch(addConfiguration(1, 'Configuration 1', [...Array(event.target.files.length).keys()].map(n => n + 1)));
 
+    const promises = [];
     for (let i = 0; i < event.target.files.length; i++) {
-      const file = event.target.files[i];
-      const reader = new FileReader();
+      promises.push(new Promise(resolve => {
+        const file = event.target.files[i];
+        const reader = new FileReader();
+  
+        reader.onload = (e) => {
+          const img = new Image();
+  
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+  
+            const imageData = ctx.getImageData(0, 0, img.width, img.height);
+            const data = new Uint8Array(imageData.data.buffer);
+  
+            dispatch(addArt(1, 300, img.height, img.width, e.target.result));
+  
+            const artFragments = createArtFragments(data, img);
+            artFragments.forEach(artFragment => {
+              dispatch(addArtFragment(i + 1, artFragment.x, artFragment.y, artFragment.height, artFragment.width, artFragment.data));
+            });
 
-      reader.onload = (e) => {
-        const img = new Image();
-
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-
-          const imageData = ctx.getImageData(0, 0, img.width, img.height);
-          const data = new Uint8Array(imageData.data.buffer);
-
-          dispatch(addArt(1, 300, img.height, img.width, e.target.result));
-
-          const artFragments = createArtFragments(data, img);
-          artFragments.forEach(artFragment => {
-            dispatch(addArtFragment(i + 1, artFragment.x, artFragment.y, artFragment.height, artFragment.width, artFragment.data));
-          });
+            resolve();
+          }
+  
+          img.src = e.target.result;
         }
+  
+        reader.readAsDataURL(file);
+      }));
+    }
 
-        img.src = e.target.result;
-      }
-
-      reader.readAsDataURL(file);  
-    };
+    await Promise.all(promises);
+    setReady(true);
   };
 
   return (
@@ -280,8 +288,7 @@ function App() {
         </section>
       </div>}
 
-      {/* { Object.keys(arts.data).length > 0 && <ConfigurationScreen configuration={configurations.data[1]} /> } */}
-      { Object.keys(arts.data).length > 0 && <HeightAlgo art={arts.data[1]} /> }
+      { ready && <ConfigurationScreen configuration={configurations.data[1]} /> }
     </>
   );
 }

@@ -4,6 +4,7 @@ import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
+import { FoilSimulation } from './FoilSimulation';
 import { getArtFragments, getAllUniqueCliches, cmToPixels } from '../helpers';
 import { addCliche, addFoil } from '../actions';
 import '../css/workspace.css';
@@ -26,6 +27,7 @@ export function Workspace(props) {
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragmentIds, setSelectedArtFragmentIds] = useState([]);
     const [currentStep, setCurrentStep] = useState(props.step || 1);
+    const [showFoilSimulation, setShowFoilSimulation] = useState(true);
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
@@ -318,7 +320,7 @@ export function Workspace(props) {
             </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
-                    <div style={paperContainerStyle}>
+                    { !showFoilSimulation && <div style={paperContainerStyle}>
                         <Paper 
                             art={art}
                             configuration={configuration}
@@ -329,7 +331,8 @@ export function Workspace(props) {
                             zoomMultiplier={zoomMultiplier}
                             currentStep={currentStep}
                             showOnlyPaper={showOnlyPaper} />
-                    </div>
+                    </div> }
+                    { showFoilSimulation && <FoilSimulation art={art} /> }
                     { selectionStartPosition !== null && 
                         <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                     }
