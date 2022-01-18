@@ -27,7 +27,7 @@ export function Workspace(props) {
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragmentIds, setSelectedArtFragmentIds] = useState([]);
     const [currentStep, setCurrentStep] = useState(props.step || 1);
-    const [showFoilSimulation, setShowFoilSimulation] = useState(true);
+    const [showFoilSimulation, setShowFoilSimulation] = useState(false);
     const refViewport = useRef(null);
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
@@ -86,8 +86,10 @@ export function Workspace(props) {
     );
     const reusableCliches = allUniqueCliches.filter(cliche => !cliches.map(c => c.id).includes(cliche.id));
 
+    const simulateFoilUseDisabled = (showFoilSimulation === true);
+
     let onWheel = (e) => {
-        if (showOnlyPaper) return;
+        if (showOnlyPaper || showFoilSimulation) return;
 
         const direction = (e.deltaY > 0 ? -1 : 1);
         const additionalMultiplier = (direction === 1 ? zoomBase : 1 / zoomBase);
@@ -111,12 +113,12 @@ export function Workspace(props) {
     };
 
     const onMouseDown = (e) => {
-        if (e.button !== 0 || showOnlyPaper) return;
+        if (e.button !== 0 || showOnlyPaper || showFoilSimulation) return;
         setSelectionStartPosition({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
     };
 
     const onMouseUp = (e) => {
-        if (e.button !== 0 || showOnlyPaper) return;
+        if (e.button !== 0 || showOnlyPaper || showFoilSimulation) return;
         setSelectionStartPosition(null);
 
         if (selectionStartPosition === null) return;
@@ -268,6 +270,10 @@ export function Workspace(props) {
         setFocusPoint({ x: 0, y: 0 });
     };
 
+    const onClickSimulateFoilUse = () => {
+        setShowFoilSimulation(true);
+    };
+
     useEffect(() => {
         setViewportWidth(refViewport.current.clientWidth);
         setViewportHeight(refViewport.current.clientHeight);
@@ -314,9 +320,11 @@ export function Workspace(props) {
                     onClickNewCliche={onClickNewCliche}
                     onClickReuseCliche={onClickReuseCliche}
                     onClickNewFoil={onClickNewFoil}
+                    onClickSimulateFoilUse={onClickSimulateFoilUse}
                     clicheDisabled={clicheDisabled}
                     foilDisabled={foilDisabled}
-                    reusableCliches={reusableCliches} />
+                    reusableCliches={reusableCliches}
+                    simulateFoilUseDisabled={simulateFoilUseDisabled} />
             </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
@@ -332,7 +340,7 @@ export function Workspace(props) {
                             currentStep={currentStep}
                             showOnlyPaper={showOnlyPaper} />
                     </div> }
-                    { showFoilSimulation && <FoilSimulation art={art} /> }
+                    { showFoilSimulation && <FoilSimulation art={art} setShowFoilSimulation={setShowFoilSimulation} /> }
                     { selectionStartPosition !== null && 
                         <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                     }

@@ -4,6 +4,7 @@ import { getArtFragments, pixelsToCm } from "../helpers";
 
 export function FoilSimulation(props) {
     const art = props.art;
+    const setShowFoilSimulation = props.setShowFoilSimulation;
 
     const refContainer = useRef(null);
     const artFragments = useSelector(state => getArtFragments(state, art));
@@ -187,6 +188,18 @@ export function FoilSimulation(props) {
                 refContainer.current.appendChild(level);
             }
         });
+
+        const closeButton = document.createElement('img');
+        closeButton.setAttribute('src', 'times-solid.svg');
+        closeButton.style.width = '18px';
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '-10px';
+        closeButton.style.right = '-120px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.zIndex = '1';
+        closeButton.onclick = () => setShowFoilSimulation(false);
+
+        refContainer.current.appendChild(closeButton);
     };
 
     useEffect(calculateFoilUse, []);
