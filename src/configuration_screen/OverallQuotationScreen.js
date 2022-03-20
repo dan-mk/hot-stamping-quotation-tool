@@ -37,8 +37,8 @@ export function OverallQuotationScreen(props) {
             <div id="overall-quotation-content-container">
                 <div>
                     <div></div>
-                    { arts.map(art => {
-                        return <div className="overall-quotation-image-cell">
+                    { arts.map((art, i) => {
+                        return <div key={i} className="overall-quotation-image-cell">
                             <img src={art.base64} />
                         </div>
                     }) }
@@ -46,12 +46,12 @@ export function OverallQuotationScreen(props) {
                 </div>
                 <div>
                     <div></div>
-                    { arts.map(art => <div className="overall-quotation-title-cell">Art {art.id}</div>) }
+                    { arts.map((art, i) => <div key={i} className="overall-quotation-title-cell">Art {art.id}</div>) }
                     <div></div>
                 </div>
                 <div>
                     <div></div>
-                    { arts.map(() => <div className="overall-quotation-header-cell">Number of pages</div>) }
+                    { arts.map((_, i) => <div key={i} className="overall-quotation-header-cell">Number of pages</div>) }
                     <div className="overall-quotation-header-cell">Price</div>
                 </div>
                 { Object.values(quotationInstances.data).map((quotationInstance, i) => {
@@ -76,11 +76,39 @@ export function OverallQuotationScreen(props) {
                             ).toFixed(2));
                         });
                     
-                        totalOfStampings = Object.values(quotationInstance.number_of_pages).reduce((sum, n) => sum + n, 0);
+                        for (let artId in quotationInstance.number_of_pages) {
+                            const qtdSteps = Object.values(configuration.arts[artId].steps).length;
+                            totalOfStampings += quotationInstance.number_of_pages[artId] * qtdSteps;
+                        }
+
                         foils.forEach(foil => {
+                            let artId;
+                            Object.values(configuration.arts).forEach(art => {
+                                Object.values(art.steps).forEach(step => {
+                                    Object.values(step.foils.data).forEach(f => {
+                                        if (f.id === foil.id) {
+                                            artId = art.id;
+                                        }
+                                    });
+                                });
+                            });
+
+                            let stepId;
+                            Object.values(configuration.arts).forEach(art => {
+                                Object.values(art.steps).forEach(step => {
+                                    Object.values(step.foils.data).forEach(f => {
+                                        if (f.id === foil.id) {
+                                            stepId = step.id;
+                                        }
+                                    });
+                                });
+                            });
+
+                            const foilUse = configuration.arts[artId].steps[stepId].foil_use;
+                            const avgHeight = foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length;
                             foilPrices[foil.id] = parseFloat(getFoilPrice(
                                 parseFloat(pixelsToCm(foil.width)),
-                                parseFloat(pixelsToCm(100 * totalOfStampings)),
+                                parseFloat(pixelsToCm(avgHeight * totalOfStampings)),
                                 100,
                                 1000,
                                 1500
@@ -134,9 +162,9 @@ export function OverallQuotationScreen(props) {
                     };
 
                     return (
-                        <div className="overall-quotation-options-row">
+                        <div key={i} className="overall-quotation-options-row">
                             <div>{ i + 1 }</div>
-                            { arts.map(art => {
+                            { arts.map((art, j) => {
                                 const handleChange = (e) => {
                                     setQuotationInstances(draft => {
                                         const number_of_pages = draft.data[quotationInstance.id].number_of_pages;
@@ -145,7 +173,7 @@ export function OverallQuotationScreen(props) {
                                     });
                                 };
 
-                                return (<div>
+                                return (<div key={j}>
                                     <input
                                         pattern="[0-9]{0,6}"
                                         value={quotationInstance.number_of_pages[art.id]}
@@ -155,7 +183,7 @@ export function OverallQuotationScreen(props) {
                                 </div>);
                             }) }
                             <div>
-                                <span class="overall-quotation-price">
+                                <span className="overall-quotation-price">
                                     $ { areAllValuesFilled ? (quotationInstance.locked ? totalCustomPrice.toFixed(2) : totalPrice.toFixed(2)) : '---' }
                                 </span>
                                 <button 
