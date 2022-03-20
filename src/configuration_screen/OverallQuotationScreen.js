@@ -3,7 +3,7 @@ import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import '../css/quotation-screen.css';
 import { useState } from 'react';
-import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './Formulas.example';
+import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './Formulas';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -15,6 +15,7 @@ export function OverallQuotationScreen(props) {
 
     const quote = useSelector(state => state.quotes.data[quoteId]);
     const arts = useSelector(state => getConfigurationArts(state, configuration));
+    const foilTypes = useSelector(state => state.foil_types.data);
     
     const [showQuotationInstanceScreen, setShowQuotationInstanceScreen] = useState(false);
     const [selectedQuotationInstanceId, setSelectedQuotationInstanceId] = useState(null);
@@ -106,13 +107,21 @@ export function OverallQuotationScreen(props) {
 
                             const foilUse = configuration.arts[artId].steps[stepId].foil_use;
                             const avgHeight = foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length;
-                            foilPrices[foil.id] = parseFloat(getFoilPrice(
-                                parseFloat(pixelsToCm(foil.width)),
-                                parseFloat(pixelsToCm(avgHeight * totalOfStampings)),
-                                100,
-                                1000,
-                                1500
-                            ).toFixed(2));
+
+                            const foilType = foilTypes[foil.foil_type_id];
+                            const foilRollWidthCm = foilType.width;
+                            const foilRollLengthCm = foilType.length;
+                            const foilRollPrice = foilType.price;
+
+                            foilPrices[foil.id] = parseFloat(
+                                getFoilPrice(
+                                    parseFloat(pixelsToCm(foil.width)),
+                                    parseFloat(pixelsToCm(avgHeight * totalOfStampings)),
+                                    foilRollWidthCm,
+                                    foilRollLengthCm,
+                                    foilRollPrice
+                                ).toFixed(2)
+                            );
                         });
                     
                         const totalClichePrice = Object.values(clichePrices).reduce((sum, v) => sum + v, 0);
@@ -163,7 +172,7 @@ export function OverallQuotationScreen(props) {
 
                     return (
                         <div key={i} className="overall-quotation-options-row">
-                            <div>{ i + 1 }</div>
+                            <div style={{ margin: '5px 0 0' }}>{ i + 1 }</div>
                             { arts.map((art, j) => {
                                 const handleChange = (e) => {
                                     setQuotationInstances(draft => {

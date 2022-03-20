@@ -114,8 +114,16 @@
     width: 150px;
 }
 
+.quotation-instance-step-price-table-header {
+    font-weight: bold;
+}
+
 .quotation-instance-production-step-container {
     display: flex;
+}
+
+.quotation-instance-production-price-container-header {
+    font-weight: bold;
 }
 
 .quotation-instance-production-step {

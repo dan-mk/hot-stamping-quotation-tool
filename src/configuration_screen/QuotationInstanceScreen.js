@@ -75,10 +75,9 @@ export function QuotationInstanceScreen(props) {
                                         </div>
                                         <div class="quotation-instance-step-description">
                                             <h1>Art { art.id }, step { step.id }</h1>
-                                            <h2>Cliches</h2>
                                             <div class="quotation-instance-step-price-table">
                                                 <div class="quotation-instance-step-price-table-header">
-                                                    <div>Name</div>
+                                                    <div>Resource</div>
                                                     <div>Regular price</div>
                                                     <div>Custom price</div>
                                                 </div>
@@ -107,13 +106,7 @@ export function QuotationInstanceScreen(props) {
                                                     })
                                                 }
                                             </div>
-                                            <h2>Foils</h2>
                                             <div class="quotation-instance-step-price-table">
-                                                <div class="quotation-instance-step-price-table-header">
-                                                    <div>Name</div>
-                                                    <div>Regular price</div>
-                                                    <div>Custom price</div>
-                                                </div>
                                                 {
                                                     Object.values(step.foils.data).map(foil => {
                                                         const handleChange = (e) => {
@@ -163,7 +156,7 @@ export function QuotationInstanceScreen(props) {
                         }
                     </div>
                     <div className='quotation-instance-production-price-container'>
-                        <div>
+                        <div className='quotation-instance-production-price-container-header'>
                             <div>Total of stampings</div>
                             <div>Regular price</div>
                             <div>Custom price</div>
