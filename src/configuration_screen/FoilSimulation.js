@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getArtFragmentsByStep, pixelsToCm } from "../helpers";
+import { cmToPixels, getArtFragmentsByStep, pixelsToCm } from "../helpers";
 import { setStepFoilUse } from '../actions';
 
 export function FoilSimulation(props) {
@@ -19,8 +19,13 @@ export function FoilSimulation(props) {
     const dispatch = useDispatch();
 
     const calculateFoilUse = () => {
+        const margin = cmToPixels(0.5);
+
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
+
+        const mainCanvas = document.createElement('canvas');
+        const mainCtx = mainCanvas.getContext('2d');
 
         const minX = artFragments.reduce((min, artFragment) => Math.min(min, artFragment.x), art.width);
         const maxX = artFragments.reduce((max, artFragment) => Math.max(max, artFragment.x + artFragment.width - 1), 0);
@@ -28,26 +33,32 @@ export function FoilSimulation(props) {
         const minY = artFragments.reduce((min, artFragment) => Math.min(min, artFragment.y), art.height);
         const maxY = artFragments.reduce((max, artFragment) => Math.max(max, artFragment.y + artFragment.height - 1), 0);
 
-        const height = maxY - minY + 1;
-        const width = maxX - minX + 1;
+        const height = maxY - minY + 1 + margin;
+        const width = maxX - minX + 1 + margin;
 
         canvas.style.width = '100%';
         canvas.style.display = 'block';
         canvas.height = height;
         canvas.width = width;
 
+        mainCanvas.style.width = '100%';
+        mainCanvas.style.display = 'block';
+        mainCanvas.height = height;
+        mainCanvas.width = width;
+
         ctx.fillStyle = "rgba(" + 0 + "," + 0 + "," + 0 + "," + 1 + ")";
         for (let artFragment of artFragments) {
             for (let i = 0; i < artFragment.data.length; i++) {
                 for (let j = 0; j < artFragment.data[0].length; j++) {
                     if (artFragment.data[i][j] === 1) {
-                        ctx.fillRect(artFragment.x - minX + j, artFragment.y - minY + i, 1, 1);
+                        ctx.fillRect(artFragment.x - minX + j, artFragment.y - minY + i, margin, margin);
+                        mainCtx.fillRect(artFragment.x - minX + j + margin, artFragment.y - minY + i + margin, 1, 1);
                     }
                 }
             }
         }
 
-        setMainCanvas(canvas);
+        setMainCanvas(mainCanvas);
 
         const canvasFinal = document.createElement('canvas');
         const ctxFinal = canvasFinal.getContext('2d');
