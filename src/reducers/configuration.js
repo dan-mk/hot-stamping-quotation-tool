@@ -52,6 +52,7 @@ const configurationReducer = produce((draft, action) => {
             const configuration =  draft.data[configuration_id];
             const step = configuration.arts[art_id].steps[step_id];
 
+            step.foil_use = [];
             step.foils.data[configuration.next_foil_id] = {
                 id: configuration.next_foil_id,
                 foil_type_id,
@@ -69,6 +70,7 @@ const configurationReducer = produce((draft, action) => {
                 const art = configuration.arts[artId];
                 for (let stepId in art.steps) {
                     const step = art.steps[stepId];
+                    step.foil_use = [];
                     delete step.foils.data[foil_id];
                 }
             }
@@ -80,6 +82,7 @@ const configurationReducer = produce((draft, action) => {
             const numOfSteps = Object.keys(art.steps).length;
             art.steps[numOfSteps + 1] = {
                 id: numOfSteps + 1,
+                foil_use: [],
                 cliches: { data: {} },
                 foils: { data: {} }
             };
@@ -95,6 +98,11 @@ const configurationReducer = produce((draft, action) => {
                 step.id = i + 1;
                 art.steps[step.id] = step;
             });
+        }   break;
+        case 'SET_STEP_FOIL_USE': {
+            const { configuration_id, art_id, step_id, ups } = action.payload;
+            const step = draft.data[configuration_id].arts[art_id].steps[step_id];
+            step.foil_use = ups;
         }   break;
         default:
             break;

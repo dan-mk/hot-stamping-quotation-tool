@@ -88,6 +88,8 @@ export function Workspace(props) {
 
     const simulateFoilUseDisabled = (showFoilSimulation === true);
 
+    const foilUseSimulated = (configuration.arts[art.id].steps[currentStep].foil_use.length > 0);
+
     let onWheel = (e) => {
         if (showOnlyPaper || showFoilSimulation) return;
 
@@ -324,7 +326,8 @@ export function Workspace(props) {
                     clicheDisabled={clicheDisabled}
                     foilDisabled={foilDisabled}
                     reusableCliches={reusableCliches}
-                    simulateFoilUseDisabled={simulateFoilUseDisabled} />
+                    simulateFoilUseDisabled={simulateFoilUseDisabled}
+                    foilUseSimulated={foilUseSimulated} />
             </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
@@ -340,7 +343,8 @@ export function Workspace(props) {
                             currentStep={currentStep}
                             showOnlyPaper={showOnlyPaper} />
                     </div> }
-                    { showFoilSimulation && <FoilSimulation art={art} setShowFoilSimulation={setShowFoilSimulation} /> }
+                    { showFoilSimulation && 
+                        <FoilSimulation configuration={configuration} art={art} currentStep={currentStep} setShowFoilSimulation={setShowFoilSimulation} /> }
                     { selectionStartPosition !== null && 
                         <SelectionBox selectionStartPosition={selectionStartPosition} mousePosition={mousePosition} />
                     }

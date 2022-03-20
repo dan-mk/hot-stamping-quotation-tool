@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { getArtFragments, pixelsToCm } from "../helpers";
+import { useSelector, useDispatch } from "react-redux";
+import { getArtFragmentsByStep, pixelsToCm } from "../helpers";
+import { setStepFoilUse } from '../actions';
 
 export function FoilSimulation(props) {
+    const configuration = props.configuration;
     const art = props.art;
+    const currentStep = props.currentStep;
     const setShowFoilSimulation = props.setShowFoilSimulation;
 
     const refContainer = useRef(null);
-    const artFragments = useSelector(state => getArtFragments(state, art));
+    const artFragments = useSelector(state => getArtFragmentsByStep(state, configuration, art, currentStep));
 
     const [mainCanvas, setMainCanvas] = useState(null);
     const [displayCanvas, setDisplayCanvas] = useState(null);
     const [foilUse, setFoilUse] = useState([]);
+
+    const dispatch = useDispatch();
 
     const calculateFoilUse = () => {
         const canvas = document.createElement('canvas');
@@ -113,6 +118,7 @@ export function FoilSimulation(props) {
         }
 
         setFoilUse(ups);
+        dispatch(setStepFoilUse(configuration.id, art.id, currentStep, ups));
     };
 
     const createFinalImage = () => {

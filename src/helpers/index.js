@@ -6,6 +6,15 @@ export function getArtFragments(state, art) {
     return Object.values(state.art_fragments.data).filter(artFragment => artFragment.art_id === art.id);
 }
 
+export function getArtFragmentsByStep(state, configuration, art, step) {
+    const allArtFragmentsIds = Object.values(configuration.arts[art.id].steps[step].foils.data).reduce((list, foil) => {
+        return [...list, ...foil.art_fragments_ids];
+    }, []);
+    return Object.values(state.art_fragments.data).filter(artFragment => {
+        return allArtFragmentsIds.includes(artFragment.id);
+    });
+}
+
 export function getAllUniqueCliches(configuration) {
     let allCliches = Object.values(configuration.arts).reduce((list, art) => {
         return [...list, ...Object.values(art.steps).reduce((list2, step) => {

@@ -13,6 +13,7 @@ export function Toolbar(props) {
     const foilDisabled = props.foilDisabled;
     const reusableCliches = props.reusableCliches;
     const simulateFoilUseDisabled = props.simulateFoilUseDisabled;
+    const foilUseSimulated = props.foilUseSimulated;
 
     const [clicheOptionsOpen, setClicheOptionsOpen] = useState(false);
     const [foilOptionsOpen, setFoilOptionsOpen] = useState(false);
@@ -87,7 +88,8 @@ export function Toolbar(props) {
             <span title="Simulate foil use">
                 <div
                     className={"toolbar-option" + (simulateFoilUseDisabled ? ' toolbar-option-disabled' : '')}
-                    onClick={onClickSimulateFoilUse} style={{ paddingTop: '8px', paddingBlock: '8px' }}>
+                    onClick={onClickSimulateFoilUse}
+                    style={{ paddingTop: '8px', paddingBlock: '8px', ...(foilUseSimulated ? {} : { background: 'red' }) }}>
                     <img src='foil-simulation.png' width="100%" />
                 </div>
             </span>

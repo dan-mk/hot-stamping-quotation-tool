@@ -46,6 +46,7 @@ export const addConfiguration = (quote_id, description, art_ids) => {
             steps: {
                 '1': {
                     id: 1,
+                    foil_use: [],
                     cliches: { data: {} },
                     foils: { data: {} }
                 }
@@ -150,3 +151,15 @@ export const deleteStep = (configuration_id, art_id, step_id) => {
         }
     };
 }
+
+export const setStepFoilUse = (configuration_id, art_id, step_id, ups) => {
+    return {
+        type: 'SET_STEP_FOIL_USE',
+        payload: {
+            configuration_id,
+            art_id,
+            step_id,
+            ups
+        }
+    };
+};
