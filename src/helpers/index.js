@@ -59,6 +59,15 @@ export function getAllUniqueCliches(configuration) {
     return allCliches.filter((cliche, i) => allCliches.findIndex(c => c.group_id === cliche.group_id) === i);
 }
 
+export function getAllNonUniqueCliches(configuration) {
+    let allCliches = Object.values(configuration.arts).reduce((list, art) => {
+        return [...list, ...Object.values(art.steps).reduce((list2, step) => {
+            return [...list2, ...Object.values(step.cliches.data)];
+        }, [])];
+    }, []);
+    return allCliches.filter((cliche, i) => allCliches.findIndex(c => c.group_id === cliche.group_id) !== i);
+}
+
 export function getAllFoils(configuration) {
     return Object.values(configuration.arts).reduce((list, art) => {
         return [...list, ...Object.values(art.steps).reduce((list2, step) => {

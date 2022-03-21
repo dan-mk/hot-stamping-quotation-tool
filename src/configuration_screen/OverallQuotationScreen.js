@@ -1,4 +1,4 @@
-import { getAllFoils, getAllUniqueCliches, getConfigurationArts, pixelsToCm } from '../helpers';
+import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, getConfigurationArts, pixelsToCm } from '../helpers';
 import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import '../css/quotation-screen.css';
@@ -68,6 +68,7 @@ export function OverallQuotationScreen(props) {
                     let totalCustomPrice = 0;
                     if (areAllValuesFilled) {
                         const cliches = getAllUniqueCliches(configuration);
+                        const nonUniqueCliches = getAllNonUniqueCliches(configuration);
                         const foils = getAllFoils(configuration);
                     
                         cliches.forEach(cliche => {
@@ -75,6 +76,10 @@ export function OverallQuotationScreen(props) {
                                 parseFloat(pixelsToCm(cliche.width)),
                                 parseFloat(pixelsToCm(cliche.height))
                             ).toFixed(2));
+                        });
+
+                        nonUniqueCliches.forEach(cliche => {
+                            clichePrices[cliche.id] = 0;
                         });
                     
                         for (let artId in quotationInstance.number_of_pages) {
