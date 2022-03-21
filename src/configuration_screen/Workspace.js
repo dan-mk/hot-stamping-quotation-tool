@@ -86,7 +86,7 @@ export function Workspace(props) {
     );
     const reusableCliches = allUniqueCliches.filter(cliche => !cliches.map(c => c.id).includes(cliche.id));
 
-    const simulateFoilUseDisabled = (showFoilSimulation === true);
+    const simulateFoilUseDisabled = (showFoilSimulation === true || foils.length === 0);
 
     const foilUseSimulated = (configuration.arts[art.id].steps[currentStep].foil_use.length > 0);
 

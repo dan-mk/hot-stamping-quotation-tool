@@ -89,7 +89,7 @@ export function Toolbar(props) {
                 <div
                     className={"toolbar-option" + (simulateFoilUseDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={onClickSimulateFoilUse}
-                    style={{ paddingTop: '8px', paddingBlock: '8px', ...(foilUseSimulated ? {} : { background: 'red' }) }}>
+                    style={{ paddingTop: '8px', paddingBlock: '8px', ...(foilUseSimulated || simulateFoilUseDisabled ? {} : { background: 'red' }) }}>
                     <img src='foil-simulation.png' width="100%" />
                 </div>
             </span>

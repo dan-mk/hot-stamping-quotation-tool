@@ -3,7 +3,7 @@ import { ArtsTabs } from "./ArtsTabs";
 import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
 import { OverallQuotationScreen } from "./OverallQuotationScreen";
-import { getConfigurationArts } from '../helpers';
+import { getConfigurationArts, getAllArtFragments, isEverythingSet } from '../helpers';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { useImmer } from 'use-immer';
@@ -19,6 +19,13 @@ export function ConfigurationScreen(props) {
         next_id: 1,
         data: {}
     });
+
+    const allArtFragments = useSelector(state => getAllArtFragments(state, configuration));
+    const everythingSet = isEverythingSet(configuration, allArtFragments);
+    const styleCalculate = {
+        color: everythingSet ? '' : 'darkgray',
+        pointerEvents: everythingSet ? 'all' : 'none',
+    };
 
     const onClickTab = (artIndex) => {
         setCurrentArt(artIndex);
@@ -50,7 +57,7 @@ export function ConfigurationScreen(props) {
             <div id="header-container">
                 <Header configuration={configuration} />
                 <div id="calculate-container">
-                    <button onClick={() => setShowQuotationScreen(true)}>Calculate</button>
+                    <button style={styleCalculate} onClick={() => setShowQuotationScreen(true)}>Calculate</button>
                 </div>
             </div>
             <div id="bottom-container">

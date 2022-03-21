@@ -15,6 +15,41 @@ export function getArtFragmentsByStep(state, configuration, art, step) {
     });
 }
 
+export function getAllArtFragments(state, configuration) {
+    const artIds = Object.values(state.arts.data).filter(art => art.quote_id === configuration.quote_id).map(art => art.id);
+    return Object.values(state.art_fragments.data).filter(artFragment => {
+        return artIds.includes(artFragment.art_id);
+    });
+}
+
+export function isEverythingSet(configuration, allArtFragments) {
+    const artFragmentsInCliches = Object.values(configuration.arts).reduce((list, art) => {
+        return [...list, ...Object.values(art.steps).reduce((list2, step) => {
+            return [...list2, ...Object.values(step.cliches.data).reduce((list3, cliche) => {
+                return [...list3, ...cliche.art_fragments_ids];
+            }, [])];
+        }, [])];
+    }, []);
+
+    const artFragmentsInFoils = Object.values(configuration.arts).reduce((list, art) => {
+        return [...list, ...Object.values(art.steps).reduce((list2, step) => {
+            return [...list2, ...Object.values(step.foils.data).reduce((list3, cliche) => {
+                return [...list3, ...cliche.art_fragments_ids];
+            }, [])];
+        }, [])];
+    }, []);
+
+    const allStepsWithSimulation = Object.values(configuration.arts).reduce((list, art) => {
+        return [...list, ...Object.values(art.steps).reduce((list2, step) => {
+            return [...list2, step.foil_use.length > 0];
+        }, [])];
+    }, []).every(b => b === true);
+
+    return allArtFragments.length === artFragmentsInCliches.length &&
+            allArtFragments.length === artFragmentsInFoils.length &&
+            allStepsWithSimulation;
+}
+
 export function getAllUniqueCliches(configuration) {
     let allCliches = Object.values(configuration.arts).reduce((list, art) => {
         return [...list, ...Object.values(art.steps).reduce((list2, step) => {
