@@ -107,13 +107,14 @@ export function createArtFragments(data, img) {
         return m;
     };
 
+    const threshold = 48;
     const visited = data.map(n => 0);
     for (let i = 0; i < data.length; i += 4) {
         if (visited[i]) continue;
         visited[i] = 1;
 
         const lightness = computeLightness(i);
-        if (lightness > 32) continue;
+        if (lightness > threshold) continue;
 
         const artFragment = [];
         const queue = [i];
@@ -127,7 +128,7 @@ export function createArtFragments(data, img) {
                 if (visited[k] === 0) {
                     visited[k] = 1;
                     const lightness = computeLightness(k);
-                    if (lightness <= 32) {
+                    if (lightness <= threshold) {
                         queue.push(k);
                     }
                 }
@@ -138,7 +139,7 @@ export function createArtFragments(data, img) {
                 if (visited[k] === 0) {
                     visited[k] = 1;
                     const lightness = computeLightness(k);
-                    if (lightness <= 32) {
+                    if (lightness <= threshold) {
                         queue.push(k);
                     }
                 }
@@ -149,7 +150,7 @@ export function createArtFragments(data, img) {
                 if (visited[k] === 0) {
                     visited[k] = 1;
                     const lightness = computeLightness(k);
-                    if (lightness <= 32) {
+                    if (lightness <= threshold) {
                         queue.push(k);
                     }
                 }
@@ -160,7 +161,7 @@ export function createArtFragments(data, img) {
                 if (visited[k] === 0) {
                     visited[k] = 1;
                     const lightness = computeLightness(k);
-                    if (lightness <= 32) {
+                    if (lightness <= threshold) {
                         queue.push(k);
                     }
                 }
