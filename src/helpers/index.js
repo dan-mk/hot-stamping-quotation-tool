@@ -107,7 +107,7 @@ export function createArtFragments(data, img) {
         return m;
     };
 
-    const threshold = 48;
+    const threshold = 96;
     const visited = data.map(n => 0);
     for (let i = 0; i < data.length; i += 4) {
         if (visited[i]) continue;
