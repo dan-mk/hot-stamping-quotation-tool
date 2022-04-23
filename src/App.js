@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import ClientList from './containers/clients/ClientList/ClientList';
+import Dashboard from "./containers/clients/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
         <Routes>
           <Route path='*' element={'404 Not found'} />
           <Route path="/" element={<Navigate to="/clients" replace />} />
-          <Route path="/clients" element={<ClientList/>} />
+          <Route path="/clients/*" element={<Dashboard />} />
         </Routes>
       </Router>
     </>

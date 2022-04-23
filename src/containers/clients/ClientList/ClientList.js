@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { createUseStyles } from 'react-jss';
-import ClientCard from "../../../components/clients/ClientCard/ClientCard";
-import Title from "../../../components/common/Title/Title";
+import { useNavigate } from "react-router-dom";
+import { Button, PageHeader, List } from 'antd';
 import api from "../../../helpers/api";
 import { setClients } from "../../../redux/actions/clientActions";
+import GStyle from "../../../css/GStyle";
 import Style from "./Style";
 
-const useStyles = createUseStyles(Style);
+const useStyles = createUseStyles({ ...GStyle, ...Style });
 
 function ClientList() {
     const classes = useStyles();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const clients = useSelector(state => state.clients);
 
@@ -25,19 +27,31 @@ function ClientList() {
 
     useEffect(() => fetchClients(), []);
 
-    const onClickCardHandler = (client) => {
-        console.log(client);
-    };
-
     return (
-        <div className={classes.container}>
-            <Title>Clients</Title>
-            <div className={classes.cardsContainer}>
-                {Object.entries(clients.data).map(([id, client]) => (
-                    <ClientCard key={id} client={client} onClick={onClickCardHandler} />
-                ))}
-            </div>
-        </div>
+        <>
+            <PageHeader
+                title="Clients"
+                className={classes.title}
+                extra={[
+                    <Button key="1" type="primary" onClick={() => navigate(`/clients/new`)}>
+                        New
+                    </Button>,
+                ]}
+            />
+            <List
+                className={classes.listContainer}
+                itemLayout="horizontal"
+                dataSource={Object.values(clients.data)}
+                renderItem={item => (
+                    <List.Item className={classes.listItem} onClick={() => navigate(`/clients/${item.id}`)}>
+                        <List.Item.Meta
+                            title={item.name}
+                            description={item.email}
+                        />
+                    </List.Item>
+                )}
+            />
+        </>
     );
 }
 

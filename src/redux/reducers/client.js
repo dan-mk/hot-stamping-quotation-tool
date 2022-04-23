@@ -1,5 +1,5 @@
 import produce from "immer";
-import { SET_CLIENTS } from "../constants/actionTypes";
+import { SET_CLIENTS, SET_CLIENT } from "../constants/actionTypes";
 
 const initialState = {
     data: {},
@@ -13,6 +13,9 @@ const clientReducer = produce((draft, { type, payload }) => {
                 data[client.id] = client;
             });
             draft.data = data;
+            break;
+        case SET_CLIENT:
+            draft.data[payload.id] = payload;
             break;
         default:
             break;
