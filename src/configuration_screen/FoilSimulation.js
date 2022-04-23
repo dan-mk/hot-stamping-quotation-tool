@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cmToPixels, getArtFragmentsByStep, pixelsToCm } from "../helpers";
-import { setStepFoilUse } from '../actions';
+import { getArtFragmentsByStep, pixelsToCm } from "../helpers";
+import { setStepFoilUse } from '../redux/actions';
 
 export function FoilSimulation(props) {
     const configuration = props.configuration;
@@ -18,118 +18,9 @@ export function FoilSimulation(props) {
 
     const dispatch = useDispatch();
 
-    const calculateFoilUse = () => {
-        const margin = cmToPixels(0.5);
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        const mainCanvas = document.createElement('canvas');
-        const mainCtx = mainCanvas.getContext('2d');
-
-        const minX = artFragments.reduce((min, artFragment) => Math.min(min, artFragment.x), art.width);
-        const maxX = artFragments.reduce((max, artFragment) => Math.max(max, artFragment.x + artFragment.width - 1), 0);
-
-        const minY = artFragments.reduce((min, artFragment) => Math.min(min, artFragment.y), art.height);
-        const maxY = artFragments.reduce((max, artFragment) => Math.max(max, artFragment.y + artFragment.height - 1), 0);
-
-        const height = maxY - minY + 1 + margin;
-        const width = maxX - minX + 1 + margin;
-
-        canvas.style.width = '100%';
-        canvas.style.display = 'block';
-        canvas.height = height;
-        canvas.width = width;
-
-        mainCanvas.style.width = '100%';
-        mainCanvas.style.display = 'block';
-        mainCanvas.height = height;
-        mainCanvas.width = width;
-
-        ctx.fillStyle = "rgba(" + 0 + "," + 0 + "," + 0 + "," + 1 + ")";
-        for (let artFragment of artFragments) {
-            for (let i = 0; i < artFragment.data.length; i++) {
-                for (let j = 0; j < artFragment.data[0].length; j++) {
-                    if (artFragment.data[i][j] === 1) {
-                        ctx.fillRect(artFragment.x - minX + j, artFragment.y - minY + i, margin, margin);
-                        mainCtx.fillRect(artFragment.x - minX + j + margin, artFragment.y - minY + i + margin, 1, 1);
-                    }
-                }
-            }
-        }
-
-        setMainCanvas(mainCanvas);
-
-        const canvasFinal = document.createElement('canvas');
-        const ctxFinal = canvasFinal.getContext('2d');
-
-        canvasFinal.style.width = '100%';
-        canvasFinal.style.display = 'block';
-        canvasFinal.height = 2 * height;
-        canvasFinal.width = width;
-
-        ctxFinal.drawImage(canvas, 0, height);
-
-        const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-        let maxUp = 0;
-        for (let col = 0; col < canvas.width; col += 1) {
-            let firstRow = 0;
-            for (let row = 0; row < canvas.height; row += 1) {
-                if (imageData.data[4 * (canvas.width * row + col) + 3] !== 0) {
-                    firstRow = row;
-                    break;
-                }
-            }
-            let lastRow = 0;
-            for (let row = canvas.height - 1; row >= 0; row -= 1) {
-                if (imageData.data[4 * (canvas.width * row + col) + 3] !== 0) {
-                    lastRow = row;
-                    break;
-                }
-            }
-            maxUp = Math.max(maxUp, lastRow - firstRow + 1);
-        }
-
-        let maxUpTotal = artFragments.reduce((max, artFragment) => Math.max(max, artFragment.height), 0);
-
-        let upTotal = 0;
-        let ups = [];
-
-        let up = 0;
-        for (let i = 0; i < 20 && upTotal < maxUpTotal && up < maxUp; i++) {
-            let ok = false;
-            up = 0;
-
-            const imageDataFinal = ctxFinal.getImageData(0, 0, ctxFinal.canvas.width, ctxFinal.canvas.height);
-
-            while (!ok) {
-                up += 10;
-
-                let conflict = false;
-                for (let i = 0; i < imageData.data.length && conflict === false; i += 4) {
-                    const alpha = imageData.data[i + 3];
-                    if (alpha === 0) continue;
-                    const base = 4 * canvas.width * canvas.height;
-                    const back = 4 * ctxFinal.canvas.width * up;
-                    if (base - back + i + 3 >= 0 && imageDataFinal.data[base - back + i + 3] !== 0) {
-                        conflict = true;
-                    }
-                }                
-
-                ok = !conflict;
-            }
-
-            ups.push(up);
-            upTotal += up;
-
-            ctxFinal.clearRect(0, 0, canvasFinal.width, canvasFinal.height);
-            ctxFinal.putImageData(imageDataFinal, 0, up);
-            ctxFinal.drawImage(canvas, 0, canvas.height);
-        }
-
-        setFoilUse(ups);
-        dispatch(setStepFoilUse(configuration.id, art.id, currentStep, ups));
+    const calculateFoilUse = async () => {
+        
+        console.log(JSON.stringify(artFragments));
     };
 
     const createFinalImage = () => {

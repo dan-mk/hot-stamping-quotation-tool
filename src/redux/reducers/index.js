@@ -1,3 +1,4 @@
+import clientReducer from "./client";
 import quoteReducer from "./quote";
 import artReducer from "./art";
 import artFragmentReducer from "./art_fragment";
@@ -6,6 +7,7 @@ import foilTypeReducer from "./foil_type";
 import { combineReducers } from 'redux';
 
 const allReducer = combineReducers({
+    clients: clientReducer,
     quotes: quoteReducer,
     arts: artReducer,
     art_fragments: artFragmentReducer,

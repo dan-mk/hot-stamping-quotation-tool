@@ -6,7 +6,7 @@ import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
 import { FoilSimulation } from './FoilSimulation';
 import { getArtFragments, getAllUniqueCliches, cmToPixels } from '../helpers';
-import { addCliche, addFoil } from '../actions';
+import { addCliche, addFoil } from '../redux/actions';
 import '../css/workspace.css';
 
 export function Workspace(props) {

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteFoil } from '../actions';
+import { deleteFoil } from '../redux/actions';
 import { cmToPixels } from '../helpers';
 
 export function Foil(props) {

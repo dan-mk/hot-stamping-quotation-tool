@@ -1,3 +1,14 @@
+export const addClient = (id, name, email) => {
+    return {
+        type: 'ADD_CLIENT',
+        payload: {
+            id,
+            name,
+            email,
+        },
+    };
+};
+
 export const addQuote = (client_id, description, datetime) => {
     return {
         type: 'ADD_QUOTE',
@@ -9,7 +20,7 @@ export const addQuote = (client_id, description, datetime) => {
     }
 };
 
-export const addArt = (quote_id, dpi, height, width, base64) => {
+export const addArt = (quote_id, dpi, height, width) => {
     return {
         type: 'ADD_ART',
         payload: {
@@ -17,7 +28,6 @@ export const addArt = (quote_id, dpi, height, width, base64) => {
             dpi,
             height,
             width,
-            base64,
         }
     }
 };

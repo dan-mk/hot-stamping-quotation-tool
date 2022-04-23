@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addStep, deleteStep } from '../actions';
+import { addStep, deleteStep } from '../redux/actions';
 import '../css/steps-tabs.css';
 
 export function StepsTabs(props) {
