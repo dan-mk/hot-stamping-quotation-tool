@@ -2,7 +2,7 @@ const Style = {
     header: {
         background: "#fff",
         fontFamily: 'serif',
-        fontSize: '22px',
+        fontSize: '26px',
         fontWeight: 'bold',
         paddingLeft: "15px",
         paddingRight: '15px',

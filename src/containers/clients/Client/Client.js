@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
-import { PageHeader } from 'antd';
+import { PageHeader, Button } from 'antd';
 import api from '../../../helpers/api';
 import { setClient } from "../../../redux/actions/clientActions";
 import GStyle from "../../../css/GStyle";
@@ -32,11 +32,22 @@ function Client() {
 
     useEffect(() => fetchClient(), []);
 
+    const onDeleteHandler = async () => {
+        api.delete(`/clients/${id}`).then(() => {
+            navigate('/clients');
+        });
+    };
+
     return (
         <PageHeader
             title={client ? client.name : '...'}
             className={classes.title}
             onBack={() => navigate(`/clients`)}
+            extra={[
+                <Button key="1" type="secondary" onClick={() => onDeleteHandler()}>
+                    Delete
+                </Button>,
+            ]}
         />
     );
 }
