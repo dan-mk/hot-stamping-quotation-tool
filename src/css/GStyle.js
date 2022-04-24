@@ -29,7 +29,14 @@ const GStyle = {
         '&:hover': {
             backgroundColor: '#fafafa',
         },
-    }
+    },
+    formContainer: {
+        padding: '0 15px',
+
+        '& .ant-form-item-label': {
+            paddingBottom: '0',
+        }
+    },
 };
 
 export default GStyle;

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ClientList from './../../clients/ClientList/ClientList';
 import ClientForm from './../../clients/ClientForm/ClientForm';
 import Client from './../../clients/Client/Client';
+import QuotationForm from './../../clients/QuotationForm/QuotationForm';
 import Style from "./Style";
 
 const useStyles = createUseStyles(Style);
@@ -16,7 +17,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     return (
-        <Layout style={{height: "100vh"}}>
+        <Layout style={{ minHeight: "100vh" }}>
             <Header className={classes.header}>
                 <div className={classes.headerContainer}>
                     <span className={classes.title} onClick={() => navigate('/')}>
@@ -31,6 +32,7 @@ function Dashboard() {
                         <Route path="/" element={<ClientList/>} />
                         <Route path="/new" element={<ClientForm/>} />
                         <Route path="/:id" element={<Client/>} />
+                        <Route path="/:id/quotations/new" element={<QuotationForm/>} />
                     </Routes>
                 </Content>
             </Layout>

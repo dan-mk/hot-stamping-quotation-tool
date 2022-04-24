@@ -62,7 +62,12 @@ function Client() {
                 className={classes.title}
                 onBack={() => navigate(`/clients`)}
                 extra={[
-                    <Button key="1" type="dashed" onClick={() => onDeleteHandler()}>
+                    <Button
+                        key="1"
+                        type="dashed"
+                        onClick={() => onDeleteHandler()}
+                        disabled={Object.values(quotations.data).length > 0}
+                    >
                         Delete
                     </Button>,
                 ]}

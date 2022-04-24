@@ -19,6 +19,7 @@ const Style = {
     container: {
         margin: 'auto',
         maxWidth: '600px',
+        paddingBottom: '100px',
         width: '100%',
     },
 };
