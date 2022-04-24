@@ -1,7 +1,8 @@
 import produce from "immer";
-import { SET_QUOTATIONS } from "../constants/actionTypes";
+import { SET_QUOTATIONS, SET_SELECTED_QUOTATION } from "../constants/actionTypes";
 
 const initialState = {
+    selected: null,
     data: {},
 };
 
@@ -13,6 +14,9 @@ const quotationReducer = produce((draft, { type, payload }) => {
                 data[quotation.id] = quotation;
             });
             draft.data = data;
+            break;
+        case SET_SELECTED_QUOTATION:
+            draft.selected = payload;
             break;
         default:
             break;

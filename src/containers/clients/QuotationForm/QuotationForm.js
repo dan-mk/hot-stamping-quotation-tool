@@ -5,7 +5,7 @@ import { PageHeader, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../helpers/api";
-import { setClient } from "../../../redux/actions/clientActions";
+import { setSelectedClient } from "../../../redux/actions/clientActions";
 import Style from './Style';
 import GStyle from "../../../css/GStyle";
 
@@ -17,7 +17,7 @@ function QuotationForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const client = useSelector(state => state.clients.data[id]);
+    const client = useSelector(state => state.clients.selected);
     const [fileList, setFileList] = useState([]);
 
     const fetchClient = async () => {
@@ -26,7 +26,7 @@ function QuotationForm() {
         }
         try {
             const response = await api.get(`/clients/${id}`);
-            dispatch(setClient(response.data));
+            dispatch(setSelectedClient(response.data));
         } catch (e) {
             console.log(e);
         }

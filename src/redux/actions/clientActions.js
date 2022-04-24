@@ -1,4 +1,4 @@
-import { SET_CLIENTS, SET_CLIENT } from "../constants/actionTypes";
+import { SET_CLIENTS, SET_SELECTED_CLIENT } from "../constants/actionTypes";
 
 export const setClients = (clients) => {
     return {
@@ -7,9 +7,9 @@ export const setClients = (clients) => {
     };
 };
 
-export const setClient = (client) => {
+export const setSelectedClient = (client) => {
     return {
-        type: SET_CLIENT,
+        type: SET_SELECTED_CLIENT,
         payload: client,
     };
-};
+}

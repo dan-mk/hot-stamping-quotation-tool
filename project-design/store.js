@@ -1,5 +1,6 @@
 let store = {
     clients: {
+        selected: {},
         data: {
             '1': {
                 id: '1',
@@ -10,6 +11,7 @@ let store = {
         }
     },
     quotes: {
+        selected: {},
         data: {
             '1': {
                 id: '1',
@@ -21,28 +23,31 @@ let store = {
         }
     },
     arts: {
-        next_id: 2,
         data: {
             '1': {
                 id: '1',
-                quote_id: '1',
+                quotation_id: '1',
+                filename: '1.png',
                 dpi: 300,
                 height: 123,
                 width: 456,
+                created_at: '2020-01-01 00:00:00',
+                updated_at: '2020-01-01 00:00:00',
             }
         }
     },
     art_fragments: {
-        next_id: 2,
         data: {
             '1': {
                 id: '1',
                 art_id: '1',
-                data: [[]],
+                data: '<canvas>',
                 x: 0,
                 y: 0,
                 height: 12,
                 width: 34,
+                created_at: '2020-01-01 00:00:00',
+                updated_at: '2020-01-01 00:00:00',
             }
         }
     },

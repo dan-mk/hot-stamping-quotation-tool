@@ -9,7 +9,7 @@ const GStyle = {
     },
     subTitle: {
         fontWeight: 'bold',
-        marginBottom: '15px',
+        marginBottom: '5px',
         padding: '0 15px',
 
         '& .ant-page-header-heading-title': {
@@ -22,12 +22,17 @@ const GStyle = {
     },
     listItem: {
         borderRadius: '5px',
+        borderBottomColor: '#e2e2e2 !important',
         cursor: 'pointer',
         paddingLeft: '15px',
         paddingRight: '15px',
 
         '&:hover': {
             backgroundColor: '#fafafa',
+        },
+
+        '& .ant-list-item-meta-title': {
+            marginBottom: '0',
         },
     },
     formContainer: {

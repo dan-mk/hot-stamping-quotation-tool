@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { useNavigate } from "react-router-dom";
 import { Button, PageHeader, List } from 'antd';
 import api from "../../../helpers/api";
-import { setClients } from "../../../redux/actions/clientActions";
+import { setClients, setSelectedClient } from "../../../redux/actions/clientActions";
 import GStyle from "../../../css/GStyle";
 import Style from "./Style";
 
@@ -25,7 +25,9 @@ function ClientList() {
         }
     };
 
-    useEffect(() => fetchClients(), []);
+    useEffect(() => {
+        fetchClients();
+    }, []);
 
     return (
         <>
@@ -43,7 +45,10 @@ function ClientList() {
                 itemLayout="horizontal"
                 dataSource={Object.values(clients.data)}
                 renderItem={item => (
-                    <List.Item className={classes.listItem} onClick={() => navigate(`/clients/${item.id}`)}>
+                    <List.Item className={classes.listItem} onClick={() => {
+                        dispatch(setSelectedClient(item));
+                        navigate(`/clients/${item.id}`);
+                    }}>
                         <List.Item.Meta
                             title={item.name}
                             description={item.email}

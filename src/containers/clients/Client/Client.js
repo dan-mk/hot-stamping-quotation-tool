@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
-import { PageHeader, Button, List } from 'antd';
+import { PageHeader, Button, List, Avatar } from 'antd';
+import * as moment from 'moment';
 import api from '../../../helpers/api';
-import { setClient } from "../../../redux/actions/clientActions";
-import { setQuotations } from "../../../redux/actions/quotationActions";
+import { setSelectedClient } from "../../../redux/actions/clientActions";
+import { setQuotations, setSelectedQuotation } from "../../../redux/actions/quotationActions";
 import GStyle from "../../../css/GStyle";
 import Style from "./Style";
 
@@ -17,7 +18,7 @@ function Client() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const client = useSelector(state => state.clients.data[id]);
+    const client = useSelector(state => state.clients.selected);
     const quotations = useSelector(state => state.quotations);
 
     const fetchClient = async () => {
@@ -26,7 +27,7 @@ function Client() {
         }
         try {
             const response = await api.get(`/clients/${id}`);
-            dispatch(setClient(response.data));
+            dispatch(setSelectedClient(response.data));
         } catch (e) {
             console.log(e);
         }
@@ -86,9 +87,23 @@ function Client() {
                 itemLayout="horizontal"
                 dataSource={Object.values(quotations.data)}
                 renderItem={item => (
-                    <List.Item className={classes.listItem} onClick={() => navigate(`/quotations/${item.id}`)}>
+                    <List.Item className={classes.listItem} onClick={() => {
+                        dispatch(setSelectedQuotation(item));
+                        navigate(`/clients/${id}/quotations/${item.id}`);
+                    }}>
                         <List.Item.Meta
+                            avatar={
+                                <Avatar
+                                    shape="square"
+                                    size={72}
+                                    src={`${api.defaults.baseURL}/uploads/arts/${item.arts[0].id}.png`}
+                                />
+                            }
                             title={item.description}
+                            description={
+                                `${item.arts.length} image${item.arts.length === 1 ? '' : 's'} - ` +
+                                `Created at ${moment(item.created_at).format('MM/DD/YYYY')}`
+                            }
                         />
                     </List.Item>
                 )}

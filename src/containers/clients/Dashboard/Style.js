@@ -2,10 +2,10 @@ const Style = {
     header: {
         background: "#fff",
         fontFamily: 'serif',
-        fontSize: '26px',
+        fontSize: '20px',
         fontWeight: 'bold',
-        paddingLeft: "15px",
-        paddingRight: '15px',
+        paddingLeft: '0',
+        paddingRight: '0',
     },
     headerContainer: {
         margin: 'auto',

@@ -2,10 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import { createUseStyles } from 'react-jss';
 import { Layout } from 'antd';
 import { useNavigate } from "react-router-dom";
+import { ProjectOutlined } from '@ant-design/icons';
 import ClientList from './../../clients/ClientList/ClientList';
 import ClientForm from './../../clients/ClientForm/ClientForm';
 import Client from './../../clients/Client/Client';
 import QuotationForm from './../../clients/QuotationForm/QuotationForm';
+import Quotation from './../../clients/Quotation/Quotation';
 import Style from "./Style";
 
 const useStyles = createUseStyles(Style);
@@ -21,7 +23,8 @@ function Dashboard() {
             <Header className={classes.header}>
                 <div className={classes.headerContainer}>
                     <span className={classes.title} onClick={() => navigate('/')}>
-                        GARRA
+                        <ProjectOutlined style={{ marginRight: '8px' }} />
+                        hot stamping quotation tool
                     </span>
                 </div>
             </Header>
@@ -33,6 +36,7 @@ function Dashboard() {
                         <Route path="/new" element={<ClientForm/>} />
                         <Route path="/:id" element={<Client/>} />
                         <Route path="/:id/quotations/new" element={<QuotationForm/>} />
+                        <Route path="/:id/quotations/:idQuotation" element={<Quotation/>} />
                     </Routes>
                 </Content>
             </Layout>
