@@ -7,6 +7,12 @@ const Style = {
         paddingLeft: "15px",
         paddingRight: '15px',
     },
+    headerContainer: {
+        margin: 'auto',
+        maxWidth: '600px',
+        padding: '0 15px',
+        width: '100%',
+    },
     title: {
         cursor: 'pointer',
     },

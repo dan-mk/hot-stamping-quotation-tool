@@ -1,21 +1,22 @@
 let store = {
     clients: {
-        next_id: 2,
         data: {
             '1': {
                 id: '1',
-                name: 'Client S'
+                name: 'Client S',
+                created_at: '2020-01-01 00:00:00',
+                updated_at: '2020-01-01 00:00:00',
             }
         }
     },
     quotes: {
-        next_id: 2,
         data: {
             '1': {
                 id: '1',
                 client_id: '1',
                 description: 'Bag S',
-                datetime: '2021-10-18 11:08:47',
+                created_at: '2020-01-01 00:00:00',
+                updated_at: '2020-01-01 00:00:00',
             }
         }
     },

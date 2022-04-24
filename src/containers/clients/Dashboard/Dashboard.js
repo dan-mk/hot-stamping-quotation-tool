@@ -18,11 +18,16 @@ function Dashboard() {
     return (
         <Layout style={{height: "100vh"}}>
             <Header className={classes.header}>
-                <span className={classes.title} onClick={() => navigate('/')}>GARRA</span>
+                <div className={classes.headerContainer}>
+                    <span className={classes.title} onClick={() => navigate('/')}>
+                        GARRA
+                    </span>
+                </div>
             </Header>
             <Layout>
                 <Content className={classes.container}>
                     <Routes>
+                        <Route path='*' element={'404 Not found'} />
                         <Route path="/" element={<ClientList/>} />
                         <Route path="/new" element={<ClientForm/>} />
                         <Route path="/:id" element={<Client/>} />

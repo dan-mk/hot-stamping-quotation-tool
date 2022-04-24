@@ -1,5 +1,5 @@
 import clientReducer from "./client";
-import quoteReducer from "./quote";
+import quotationReducer from "./quotation";
 import artReducer from "./art";
 import artFragmentReducer from "./art_fragment";
 import configurationReducer from "./configuration";
@@ -8,7 +8,7 @@ import { combineReducers } from 'redux';
 
 const allReducer = combineReducers({
     clients: clientReducer,
-    quotes: quoteReducer,
+    quotations: quotationReducer,
     arts: artReducer,
     art_fragments: artFragmentReducer,
     configurations: configurationReducer,
