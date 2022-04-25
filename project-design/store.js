@@ -52,7 +52,7 @@ let store = {
         }
     },
     configurations: {
-        next_id: 2,
+        selected: {},
         data: {
             '1': {
                 id: '1',

@@ -36,7 +36,7 @@ function Dashboard() {
                         <Route path="/new" element={<ClientForm/>} />
                         <Route path="/:id" element={<Client/>} />
                         <Route path="/:id/quotations/new" element={<QuotationForm/>} />
-                        <Route path="/:id/quotations/:idQuotation" element={<Quotation/>} />
+                        <Route path="/:id/quotations/:quotationId" element={<Quotation/>} />
                     </Routes>
                 </Content>
             </Layout>

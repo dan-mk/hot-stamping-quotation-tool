@@ -20,6 +20,9 @@ function Client() {
 
     const client = useSelector(state => state.clients.selected);
     const quotations = useSelector(state => state.quotations);
+    const orderedQuotations = Object.values(quotations.data).sort((a, b) => {
+        return moment(b.created_at).diff(moment(a.created_at));
+    });
 
     const fetchClient = async () => {
         if (client) {
@@ -85,7 +88,7 @@ function Client() {
             <List
                 className={classes.listContainer}
                 itemLayout="horizontal"
-                dataSource={Object.values(quotations.data)}
+                dataSource={orderedQuotations}
                 renderItem={item => (
                     <List.Item className={classes.listItem} onClick={() => {
                         dispatch(setSelectedQuotation(item));
