@@ -1,6 +1,6 @@
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
-import '../css/art-tabs.css';
+import './../../../css/art-tabs.css';
 
 export function ArtsTabs(props) {
     const configuration = props.configuration;

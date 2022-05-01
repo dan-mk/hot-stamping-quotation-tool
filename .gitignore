@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/src/configuration_screen/Formulas.js
+/src/config/Formulas.js
 
 # dependencies
 /node_modules

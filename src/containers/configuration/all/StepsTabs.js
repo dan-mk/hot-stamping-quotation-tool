@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { addStep, deleteStep } from '../redux/actions';
-import '../css/steps-tabs.css';
+import './../../../css/steps-tabs.css';
 
 export function StepsTabs(props) {
     const configuration = props.configuration;

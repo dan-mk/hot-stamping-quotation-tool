@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import '../css/toolbar.css';
+import './../../../css/toolbar.css';
 
 export function Toolbar(props) {
     const onClickResetToIdealView = props.onClickResetToIdealView;

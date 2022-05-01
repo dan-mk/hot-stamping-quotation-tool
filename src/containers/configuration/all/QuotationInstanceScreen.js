@@ -1,6 +1,6 @@
 import { getConfigurationArts } from '../helpers';
 import { useSelector } from 'react-redux';
-import '../css/quotation-instance-screen.css';
+import './../../../css/quotation-instance-screen.css';
 import { Workspace } from './Workspace';
 
 export function QuotationInstanceScreen(props) {

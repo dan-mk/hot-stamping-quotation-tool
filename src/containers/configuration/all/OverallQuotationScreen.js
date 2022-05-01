@@ -1,7 +1,7 @@
 import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, getConfigurationArts, pixelsToCm } from '../helpers';
 import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
-import '../css/quotation-screen.css';
+import './../../../css/quotation-screen.css';
 import { useState } from 'react';
 import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './Formulas';
 

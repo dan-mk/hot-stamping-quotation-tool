@@ -1,13 +1,13 @@
 import { Header } from "./Header";
-import { ArtsTabs } from "./ArtsTabs";
-import { Workspace } from "./Workspace";
-import { Resources } from "./Resources";
-import { OverallQuotationScreen } from "./OverallQuotationScreen";
-import { getConfigurationArts, getAllArtFragments, isEverythingSet } from '../helpers';
+// import { ArtsTabs } from "./ArtsTabs";
+// import { Workspace } from "./Workspace";
+// import { Resources } from "./Resources";
+// import { OverallQuotationScreen } from "./OverallQuotationScreen";
+import { getConfigurationArts, getAllArtFragments, isEverythingSet } from './../../../helpers';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { useImmer } from 'use-immer';
-import '../css/configuration-screen.css';
+import './../../../css/configuration-screen.css';
 
 export function ConfigurationScreen(props) {
     const configuration = props.configuration;
@@ -21,11 +21,11 @@ export function ConfigurationScreen(props) {
     });
 
     const allArtFragments = useSelector(state => getAllArtFragments(state, configuration));
-    const everythingSet = isEverythingSet(configuration, allArtFragments);
-    const styleCalculate = {
-        color: everythingSet ? '' : 'darkgray',
-        pointerEvents: everythingSet ? 'all' : 'none',
-    };
+    // const everythingSet = isEverythingSet(configuration, allArtFragments);
+    // const styleCalculate = {
+    //     color: everythingSet ? '' : 'darkgray',
+    //     pointerEvents: everythingSet ? 'all' : 'none',
+    // };
 
     const onClickTab = (artIndex) => {
         setCurrentArt(artIndex);
@@ -57,11 +57,11 @@ export function ConfigurationScreen(props) {
             <div id="header-container">
                 <Header configuration={configuration} />
                 <div id="calculate-container">
-                    <button style={styleCalculate} onClick={() => setShowQuotationScreen(true)}>Calculate</button>
+                    <button onClick={() => setShowQuotationScreen(true)}>Calculate</button>
                 </div>
             </div>
             <div id="bottom-container">
-                <div id="workspace-container">
+                {/* <div id="workspace-container">
                     <ArtsTabs configuration={configuration} onClickTab={onClickTab} currentArt={currentArt} />
                     { arts.map((art, i) => {
                         return <Workspace show={i + 1 === currentArt} key={i} art={art} configuration={configuration} />
@@ -69,14 +69,14 @@ export function ConfigurationScreen(props) {
                 </div>
                 <div id="resources-container">
                     <Resources configuration={configuration} />
-                </div>
+                </div> */}
             </div>
-            { showQuotationScreen && <OverallQuotationScreen 
+            {/* { showQuotationScreen && <OverallQuotationScreen 
                                         configuration={configuration}
                                         onClickClose={() => setShowQuotationScreen(false)}
                                         quotationInstances={quotationInstances}
                                         setQuotationInstances={setQuotationInstances}
-                                        addQuotationInstance={addQuotationInstance} /> }
+                                        addQuotationInstance={addQuotationInstance} /> } */}
         </div>
     );
 }

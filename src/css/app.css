@@ -1,3 +1,11 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 #page-container {
     background: #f0f0f0;
     position: absolute;
