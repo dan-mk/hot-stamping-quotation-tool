@@ -34,9 +34,12 @@ function Quotation() {
     };
 
     const fetchConfigurations = async () => {
-        return;
         try {
-            const response = await api.get(`/configurations?quotation_id=${quotationId}`);
+            const response = await api.get(`/configurations`, {
+                params: {
+                    quotation_id: quotationId
+                },
+            });
             dispatch(setConfigurations(response.data));
         } catch (e) {
             console.log(e);
@@ -79,9 +82,10 @@ function Quotation() {
                 style={{ marginTop: '20px' }}
                 extra={[
                     <Button key="1" size="small" type="primary" onClick={async () => {
-                        const response = await api.post(`/quotations/${quotationId}/configurations`);
-                        const { idConfiguration } = response.data;
-                        navigate(`/clients/${id}/quotations/${quotationId}/configurations/${idConfiguration}`);
+                        await api.post(`configurations`, {
+                            quotation_id: quotationId,
+                        });
+                        fetchConfigurations();
                     }}>
                         New
                     </Button>,
@@ -91,13 +95,13 @@ function Quotation() {
                 className={classes.listContainer}
                 itemLayout="horizontal"
                 dataSource={Object.values(configurations.data)}
-                renderItem={(item, i) => (
+                renderItem={(item) => (
                     <List.Item className={classes.listItem} onClick={() => {
                         dispatch(setSelectedQuotation(item));
                         navigate(`/clients/${id}/quotations/${quotationId}/configurations/${item.id}`);
                     }}>
                         <List.Item.Meta
-                            title={`Configuration ${i + 1}`}
+                            title={item.description}
                             description={`Created at ${moment(item.created_at).format('MM/DD/YYYY')}`}
                         />
                     </List.Item>

@@ -1,4 +1,5 @@
 import produce from "immer";
+import { SET_CONFIGURATIONS, SET_SELECTED_CONFIGURATION } from "../constants/actionTypes";
 
 const initialState = {
     selected: null,
@@ -9,6 +10,14 @@ const initialState = {
 
 const configurationReducer = produce((draft, action) => {
     switch (action.type) {
+        case SET_CONFIGURATIONS:
+            const data = {};
+            action.payload.forEach(configuration => {
+                data[configuration.id] = configuration;
+            });
+            draft.data = data;
+            break;
+
         case 'ADD_CONFIGURATION':
             draft.data[draft.next_id] = {
                 id: draft.next_id,

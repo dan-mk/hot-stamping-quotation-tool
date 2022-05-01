@@ -56,11 +56,11 @@ let store = {
         data: {
             '1': {
                 id: '1',
-                quote_id: '1',
+                quotation_id: '1',
+                description: 'Configuration 1',
                 next_cliche_id: 2,
                 next_cliche_group_id: 2,
                 next_foil_id: 2,
-                description: 'Configuration 1',
                 arts: {
                     '1': {
                         id: '1',
@@ -86,7 +86,7 @@ let store = {
                                         '1': {
                                             id: '1',
                                             foil_type_id: '1',
-                                            cliches_ids: ['1'],
+                                            art_fragments_ids: ['1'],
                                             x: 10,
                                             width: 50,
                                         }
