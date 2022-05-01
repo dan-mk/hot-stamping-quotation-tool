@@ -1,12 +1,10 @@
-import { getConfigurationArts } from '../helpers';
-import { useSelector } from 'react-redux';
 import './../../../css/art-tabs.css';
 
 export function ArtsTabs(props) {
     const configuration = props.configuration;
     const onClickTab = props.onClickTab;
     const currentArt = props.currentArt;
-    const arts = useSelector(state => getConfigurationArts(state, configuration));
+    const arts = configuration.quotation.arts;
 
     return (
         <ul id="arts-nav">

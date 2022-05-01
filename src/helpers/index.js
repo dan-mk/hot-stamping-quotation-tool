@@ -1,7 +1,3 @@
-export function getConfigurationArts(state, configuration) {
-    return Object.values(state.arts.data).filter(art => art.quote_id === configuration.quote_id);
-}
-
 export function getArtFragments(state, art) {
     return Object.values(state.art_fragments.data).filter(artFragment => artFragment.art_id === art.id);
 }
@@ -39,15 +35,9 @@ export function isEverythingSet(configuration, allArtFragments) {
         }, [])];
     }, []);
 
-    const allStepsWithSimulation = Object.values(configuration.arts).reduce((list, art) => {
-        return [...list, ...Object.values(art.steps).reduce((list2, step) => {
-            return [...list2, step.foil_use.length > 0];
-        }, [])];
-    }, []).every(b => b === true);
-
     return allArtFragments.length === artFragmentsInCliches.length &&
             allArtFragments.length === artFragmentsInFoils.length &&
-            allStepsWithSimulation;
+            allArtFragments.length > 0;
 }
 
 export function getAllUniqueCliches(configuration) {

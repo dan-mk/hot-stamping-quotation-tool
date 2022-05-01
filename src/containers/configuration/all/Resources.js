@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getAllUniqueCliches, getAllFoils, pixelsToCm } from '../helpers';
+import { getAllUniqueCliches, getAllFoils, pixelsToCm } from './../../../helpers';
 import './../../../css/resources.css';
 
 export function Resources(props) {
