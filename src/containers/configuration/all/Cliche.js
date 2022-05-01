@@ -5,7 +5,6 @@ export function Cliche(props) {
     const position = props.position;
     const size = props.size;
     const zoomMultiplier = props.zoomMultiplier;
-    const configurationId = props.configurationId;
     const id = props.id;
     const groupId = props.groupId;
     const showOnlyPaper = props.showOnlyPaper;
@@ -47,7 +46,7 @@ export function Cliche(props) {
 
     const dispatch = useDispatch();
     const onClick = () => {
-        dispatch(deleteCliche(configurationId, id));
+        dispatch(deleteCliche(id));
     };
 
     return (

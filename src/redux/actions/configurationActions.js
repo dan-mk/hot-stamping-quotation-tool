@@ -23,11 +23,10 @@ export const setSelectedConfiguration = (configuration) => {
     };
 };
 
-export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width, group_id = null) => {
+export const addCliche = (art_id, step_id, art_fragments_ids, x, y, height, width, group_id = null) => {
     return {
         type: ADD_CLICHE,
         payload: {
-            configuration_id,
             art_id,
             step_id,
             art_fragments_ids,
@@ -40,21 +39,19 @@ export const addCliche = (configuration_id, art_id, step_id, art_fragments_ids, 
     };
 };
 
-export const deleteCliche = (configuration_id, cliche_id) => {
+export const deleteCliche = (cliche_id) => {
     return {
         type: DELETE_CLICHE,
         payload: {
-            configuration_id,
             cliche_id,
         }
     };
 };
 
-export const addFoil = (configuration_id, art_id, step_id, foil_type_id, art_fragments_ids, x, width) => {
+export const addFoil = (art_id, step_id, foil_type_id, art_fragments_ids, x, width) => {
     return {
         type: ADD_FOIL,
         payload: {
-            configuration_id,
             art_id,
             step_id,
             foil_type_id,
@@ -65,11 +62,10 @@ export const addFoil = (configuration_id, art_id, step_id, foil_type_id, art_fra
     };
 };
 
-export const deleteFoil = (configuration_id, foil_id) => {
+export const deleteFoil = (foil_id) => {
     return {
         type: DELETE_FOIL,
         payload: {
-            configuration_id,
             foil_id,
         }
     };

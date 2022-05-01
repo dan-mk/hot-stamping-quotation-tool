@@ -35,7 +35,7 @@ export function Paper(props) {
         top: '-25px'
     };
 
-    const artFragments = useSelector(state => getArtFragments(state, art));
+    const artFragments = getArtFragments(art);
     const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
     const foilTypes = useSelector(state => state.foil_types.data);
 
@@ -52,7 +52,6 @@ export function Paper(props) {
                                 size={size}
                                 zoomMultiplier={zoomMultiplier}
                                 color={color}
-                                configurationId={configuration.id}
                                 id={foil.id}
                                 showOnlyPaper={showOnlyPaper} />;
                 })
@@ -66,7 +65,6 @@ export function Paper(props) {
                                 position={position}
                                 size={size}
                                 zoomMultiplier={zoomMultiplier}
-                                configurationId={configuration.id}
                                 id={cliche.id}
                                 groupId={cliche.group_id}
                                 showOnlyPaper={showOnlyPaper} />;
@@ -94,7 +92,7 @@ export function Paper(props) {
                     const hasEverythingCurrentStep = artFragmentsData[artFragment.id].hasEverythingCurrentStep;
                     const hasEverythingOtherStep = artFragmentsData[artFragment.id].hasEverythingOtherStep;
                     const hasAnythingOtherStep = artFragmentsData[artFragment.id].hasAnythingOtherStep;
-                    const data = artFragment.data;
+                    const id = artFragment.id;
                     return <ArtFragment 
                                 key={i}
                                 position={position}
@@ -104,7 +102,7 @@ export function Paper(props) {
                                 hasEverythingCurrentStep={hasEverythingCurrentStep}
                                 hasEverythingOtherStep={hasEverythingOtherStep}
                                 hasAnythingOtherStep={hasAnythingOtherStep}
-                                data={data} />;
+                                id={id} />;
                 })
             }
             <div style={styleSizeLabel}>

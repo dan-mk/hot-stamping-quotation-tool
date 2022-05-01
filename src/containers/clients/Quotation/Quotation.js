@@ -6,7 +6,7 @@ import { PageHeader, Button, List, Avatar } from 'antd';
 import * as moment from 'moment';
 import api from '../../../helpers/api';
 import { setSelectedQuotation } from '../../../redux/actions/quotationActions';
-import { setConfigurations, setSelectedConfiguration } from '../../../redux/actions/configurationActions';
+import { setConfigurations } from '../../../redux/actions/configurationActions';
 import GStyle from "../../../css/GStyle";
 import Style from "./Style";
 
@@ -97,7 +97,6 @@ function Quotation() {
                 dataSource={Object.values(configurations.data)}
                 renderItem={(item) => (
                     <List.Item className={classes.listItem} onClick={() => {
-                        dispatch(setSelectedConfiguration(item));
                         navigate(`/clients/${id}/quotations/${quotationId}/configurations/${item.id}`);
                     }}>
                         <List.Item.Meta

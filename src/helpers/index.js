@@ -1,5 +1,5 @@
-export function getArtFragments(state, art) {
-    return Object.values(state.art_fragments.data).filter(artFragment => artFragment.art_id === art.id);
+export function getArtFragments(art) {
+    return art.art_fragments;
 }
 
 export function getArtFragmentsByStep(state, configuration, art, step) {

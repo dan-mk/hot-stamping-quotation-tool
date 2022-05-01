@@ -7,7 +7,6 @@ export function Foil(props) {
     const size = props.size;
     const zoomMultiplier = props.zoomMultiplier;
     const color = props.color;
-    const configurationId = props.configurationId;
     const id = props.id;
     const showOnlyPaper = props.showOnlyPaper;
 
@@ -69,7 +68,7 @@ export function Foil(props) {
 
     const dispatch = useDispatch();
     const onClick = () => {
-        dispatch(deleteFoil(configurationId, id));
+        dispatch(deleteFoil(id));
     };
 
     return (

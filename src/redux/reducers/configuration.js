@@ -28,8 +28,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             draft.selected = payload;
             break;
         case ADD_CLICHE: {
-            const { configuration_id, art_id, step_id, art_fragments_ids, x, y, height, width, group_id } = payload;
-            const configuration =  draft.data[configuration_id];
+            const { art_id, step_id, art_fragments_ids, x, y, height, width, group_id } = payload;
+            const configuration = draft.selected;
             const step = configuration.arts[art_id].steps[step_id];
 
             step.cliches.data[configuration.next_cliche_id] = {
@@ -47,8 +47,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             }
         }   break;
         case DELETE_CLICHE: {
-            const { configuration_id, cliche_id } = payload;
-            const configuration =  draft.data[configuration_id];
+            const { cliche_id } = payload;
+            const configuration =  draft.selected;
 
             for (let artId in configuration.arts) {
                 const art = configuration.arts[artId];
@@ -59,8 +59,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             }
         }   break;
         case ADD_FOIL: {
-            const { configuration_id, art_id, step_id, foil_type_id, art_fragments_ids, x, width } = payload;
-            const configuration =  draft.data[configuration_id];
+            const { art_id, step_id, foil_type_id, art_fragments_ids, x, width } = payload;
+            const configuration =  draft.selected;
             const step = configuration.arts[art_id].steps[step_id];
 
             step.foils.data[configuration.next_foil_id] = {
@@ -73,8 +73,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             configuration.next_foil_id += 1;
         }   break;
         case DELETE_FOIL: {
-            const { configuration_id, foil_id } = payload;
-            const configuration =  draft.data[configuration_id];
+            const { foil_id } = payload;
+            const configuration =  draft.selected;
 
             for (let artId in configuration.arts) {
                 const art = configuration.arts[artId];

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import api from '../../../helpers/api';
 
 export function ArtFragment(props) {
     const position = props.position;
@@ -8,9 +9,10 @@ export function ArtFragment(props) {
     const hasEverythingCurrentStep = props.hasEverythingCurrentStep;
     const hasEverythingOtherStep = props.hasEverythingOtherStep;
     const hasAnythingOtherStep = props.hasAnythingOtherStep;
-    const data = props.data;
+    const id = props.id;
 
     const refContainer = useRef(null);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const canvas = document.createElement('canvas');
@@ -20,20 +22,20 @@ export function ArtFragment(props) {
         canvas.height = size.height;
         canvas.width = size.width;
 
-        ctx.fillStyle = "rgba(" + 0 + "," + 0 + "," + 0 + "," + 1 + ")";
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[0].length; j++) {
-                if (data[i][j] === 1) {
-                    ctx.fillRect(j, i, 1, 1);
-                }
-            }
-        }
+        const image = new Image();
+        image.src = `${api.defaults.baseURL}/uploads/art_fragments/${id}.png`
+        image.onload = () => {
+            ctx.drawImage(image, 0, 0, size.width, size.height);
+            setLoaded(true);
+        };
 
         refContainer.current.innerHTML = '';
         refContainer.current.appendChild(canvas);
     }, []);
 
     useEffect(() => {
+        if (!loaded) return;
+
         const canvas = refContainer.current.querySelector('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -51,7 +53,7 @@ export function ArtFragment(props) {
         ctx.globalCompositeOperation = 'source-in';
         ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + "," + 1 + ")";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }, [selected, hasEverythingCurrentStep, hasEverythingOtherStep, hasAnythingOtherStep]);
+    }, [selected, hasEverythingCurrentStep, hasEverythingOtherStep, hasAnythingOtherStep, loaded]);
 
     let style = {
         position: 'absolute',

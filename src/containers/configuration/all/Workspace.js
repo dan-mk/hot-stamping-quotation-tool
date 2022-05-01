@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Paper } from './Paper';
 import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
@@ -16,7 +16,7 @@ export function Workspace(props) {
     const showOnlyPaper = props.showOnlyPaper || false;
     const paddingHorizontal = props.paddingHorizontal || 16;
     const paddingVertical = props.paddingVertical || 40;
-    const artFragments = useSelector(state => getArtFragments(state, art));
+    const artFragments = getArtFragments(art);
     const zoomBase = props.zoomBase || 1.25;
 
     const [zoom, setZoom] = useState(0);
@@ -177,7 +177,6 @@ export function Workspace(props) {
 
         dispatch(
             addCliche(
-                configuration.id,
                 art.id,
                 currentStep,
                 selectedArtFragmentIds,
@@ -204,7 +203,6 @@ export function Workspace(props) {
 
         dispatch(
             addCliche(
-                configuration.id,
                 art.id,
                 currentStep,
                 selectedArtFragmentIds,
@@ -231,7 +229,6 @@ export function Workspace(props) {
 
         dispatch(
             addFoil(
-                configuration.id,
                 art.id,
                 currentStep,
                 foilTypeId,
@@ -329,7 +326,7 @@ export function Workspace(props) {
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
                     { !showFoilSimulation && <div style={paperContainerStyle}>
-                        {/* <Paper 
+                        <Paper 
                             art={art}
                             configuration={configuration}
                             artFragmentsData={artFragmentsData}
@@ -338,7 +335,7 @@ export function Workspace(props) {
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}
                             currentStep={currentStep}
-                            showOnlyPaper={showOnlyPaper} /> */}
+                            showOnlyPaper={showOnlyPaper} />
                     </div> }
                     { showFoilSimulation && 
                         <FoilSimulation configuration={configuration} art={art} currentStep={currentStep} setShowFoilSimulation={setShowFoilSimulation} /> }
