@@ -5,8 +5,8 @@ import { SelectionBox } from './SelectionBox';
 import { Toolbar } from './Toolbar';
 import { StepsTabs } from './StepsTabs';
 import { FoilSimulation } from './FoilSimulation';
-import { getArtFragments, getAllUniqueCliches, cmToPixels } from '../helpers';
-import { addCliche, addFoil } from '../redux/actions';
+import { getArtFragments, getAllUniqueCliches, cmToPixels } from './../../../helpers';
+import { addCliche, addFoil } from './../../../redux/actions/configurationActions';
 import './../../../css/workspace.css';
 
 export function Workspace(props) {
@@ -87,8 +87,6 @@ export function Workspace(props) {
     const reusableCliches = allUniqueCliches.filter(cliche => !cliches.map(c => c.id).includes(cliche.id));
 
     const simulateFoilUseDisabled = (showFoilSimulation === true || foils.length === 0);
-
-    const foilUseSimulated = (configuration.arts[art.id].steps[currentStep].foil_use.length > 0);
 
     let onWheel = (e) => {
         if (showOnlyPaper || showFoilSimulation) return;
@@ -326,13 +324,12 @@ export function Workspace(props) {
                     clicheDisabled={clicheDisabled}
                     foilDisabled={foilDisabled}
                     reusableCliches={reusableCliches}
-                    simulateFoilUseDisabled={simulateFoilUseDisabled}
-                    foilUseSimulated={foilUseSimulated} />
+                    simulateFoilUseDisabled={simulateFoilUseDisabled} />
             </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
                     { !showFoilSimulation && <div style={paperContainerStyle}>
-                        <Paper 
+                        {/* <Paper 
                             art={art}
                             configuration={configuration}
                             artFragmentsData={artFragmentsData}
@@ -341,7 +338,7 @@ export function Workspace(props) {
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}
                             currentStep={currentStep}
-                            showOnlyPaper={showOnlyPaper} />
+                            showOnlyPaper={showOnlyPaper} /> */}
                     </div> }
                     { showFoilSimulation && 
                         <FoilSimulation configuration={configuration} art={art} currentStep={currentStep} setShowFoilSimulation={setShowFoilSimulation} /> }

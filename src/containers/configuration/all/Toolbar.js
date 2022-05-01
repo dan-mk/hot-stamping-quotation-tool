@@ -13,7 +13,6 @@ export function Toolbar(props) {
     const foilDisabled = props.foilDisabled;
     const reusableCliches = props.reusableCliches;
     const simulateFoilUseDisabled = props.simulateFoilUseDisabled;
-    const foilUseSimulated = props.foilUseSimulated;
 
     const [clicheOptionsOpen, setClicheOptionsOpen] = useState(false);
     const [foilOptionsOpen, setFoilOptionsOpen] = useState(false);
@@ -56,14 +55,14 @@ export function Toolbar(props) {
                 <div
                     className="toolbar-option" style={{ paddingBottom: '9px', paddingTop: '9px' }}
                     onClick={() => onClickResetToIdealView()}>
-                    <img src='reset-ideal-view.png' width="100%" />
+                    <img src='/reset-ideal-view.png' width="100%" />
                 </div>
             </span>
             <span title="Insert cliche">
                 <div
                     className={"toolbar-option" + (clicheDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={openClicheOptions}>
-                    <img src='add-cliche.png' width="100%" />
+                    <img src='/add-cliche.png' width="100%" />
                 </div>
                 <div className="expanded-toolbar-options" title="" style={{ display: (clicheOptionsOpen ? 'block' : '') }}>
                     <div onClick={onClickNewCliche}>Create new cliche</div>
@@ -77,7 +76,7 @@ export function Toolbar(props) {
                 <div
                     className={"toolbar-option" + (foilDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={openFoilOptions}>
-                    <img src='add-foil.png' width="100%" />
+                    <img src='/add-foil.png' width="100%" />
                 </div>
                 <div className="expanded-toolbar-options" title="" style={{ display: (foilOptionsOpen ? 'block' : '') }}>
                     { foilTypes.map(foilType => <div key={'foil' + foilType.id} onClick={() => onClickNewFoil(foilType.id)}>
@@ -89,8 +88,8 @@ export function Toolbar(props) {
                 <div
                     className={"toolbar-option" + (simulateFoilUseDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={onClickSimulateFoilUse}
-                    style={{ paddingTop: '8px', paddingBlock: '8px', ...(foilUseSimulated || simulateFoilUseDisabled ? {} : { background: 'red' }) }}>
-                    <img src='foil-simulation.png' width="100%" />
+                    style={{ paddingTop: '8px', paddingBlock: '8px' }}>
+                    <img src='/foil-simulation.png' width="100%" />
                 </div>
             </span>
         </div>

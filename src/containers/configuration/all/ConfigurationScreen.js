@@ -1,6 +1,6 @@
 import { Header } from "./Header";
 import { ArtsTabs } from "./ArtsTabs";
-// import { Workspace } from "./Workspace";
+import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
 // import { OverallQuotationScreen } from "./OverallQuotationScreen";
 import { getAllArtFragments, isEverythingSet } from './../../../helpers';
@@ -63,9 +63,9 @@ export function ConfigurationScreen(props) {
             <div id="bottom-container">
                 <div id="workspace-container">
                     <ArtsTabs configuration={configuration} onClickTab={onClickTab} currentArt={currentArt} />
-                    {/* { arts.map((art, i) => {
+                    { arts.map((art, i) => {
                         return <Workspace show={i + 1 === currentArt} key={i} art={art} configuration={configuration} />
-                    }) } */}
+                    }) }
                 </div>
                 <div id="resources-container">
                     <Resources configuration={configuration} />

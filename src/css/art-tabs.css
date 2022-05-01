@@ -3,6 +3,7 @@
     display: flex;
     padding: 5px 0;
     padding-left: 45px;
+    margin: 0;
 }
 
 #arts-nav li {

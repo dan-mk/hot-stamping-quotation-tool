@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { deleteFoil } from '../redux/actions';
-import { cmToPixels } from '../helpers';
+import { deleteFoil } from './../../../redux/actions/configurationActions';
+import { cmToPixels } from './../../../helpers';
 
 export function Foil(props) {
     const position = props.position;

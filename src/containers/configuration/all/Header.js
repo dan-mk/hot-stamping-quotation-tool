@@ -9,7 +9,7 @@ export function Header(props) {
     return (
         <header id="header">
             <LeftCircleOutlined
-                style={{ float: 'left', fontSize: '30px', margin: '12px 20px 10px 0' }}
+                style={{ float: 'left', fontSize: '30px', margin: '6px 20px 0 0' }}
                 onClick={() => navigate(`/clients/${configuration.quotation.client_id}/quotations/${configuration.quotation_id}/`) }
             />
             <p>{configuration.quotation.description}</p>

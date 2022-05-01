@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteCliche } from '../redux/actions';
+import { deleteCliche } from './../../../redux/actions/configurationActions';
 
 export function Cliche(props) {
     const position = props.position;

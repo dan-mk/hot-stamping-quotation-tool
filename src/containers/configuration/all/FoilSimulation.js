@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getArtFragmentsByStep, pixelsToCm } from "../helpers";
+import { getArtFragmentsByStep, pixelsToCm } from "./../../../helpers";
 
 export function FoilSimulation(props) {
     const configuration = props.configuration;

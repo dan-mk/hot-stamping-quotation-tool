@@ -75,21 +75,19 @@ export const deleteFoil = (configuration_id, foil_id) => {
     };
 };
 
-export const addStep = (configuration_id, art_id) => {
+export const addStep = (art_id) => {
     return {
         type: ADD_STEP,
         payload: {
-            configuration_id,
             art_id,
         }
     };
 };
 
-export const deleteStep = (configuration_id, art_id, step_id) => {
+export const deleteStep = (art_id, step_id) => {
     return {
         type: DELETE_STEP,
         payload: {
-            configuration_id,
             art_id,
             step_id,
         }

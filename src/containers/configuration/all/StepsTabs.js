@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addStep, deleteStep } from '../redux/actions';
+import { addStep, deleteStep } from './../../../redux/actions/configurationActions';
 import './../../../css/steps-tabs.css';
 
 export function StepsTabs(props) {
@@ -12,12 +12,12 @@ export function StepsTabs(props) {
     const dispatch = useDispatch();
 
     const onClickAddStep = () => {
-        dispatch(addStep(configuration.id, art.id));
+        dispatch(addStep(art.id));
         setCurrentStep(steps.length + 1);
     };
 
     const onClickDeleteStep = () => {
-        dispatch(deleteStep(configuration.id, art.id, currentStep));
+        dispatch(deleteStep(art.id, currentStep));
         if (currentStep === steps.length) {
             setCurrentStep(currentStep - 1);
         }
@@ -33,7 +33,7 @@ export function StepsTabs(props) {
                 title='Delete current step'
                 key={'remove'}
                 className={steps.length === 1 ? 'delete-step-disabled' : ''} >
-                <img src="times-solid.svg"/>
+                <img src="/times-solid.svg"/>
             </li>
         </ul>
     );

@@ -85,8 +85,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             }
         }   break;
         case ADD_STEP: {
-            const { configuration_id, art_id } = payload;
-            const art = draft.data[configuration_id].arts[art_id];
+            const { art_id } = payload;
+            const art = draft.selected.arts[art_id];
 
             const numOfSteps = Object.keys(art.steps).length;
             art.steps[numOfSteps + 1] = {
@@ -100,8 +100,8 @@ const configurationReducer = produce((draft, {type, payload}) => {
             };
         }   break;
         case DELETE_STEP: {
-            const { configuration_id, art_id, step_id } = payload;
-            const art = draft.data[configuration_id].arts[art_id];
+            const { art_id, step_id } = payload;
+            const art = draft.selected.arts[art_id];
             
             const previousSteps = Object.values(art.steps).filter(step => step.id != step_id);
             art.steps = {};

@@ -3,7 +3,7 @@ import { Cliche } from "./Cliche";
 import { Foil } from "./Foil";
 import { FoilOverlay } from "./FoilOverlay";
 import { useSelector } from 'react-redux';
-import { cmToPixels, getArtFragments, pixelsToCm } from '../helpers';
+import { cmToPixels, getArtFragments, pixelsToCm } from './../../../helpers';
 
 export function Paper(props) {
     const art = props.art;

@@ -4,11 +4,13 @@
 }
 
 #header p {
+    line-height: 1.2;
     margin: 0;
 }
 
 #header h1 {
     font-size: 23px;
     font-weight: normal;
+    line-height: 1.2;
     margin: 0;
 }
