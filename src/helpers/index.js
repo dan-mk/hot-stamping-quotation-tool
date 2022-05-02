@@ -2,20 +2,16 @@ export function getArtFragments(art) {
     return art.art_fragments;
 }
 
-export function getArtFragmentsByStep(state, configuration, art, step) {
-    const allArtFragmentsIds = Object.values(configuration.arts[art.id].steps[step].foils.data).reduce((list, foil) => {
+export function getArtFragmentIdsByStep(configuration, art, step) {
+    return Object.values(configuration.arts[art.id].steps[step].foils.data).reduce((list, foil) => {
         return [...list, ...foil.art_fragments_ids];
     }, []);
-    return Object.values(state.art_fragments.data).filter(artFragment => {
-        return allArtFragmentsIds.includes(artFragment.id);
-    });
 }
 
-export function getAllArtFragments(state, configuration) {
-    const artIds = Object.values(state.arts.data).filter(art => art.quote_id === configuration.quote_id).map(art => art.id);
-    return Object.values(state.art_fragments.data).filter(artFragment => {
-        return artIds.includes(artFragment.art_id);
-    });
+export function getAllArtFragments(configuration) {
+    return configuration.quotation.arts.reduce((list, art) => {
+        return [...list,...art.art_fragments];
+    }, []);
 }
 
 export function isEverythingSet(configuration, allArtFragments) {

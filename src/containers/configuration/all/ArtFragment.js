@@ -25,7 +25,7 @@ export function ArtFragment(props) {
         const image = new Image();
         image.src = `${api.defaults.baseURL}/uploads/art_fragments/${id}.png`
         image.onload = () => {
-            ctx.drawImage(image, 0, 0, size.width, size.height);
+            ctx.drawImage(image, 0, 0);
             setLoaded(true);
         };
 

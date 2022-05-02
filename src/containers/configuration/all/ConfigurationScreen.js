@@ -4,7 +4,6 @@ import { Workspace } from "./Workspace";
 import { Resources } from "./Resources";
 // import { OverallQuotationScreen } from "./OverallQuotationScreen";
 import { getAllArtFragments, isEverythingSet } from './../../../helpers';
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { useImmer } from 'use-immer';
 import './../../../css/configuration-screen.css';
@@ -20,7 +19,7 @@ export function ConfigurationScreen(props) {
         data: {}
     });
 
-    const allArtFragments = useSelector(state => getAllArtFragments(state, configuration));
+    const allArtFragments = getAllArtFragments(configuration);
     const everythingSet = isEverythingSet(configuration, allArtFragments);
     const styleCalculate = {
         color: everythingSet ? '' : 'darkgray',

@@ -27,6 +27,9 @@ function Configuration() {
 
   useEffect(() => {
     fetchConfiguration();
+    return () => {
+        dispatch(setSelectedConfiguration(null));
+    };
   }, []);
 
   return (
