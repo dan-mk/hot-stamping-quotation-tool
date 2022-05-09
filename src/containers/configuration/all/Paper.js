@@ -3,7 +3,7 @@ import { Cliche } from "./Cliche";
 import { Foil } from "./Foil";
 import { FoilOverlay } from "./FoilOverlay";
 import { useSelector } from 'react-redux';
-import { cmToPixels, getArtFragments, pixelsToCm } from './../../../helpers';
+import { cmToPixels, getArtFragments } from './../../../helpers';
 
 export function Paper(props) {
     const art = props.art;
@@ -26,17 +26,8 @@ export function Paper(props) {
         width: zoomMultiplier * size.width,
     };
 
-    const styleSizeLabel = {
-        background: 'white',
-        borderRadius: '2px',
-        padding: '2px 4px',
-        position: 'absolute',
-        left: '0',
-        top: '-25px'
-    };
-
     const artFragments = getArtFragments(art);
-    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
+    const foils = Object.values(configuration.arts[art.index].steps[currentStep].foils.data);
     const foilTypes = useSelector(state => state.foil_types.data);
 
     return (
@@ -105,9 +96,6 @@ export function Paper(props) {
                                 id={id} />;
                 })
             }
-            <div style={styleSizeLabel}>
-                { pixelsToCm(size.width) + ' x ' + pixelsToCm(size.height) } cm
-            </div>
         </div>
     );
 }

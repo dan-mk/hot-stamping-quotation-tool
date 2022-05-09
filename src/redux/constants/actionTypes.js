@@ -13,3 +13,4 @@ export const ADD_FOIL = 'ADD_FOIL';
 export const DELETE_FOIL = 'DELETE_FOIL';
 export const ADD_STEP = 'ADD_STEP';
 export const DELETE_STEP = 'DELETE_STEP';
+export const SET_FOIL_OFFSETS = 'SET_FOIL_OFFSETS';

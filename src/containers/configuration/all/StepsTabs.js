@@ -7,17 +7,17 @@ export function StepsTabs(props) {
     const art = props.art;
     const currentStep = props.currentStep;
     const setCurrentStep = props.setCurrentStep;
-    const steps = Object.values(configuration.arts[art.id].steps);
+    const steps = Object.values(configuration.arts[art.index].steps);
 
     const dispatch = useDispatch();
 
     const onClickAddStep = () => {
-        dispatch(addStep(art.id));
+        dispatch(addStep(art.index));
         setCurrentStep(steps.length + 1);
     };
 
     const onClickDeleteStep = () => {
-        dispatch(deleteStep(art.id, currentStep));
+        dispatch(deleteStep(art.index, currentStep));
         if (currentStep === steps.length) {
             setCurrentStep(currentStep - 1);
         }

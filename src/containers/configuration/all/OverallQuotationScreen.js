@@ -1,9 +1,10 @@
-import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, getConfigurationArts, pixelsToCm } from '../helpers';
+import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, pixelsToCm } from './../../../helpers';
 import { QuotationInstanceScreen } from './QuotationInstanceScreen';
 import { useSelector } from 'react-redux';
 import './../../../css/quotation-screen.css';
 import { useState } from 'react';
-import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './Formulas';
+import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './../../../config/Formulas';
+import api from './../../../helpers/api';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -11,10 +12,9 @@ export function OverallQuotationScreen(props) {
     const quotationInstances = props.quotationInstances;
     const setQuotationInstances = props.setQuotationInstances;
     const addQuotationInstance = props.addQuotationInstance;
-    const quoteId = configuration.quote_id;
 
-    const quote = useSelector(state => state.quotes.data[quoteId]);
-    const arts = useSelector(state => getConfigurationArts(state, configuration));
+    const quote = configuration.quotation;
+    const arts = configuration.quotation.arts;
     const foilTypes = useSelector(state => state.foil_types.data);
     
     const [showQuotationInstanceScreen, setShowQuotationInstanceScreen] = useState(false);
@@ -33,14 +33,14 @@ export function OverallQuotationScreen(props) {
                     <p>{ quote.description }</p>
                     <h1>{ configuration.description }</h1>
                 </div>
-                <img onClick={onClickClose} src="times-solid.svg"/>
+                <img onClick={onClickClose} src="/times-solid.svg"/>
             </header>
             <div id="overall-quotation-content-container">
                 <div>
                     <div></div>
                     { arts.map((art, i) => {
                         return <div key={i} className="overall-quotation-image-cell">
-                            <img src={art.base64} />
+                            <img src={`${api.defaults.baseURL}/uploads/arts/${art.id}.png`} />
                         </div>
                     }) }
                     <div></div>
@@ -57,7 +57,7 @@ export function OverallQuotationScreen(props) {
                 </div>
                 { Object.values(quotationInstances.data).map((quotationInstance, i) => {
                     const areAllValuesFilled = arts.reduce((arePreviousValuesFilled, art) => {
-                        return arePreviousValuesFilled && quotationInstance.number_of_pages[art.id];
+                        return arePreviousValuesFilled && quotationInstance.number_of_pages[art.index];
                     }, true);
 
                     const clichePrices = {};
@@ -89,11 +89,11 @@ export function OverallQuotationScreen(props) {
 
                         foils.forEach(foil => {
                             let artId;
-                            Object.values(configuration.arts).forEach(art => {
+                            Object.values(configuration.arts).forEach((art, i) => {
                                 Object.values(art.steps).forEach(step => {
                                     Object.values(step.foils.data).forEach(f => {
                                         if (f.id === foil.id) {
-                                            artId = art.id;
+                                            artId = i + 1;
                                         }
                                     });
                                 });
@@ -110,7 +110,7 @@ export function OverallQuotationScreen(props) {
                                 });
                             });
 
-                            const foilUse = configuration.arts[artId].steps[stepId].foil_use;
+                            const foilUse = configuration.arts[artId].steps[stepId].foil_offsets;
                             const avgHeight = foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length;
 
                             const foilType = foilTypes[foil.foil_type_id];
@@ -118,10 +118,12 @@ export function OverallQuotationScreen(props) {
                             const foilRollLengthCm = foilType.length;
                             const foilRollPrice = foilType.price;
 
+                            const stampingsForStep = quotationInstance.number_of_pages[artId];
+
                             foilPrices[foil.id] = parseFloat(
                                 getFoilPrice(
                                     parseFloat(pixelsToCm(foil.width)),
-                                    parseFloat(pixelsToCm(avgHeight * totalOfStampings)),
+                                    parseFloat(pixelsToCm(avgHeight * stampingsForStep)),
                                     foilRollWidthCm,
                                     foilRollLengthCm,
                                     foilRollPrice
@@ -182,15 +184,15 @@ export function OverallQuotationScreen(props) {
                                 const handleChange = (e) => {
                                     setQuotationInstances(draft => {
                                         const number_of_pages = draft.data[quotationInstance.id].number_of_pages;
-                                        const newValue = e.target.validity.valid ? e.target.value : number_of_pages[art.id];
-                                        number_of_pages[art.id] = newValue === '' ? '' : parseInt(newValue);
+                                        const newValue = e.target.validity.valid ? e.target.value : number_of_pages[art.index];
+                                        number_of_pages[art.index] = newValue === '' ? '' : parseInt(newValue);
                                     });
                                 };
 
                                 return (<div key={j}>
                                     <input
                                         pattern="[0-9]{0,6}"
-                                        value={quotationInstance.number_of_pages[art.id]}
+                                        value={quotationInstance.number_of_pages[art.index]}
                                         onChange={handleChange}
                                         readOnly={quotationInstance.locked}
                                         className="quotation-input" />
@@ -198,7 +200,7 @@ export function OverallQuotationScreen(props) {
                             }) }
                             <div>
                                 <span className="overall-quotation-price">
-                                    $ { areAllValuesFilled ? (quotationInstance.locked ? totalCustomPrice.toFixed(2) : totalPrice.toFixed(2)) : '---' }
+                                    $ { areAllValuesFilled ? (quotationInstance.locked ? totalCustomPrice.toFixed(2) : totalPrice.toFixed(2)) : '---' + areAllValuesFilled }
                                 </span>
                                 <button 
                                     className={"quotation-button" + (areAllValuesFilled ? "" : " quotation-button-disabled")}
@@ -206,7 +208,7 @@ export function OverallQuotationScreen(props) {
                                     Customize
                                 </button>
                                 { Object.values(quotationInstances.data).length > 1 &&
-                                    <img src="times-solid.svg" onClick={onClickDelete} style={{ width: '12px', cursor: 'pointer' }}/> }
+                                    <img src="/times-solid.svg" onClick={onClickDelete} style={{ width: '12px', cursor: 'pointer' }}/> }
                             </div>
                         </div>
                     );

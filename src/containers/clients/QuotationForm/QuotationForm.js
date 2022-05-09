@@ -6,6 +6,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../helpers/api";
 import { setSelectedClient } from "../../../redux/actions/clientActions";
+import { setSelectedQuotation } from '../../../redux/actions/quotationActions';
 import Style from './Style';
 import GStyle from "../../../css/GStyle";
 
@@ -51,7 +52,8 @@ function QuotationForm() {
             });
 
             api.post(`/quotations/${quotationId}/arts`, formData).then(() => {
-                // navigate(`/clients/${id}/quotations/${quotationId}`);
+                dispatch(setSelectedQuotation(null));
+                navigate(`/clients/${id}/quotations/${quotationId}`);
             });
         });
     };

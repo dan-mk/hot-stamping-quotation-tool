@@ -7,6 +7,7 @@ import { StepsTabs } from './StepsTabs';
 import { FoilSimulation } from './FoilSimulation';
 import { getArtFragments, getAllUniqueCliches, cmToPixels } from './../../../helpers';
 import { addCliche, addFoil } from './../../../redux/actions/configurationActions';
+import api from '../../../helpers/api';
 import './../../../css/workspace.css';
 
 export function Workspace(props) {
@@ -34,8 +35,8 @@ export function Workspace(props) {
     const size = { height: art.height, width: art.width };
 
     const allUniqueCliches = getAllUniqueCliches(configuration);
-    const cliches = Object.values(configuration.arts[art.id].steps[currentStep].cliches.data);
-    const foils = Object.values(configuration.arts[art.id].steps[currentStep].foils.data);
+    const cliches = Object.values(configuration.arts[art.index].steps[currentStep].cliches.data);
+    const foils = Object.values(configuration.arts[art.index].steps[currentStep].foils.data);
 
     const artFragmentIdsWithCliches = cliches.reduce((list, cliche) => {
         return [...list, ...cliche.art_fragments_ids];
@@ -44,10 +45,10 @@ export function Workspace(props) {
         return [...list, ...foil.art_fragments_ids];
     }, []);
 
-    const clichesAllSteps = Object.values(configuration.arts[art.id].steps).reduce((list, step) => {
+    const clichesAllSteps = Object.values(configuration.arts[art.index].steps).reduce((list, step) => {
         return [...list, ...Object.values(step.cliches.data)];
     }, []);
-    const foilsAllSteps = Object.values(configuration.arts[art.id].steps).reduce((list, step) => {
+    const foilsAllSteps = Object.values(configuration.arts[art.index].steps).reduce((list, step) => {
         return [...list, ...Object.values(step.foils.data)];
     }, []);
 
@@ -177,7 +178,7 @@ export function Workspace(props) {
 
         dispatch(
             addCliche(
-                art.id,
+                art.index,
                 currentStep,
                 selectedArtFragmentIds,
                 minX - cmToPixels(0.5),
@@ -203,7 +204,7 @@ export function Workspace(props) {
 
         dispatch(
             addCliche(
-                art.id,
+                art.index,
                 currentStep,
                 selectedArtFragmentIds,
                 minX - cmToPixels(0.5),
@@ -229,7 +230,7 @@ export function Workspace(props) {
 
         dispatch(
             addFoil(
-                art.id,
+                art.index,
                 currentStep,
                 foilTypeId,
                 selectedArtFragmentIds,
@@ -287,6 +288,15 @@ export function Workspace(props) {
         if (show === false || viewportWidth === null || viewportWidth === null) return;
         resetToIdealView();
     }, [viewportWidth, viewportWidth]);
+
+    useEffect(() => {
+        api.put(`/configurations/${configuration.id}`, {
+            next_cliche_id: configuration.next_cliche_id,
+            next_cliche_group_id: configuration.next_cliche_group_id,
+            next_foil_id: configuration.next_foil_id,
+            arts: configuration.arts,
+        });
+    }, [JSON.stringify(configuration)]);
 
     const style = {
         background: '#d0d0d0',

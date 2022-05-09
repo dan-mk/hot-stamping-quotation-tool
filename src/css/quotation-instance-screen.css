@@ -17,6 +17,10 @@
     font-weight: normal;
 }
 
+#quotation-instance-container header p {
+    margin: 0;
+}
+
 #quotation-instance-container header img {
     cursor: pointer;
     align-self: flex-start;
@@ -29,9 +33,13 @@
     padding: 0 46px 30px;
 }
 
-#quotation-instance-arts-container {
+#quotation-instance-arts-container > div {
     display: flex;
     padding: 0 0 10px;
+}
+
+#quotation-instance-arts-container > div p {
+    margin: 0;
 }
 
 .quotation-instance-image-cell {

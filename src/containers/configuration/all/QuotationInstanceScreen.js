@@ -1,7 +1,6 @@
-import { getConfigurationArts } from '../helpers';
-import { useSelector } from 'react-redux';
 import './../../../css/quotation-instance-screen.css';
 import { Workspace } from './Workspace';
+import api from './../../../helpers/api';
 
 export function QuotationInstanceScreen(props) {
     const configuration = props.configuration;
@@ -14,10 +13,9 @@ export function QuotationInstanceScreen(props) {
     const productionPrice = props.productionPrice;
     const totalPrice = props.totalPrice;
     const totalCustomPrice = props.totalCustomPrice;
-    const quoteId = configuration.quote_id;
     
-    const quote = useSelector(state => state.quotes.data[quoteId]);
-    const arts = useSelector(state => getConfigurationArts(state, configuration));
+    const quote = configuration.quotation;
+    const arts = configuration.quotation.arts;
 
     const handleChangeProduction = (e) => {
         setQuotationInstances(draft => {
@@ -34,23 +32,23 @@ export function QuotationInstanceScreen(props) {
                     <p>{ quote.description }</p>
                     <h1>{ configuration.description }</h1>
                 </div>
-                <img onClick={onClickClose} src="times-solid.svg"/>
+                <img onClick={onClickClose} src="/times-solid.svg"/>
             </header>
             <div id="quotation-instance-content-container">
                 <div id="quotation-instance-arts-container">
                     { arts.map(art => {
                         return (
-                            <>
+                            <div key={art.id}>
                                 <div className="quotation-instance-image-cell">
-                                    <img src={art.base64} />
+                                    <img src={`${api.defaults.baseURL}/uploads/arts/${art.id}.png`} />
                                 </div>
                                 <div className="quotation-instance-art-details-cell">
                                     <div>
-                                        <p>Art {art.id}</p>
+                                        <p>Art {art.index}</p>
                                         <span>{quotationInstance.number_of_pages[art.id]} pages</span>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         );
                     }) }
                 </div>
@@ -60,12 +58,12 @@ export function QuotationInstanceScreen(props) {
                         Object.values(configuration.arts).map((art, i) => {
                             return Object.values(art.steps).map((step, j) => {
                                 return (
-                                    <div key={i + '-' + j} class="quotation-instance-step-container">
-                                        <div class="quotation-instance-step-image">
+                                    <div key={i + '-' + j} className="quotation-instance-step-container">
+                                        <div className="quotation-instance-step-image">                                    
                                             <Workspace 
                                                 show={true}
                                                 key={j}
-                                                art={arts.find(a => a.id === art.id)}
+                                                art={arts.find(a => a.id === art.art_id)}
                                                 configuration={configuration}
                                                 showOnlyPaper={true}
                                                 step={step.id}
@@ -73,10 +71,10 @@ export function QuotationInstanceScreen(props) {
                                                 paddingVertical={32}
                                                 zoomBase={1.02} />
                                         </div>
-                                        <div class="quotation-instance-step-description">
+                                        <div className="quotation-instance-step-description">
                                             <h1>Art { art.id }, step { step.id }</h1>
-                                            <div class="quotation-instance-step-price-table">
-                                                <div class="quotation-instance-step-price-table-header">
+                                            <div className="quotation-instance-step-price-table">
+                                                <div className="quotation-instance-step-price-table-header">
                                                     <div>Resource</div>
                                                     <div>Regular price</div>
                                                     <div>Custom price</div>
@@ -91,7 +89,7 @@ export function QuotationInstanceScreen(props) {
                                                             });
                                                         };
                                                         return (
-                                                            <div class="quotation-instance-step-price-table-row">
+                                                            <div className="quotation-instance-step-price-table-row" key={cliche.id}>
                                                                 <div>Cliche { cliche.group_id }</div>
                                                                 <div>$ { clichePrices[cliche.id] }</div>
                                                                 <div>
@@ -106,7 +104,7 @@ export function QuotationInstanceScreen(props) {
                                                     })
                                                 }
                                             </div>
-                                            <div class="quotation-instance-step-price-table">
+                                            <div className="quotation-instance-step-price-table">
                                                 {
                                                     Object.values(step.foils.data).map(foil => {
                                                         const handleChange = (e) => {
@@ -117,7 +115,7 @@ export function QuotationInstanceScreen(props) {
                                                             });
                                                         };
                                                         return (
-                                                            <div class="quotation-instance-step-price-table-row">
+                                                            <div className="quotation-instance-step-price-table-row" key={foil.id}>
                                                                 <div>Foil { foil.id }</div>
                                                                 <div>$ { foilPrices[foil.id] }</div>
                                                                 <div>
@@ -146,7 +144,7 @@ export function QuotationInstanceScreen(props) {
                              Object.values(configuration.arts).map(art => {
                                 return Object.values(art.steps).map(step => {
                                     return (
-                                        <div class="quotation-instance-production-step">
+                                        <div key={step.id} className="quotation-instance-production-step">
                                             <p>Art { art.id }, step { step.id }</p>
                                             <span>{ quotationInstance.number_of_pages[art.id] } stampings</span>
                                         </div>

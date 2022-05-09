@@ -3,7 +3,7 @@ export function getArtFragments(art) {
 }
 
 export function getArtFragmentIdsByStep(configuration, art, step) {
-    return Object.values(configuration.arts[art.id].steps[step].foils.data).reduce((list, foil) => {
+    return Object.values(configuration.arts[art.index].steps[step].foils.data).reduce((list, foil) => {
         return [...list, ...foil.art_fragments_ids];
     }, []);
 }

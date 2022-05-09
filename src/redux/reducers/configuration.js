@@ -8,6 +8,7 @@ import {
     DELETE_FOIL,
     ADD_STEP,
     DELETE_STEP,
+    SET_FOIL_OFFSETS,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -110,6 +111,13 @@ const configurationReducer = produce((draft, {type, payload}) => {
                 step.id = i + 1;
                 art.steps[step.id] = step;
             });
+        }   break;
+        case SET_FOIL_OFFSETS: {
+            const { art_id, step_id, offsets } = payload;
+            const configuration =  draft.selected;
+            const step = configuration.arts[art_id].steps[step_id];
+
+            step.foil_offsets = offsets;
         }   break;
         default:
             break;

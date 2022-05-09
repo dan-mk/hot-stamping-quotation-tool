@@ -7,6 +7,7 @@ import {
     DELETE_FOIL,
     ADD_STEP,
     DELETE_STEP,
+    SET_FOIL_OFFSETS,
 } from "../constants/actionTypes";
 
 export const setConfigurations = (configurations) => {
@@ -86,6 +87,17 @@ export const deleteStep = (art_id, step_id) => {
         payload: {
             art_id,
             step_id,
+        }
+    };
+};
+
+export const setFoilOffsets = (art_id, step_id, offsets) => {
+    return {
+        type: SET_FOIL_OFFSETS,
+        payload: {
+            art_id,
+            step_id,
+            offsets,
         }
     };
 };
