@@ -3,6 +3,7 @@ import { getArtFragmentIdsByStep, pixelsToCm } from "./../../../helpers";
 import api from '../../../helpers/api';
 import { useDispatch } from "react-redux";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
+import { setLoading } from "../../../redux/actions/uiActions";
 
 export function FoilSimulation(props) {
     const configuration = props.configuration;
@@ -59,11 +60,13 @@ export function FoilSimulation(props) {
 
         await Promise.all(promises);
 
-        if (configuration.arts[art.index].steps[currentStep].foil_offsets.length === 0) {            
+        if (configuration.arts[art.index].steps[currentStep].foil_offsets.length === 0) {
+            dispatch(setLoading(true));
             const response = await api.post('/calculate-offsets', {
                 art_fragment_ids: artFragmentIds,
             });
             dispatch(setFoilOffsets(art.index, currentStep, response.data.offsets));
+            dispatch(setLoading(false));
         }
 
         setMainCanvas(canvas);

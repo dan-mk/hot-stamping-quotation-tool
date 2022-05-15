@@ -9,6 +9,7 @@ import { setSelectedClient } from "../../../redux/actions/clientActions";
 import { setSelectedQuotation } from '../../../redux/actions/quotationActions';
 import Style from './Style';
 import GStyle from "../../../css/GStyle";
+import { setLoading } from '../../../redux/actions/uiActions';
 
 const useStyles = createUseStyles({ ...GStyle, ...Style });
 
@@ -43,6 +44,7 @@ function QuotationForm() {
 
     const onFinish = (values) => {
         values.client_id = id;
+        dispatch(setLoading(true));
         api.post('/quotations', values).then((response) => {
             const quotationId = response.data.id;
             const formData = new FormData();
@@ -53,6 +55,7 @@ function QuotationForm() {
 
             api.post(`/quotations/${quotationId}/arts`, formData).then(() => {
                 dispatch(setSelectedQuotation(null));
+                dispatch(setLoading(false));
                 navigate(`/clients/${id}/quotations/${quotationId}`);
             });
         });

@@ -9,6 +9,7 @@ import './../../../css/configuration-screen.css';
 import api from "../../../helpers/api";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
 import { useDispatch } from "react-redux";
+import { setLoading } from "../../../redux/actions/uiActions";
 
 export function ConfigurationScreen(props) {
     const configuration = props.configuration;
@@ -34,6 +35,7 @@ export function ConfigurationScreen(props) {
     };
 
     const onCalculate = async () => {
+        dispatch(setLoading(true));
         for (const artIndex in configuration.arts) {
             const art = { ...configuration.arts[artIndex], index: artIndex };
             for (const stepIndex in art.steps) {
@@ -50,6 +52,7 @@ export function ConfigurationScreen(props) {
             }
         }
         setShowQuotationScreen(true);
+        dispatch(setLoading(false));
     };
 
     useEffect(() => {
