@@ -8,6 +8,11 @@ import {
     ADD_STEP,
     DELETE_STEP,
     SET_FOIL_OFFSETS,
+    ADD_QUOTATION_INSTANCE,
+    DELETE_QUOTATION_INSTANCE,
+    CUSTOMIZE_QUOTATION_INSTANCE_FOIL_PRICE,
+    CUSTOMIZE_QUOTATION_INSTANCE_CLICHE_PRICE,
+    CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
 } from "../constants/actionTypes";
 
 export const setConfigurations = (configurations) => {
@@ -98,6 +103,57 @@ export const setFoilOffsets = (art_id, step_id, offsets) => {
             art_id,
             step_id,
             offsets,
+        }
+    };
+};
+
+export const addQuotationInstance = (number_of_pages, foilTypes) => {
+    return {
+        type: ADD_QUOTATION_INSTANCE,
+        payload: {
+            number_of_pages,
+            foilTypes,
+        }
+    };
+};
+
+export const deleteQuotationInstance = (quotation_instance_id) => {
+    return {
+        type: DELETE_QUOTATION_INSTANCE,
+        payload: {
+            quotation_instance_id,
+        }
+    };
+};
+
+export const customizeQuotationInstanceFoilPrice = (quotation_instance_id, foil_id, price) => {
+    return {
+        type: CUSTOMIZE_QUOTATION_INSTANCE_FOIL_PRICE,
+        payload: {
+            quotation_instance_id,
+            foil_id,
+            price,
+        }
+    };
+};
+
+export const customizeQuotationInstanceClichePrice = (quotation_instance_id, cliche_id, price) => {
+    return {
+        type: CUSTOMIZE_QUOTATION_INSTANCE_CLICHE_PRICE,
+        payload: {
+            quotation_instance_id,
+            cliche_id,
+            price,
+        }
+    };
+};
+
+export const customizeQuotationInstanceProductionPrice = (quotation_instance_id, price) => {
+    return {
+        type: CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
+        payload: {
+            quotation_instance_id,
+            price,
         }
     };
 };

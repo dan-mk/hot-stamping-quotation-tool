@@ -7,7 +7,6 @@ import { StepsTabs } from './StepsTabs';
 import { FoilSimulation } from './FoilSimulation';
 import { getArtFragments, getAllUniqueCliches, cmToPixels } from './../../../helpers';
 import { addCliche, addFoil } from './../../../redux/actions/configurationActions';
-import api from '../../../helpers/api';
 import './../../../css/workspace.css';
 
 export function Workspace(props) {
@@ -288,15 +287,6 @@ export function Workspace(props) {
         if (show === false || viewportWidth === null || viewportWidth === null) return;
         resetToIdealView();
     }, [viewportWidth, viewportWidth]);
-
-    useEffect(() => {
-        api.put(`/configurations/${configuration.id}`, {
-            next_cliche_id: configuration.next_cliche_id,
-            next_cliche_group_id: configuration.next_cliche_group_id,
-            next_foil_id: configuration.next_foil_id,
-            arts: configuration.arts,
-        });
-    }, [JSON.stringify(configuration)]);
 
     const style = {
         background: '#d0d0d0',

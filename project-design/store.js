@@ -61,6 +61,7 @@ let store = {
                 next_cliche_id: 2,
                 next_cliche_group_id: 2,
                 next_foil_id: 2,
+                next_quotation_instance_id: 2,
                 arts: {
                     '1': {
                         id: '1',
@@ -91,10 +92,40 @@ let store = {
                                             width: 50,
                                         }
                                     }
-                                }
+                                },
+                                foil_offsets: [],
                             }
                         }
                     }
+                },
+                quotation_instances: {
+                    '1': {
+                        id: '1',
+                        number_of_pages: {
+                            '1': 1000,
+                        },
+                        cliches: {
+                            '1': {
+                                regular: 10,
+                                custom: 8,
+                            }
+                        },
+                        foils: {
+                            '1': {
+                                regular: 5,
+                                custom: 4,
+                            }
+                        },
+                        production: {
+                            regular: 100,
+                            custom: 80,
+                        },
+                        total: {
+                            regular: 150,
+                            custom: 120,
+                        },
+                        observations: '',
+                    },
                 }
             }
         }

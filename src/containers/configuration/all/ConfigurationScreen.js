@@ -5,7 +5,6 @@ import { Resources } from "./Resources";
 import { OverallQuotationScreen } from "./OverallQuotationScreen";
 import { getAllArtFragments, isEverythingSet, getArtFragmentIdsByStep } from './../../../helpers';
 import { useEffect, useState } from "react";
-import { useImmer } from 'use-immer';
 import './../../../css/configuration-screen.css';
 import api from "../../../helpers/api";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
@@ -17,10 +16,7 @@ export function ConfigurationScreen(props) {
     const arts = configuration.quotation.arts;
     const [currentArt, setCurrentArt] = useState(1);
     const [showQuotationScreen, setShowQuotationScreen] = useState(false);
-    const [quotationInstances, setQuotationInstances] = useImmer({
-        next_id: 1,
-        data: {}
-    });
+    const quotationInstances = configuration.quotation_instances ?? {};
 
     const allArtFragments = getAllArtFragments(configuration);
     const everythingSet = isEverythingSet(configuration, allArtFragments);
@@ -33,23 +29,6 @@ export function ConfigurationScreen(props) {
 
     const onClickTab = (artIndex) => {
         setCurrentArt(artIndex);
-    };
-
-    const addQuotationInstance = () => {
-        const number_of_pages = {};
-        arts.forEach(art => number_of_pages[art.index] = '');
-
-        setQuotationInstances(draft => {
-            draft.data[draft.next_id] = {
-                id: draft.next_id,
-                locked: false,
-                number_of_pages,
-                cliche_price: {},
-                foil_price: {},
-                production_price: null,
-            }
-            draft.next_id += 1;
-        });
     };
 
     const onCalculate = async () => {
@@ -72,8 +51,13 @@ export function ConfigurationScreen(props) {
     };
 
     useEffect(() => {
-        addQuotationInstance();
-    }, []);
+        api.put(`/configurations/${configuration.id}`, {
+            next_cliche_id: configuration.next_cliche_id,
+            next_cliche_group_id: configuration.next_cliche_group_id,
+            next_foil_id: configuration.next_foil_id,
+            arts: configuration.arts,
+        });
+    }, [JSON.stringify(configuration)]);
 
     return (
         <div id="content-container">
@@ -97,9 +81,7 @@ export function ConfigurationScreen(props) {
             { showQuotationScreen && <OverallQuotationScreen 
                                         configuration={configuration}
                                         onClickClose={() => setShowQuotationScreen(false)}
-                                        quotationInstances={quotationInstances}
-                                        setQuotationInstances={setQuotationInstances}
-                                        addQuotationInstance={addQuotationInstance} /> }
+                                        quotationInstances={quotationInstances} /> }
         </div>
     );
 }
