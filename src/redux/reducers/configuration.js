@@ -106,6 +106,7 @@ const configurationReducer = produce((draft, {type, payload}) => {
                 foils: {
                     data: {},
                 },
+                foil_offsets: [],
             };
         }   break;
         case DELETE_STEP: {
