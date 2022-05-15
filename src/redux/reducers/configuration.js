@@ -161,8 +161,6 @@ const configurationReducer = produce((draft, {type, payload}) => {
             const { quotation_instance_id, foil_id, price } = payload;
             const configuration =  draft.selected;
 
-            console.log(configuration.quotation_instances[quotation_instance_id].foils[foil_id]);
-
             configuration.quotation_instances[quotation_instance_id].foils[foil_id].custom = price;
 
             configuration.quotation_instances[quotation_instance_id].total.custom = calculateCustomTotal(

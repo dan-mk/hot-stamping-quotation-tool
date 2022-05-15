@@ -16,7 +16,7 @@ export function ConfigurationScreen(props) {
     const arts = configuration.quotation.arts;
     const [currentArt, setCurrentArt] = useState(1);
     const [showQuotationScreen, setShowQuotationScreen] = useState(false);
-    const quotationInstances = configuration.quotation_instances ?? {};
+    const quotationInstances = configuration.quotation_instances;
 
     const allArtFragments = getAllArtFragments(configuration);
     const everythingSet = isEverythingSet(configuration, allArtFragments);
@@ -25,7 +25,7 @@ export function ConfigurationScreen(props) {
         pointerEvents: everythingSet ? 'all' : 'none',
     };
 
-    const isConfigurationFinished = (configuration.quotation_instances && Object.keys(configuration.quotation_instances).length > 0);
+    const isConfigurationFinished = (Object.keys(configuration.quotation_instances).length > 0);
 
     const dispatch = useDispatch();
 
@@ -57,7 +57,9 @@ export function ConfigurationScreen(props) {
             next_cliche_id: configuration.next_cliche_id,
             next_cliche_group_id: configuration.next_cliche_group_id,
             next_foil_id: configuration.next_foil_id,
+            next_quotation_instance_id: configuration.next_quotation_instance_id,
             arts: configuration.arts,
+            quotation_instances: configuration.quotation_instances,
         });
     }, [JSON.stringify(configuration)]);
 

@@ -33,6 +33,10 @@
     padding: 0 46px 30px;
 }
 
+#quotation-instance-arts-container {
+    display: flex;
+}
+
 #quotation-instance-arts-container > div {
     display: flex;
     padding: 0 0 10px;

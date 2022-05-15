@@ -125,6 +125,10 @@ export function OverallQuotationScreen(props) {
                         </div>
                     );
                 }) }
+                { Object.keys(quotationInstances).length === 0 && <div className="overall-quotation-options-row"> 
+                    <div></div>
+                    <div>No quotations simulated yet</div>
+                </div> }
             </div>
         </div>
         { showQuotationInstanceScreen && <QuotationInstanceScreen
