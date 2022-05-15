@@ -77,6 +77,7 @@ const configurationReducer = produce((draft, {type, payload}) => {
                 x,
                 width,
             };
+            step.foil_offsets = [];
             configuration.next_foil_id += 1;
         }   break;
         case DELETE_FOIL: {
@@ -88,6 +89,7 @@ const configurationReducer = produce((draft, {type, payload}) => {
                 for (let stepId in art.steps) {
                     const step = art.steps[stepId];
                     delete step.foils.data[foil_id];
+                    step.foil_offsets = [];
                 }
             }
         }   break;

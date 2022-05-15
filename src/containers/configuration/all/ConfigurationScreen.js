@@ -37,8 +37,8 @@ export function ConfigurationScreen(props) {
         for (const artIndex in configuration.arts) {
             const art = { ...configuration.arts[artIndex], index: artIndex };
             for (const stepIndex in art.steps) {
-                if (art.steps[stepIndex].foil_offsets !== undefined) {
-                    break;
+                if (art.steps[stepIndex].foil_offsets.length > 0) {
+                    continue;
                 }
 
                 const artFragmentIds = getArtFragmentIdsByStep(configuration, art, stepIndex);

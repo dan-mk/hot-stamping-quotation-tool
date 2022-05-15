@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { getArtFragmentIdsByStep, pixelsToCm } from "./../../../helpers";
 import api from '../../../helpers/api';
+import { useDispatch } from "react-redux";
+import { setFoilOffsets } from "../../../redux/actions/configurationActions";
 
 export function FoilSimulation(props) {
     const configuration = props.configuration;
@@ -16,7 +18,9 @@ export function FoilSimulation(props) {
 
     const [mainCanvas, setMainCanvas] = useState(null);
     const [displayCanvas, setDisplayCanvas] = useState(null);
-    const [foilUse, setFoilUse] = useState([]);
+    const foilUse = configuration.arts[art.index].steps[currentStep].foil_offsets;
+
+    const dispatch = useDispatch();
 
     const calculateFoilUse = async () => {
         const canvas = document.createElement('canvas');
@@ -53,13 +57,16 @@ export function FoilSimulation(props) {
             }));
         });
 
-        const response = await api.post('/calculate-offsets', {
-            art_fragment_ids: artFragmentIds,
-        });
         await Promise.all(promises);
 
+        if (configuration.arts[art.index].steps[currentStep].foil_offsets.length === 0) {            
+            const response = await api.post('/calculate-offsets', {
+                art_fragment_ids: artFragmentIds,
+            });
+            dispatch(setFoilOffsets(art.index, currentStep, response.data.offsets));
+        }
+
         setMainCanvas(canvas);
-        setFoilUse(response.data.offsets);
     };
 
     const createFinalImage = () => {
