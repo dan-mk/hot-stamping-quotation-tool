@@ -120,8 +120,7 @@ export function OverallQuotationScreen(props) {
                                     onClick={onClickCustomize}>
                                     Customize
                                 </button>
-                                { Object.values(quotationInstances).length > 1 &&
-                                    <img src="/times-solid.svg" onClick={() => onClickDelete(quotationInstance)} style={{ width: '12px', cursor: 'pointer' }}/> }
+                                <img src="/times-solid.svg" onClick={() => onClickDelete(quotationInstance)} style={{ width: '12px', cursor: 'pointer' }}/>
                             </div>
                         </div>
                     );

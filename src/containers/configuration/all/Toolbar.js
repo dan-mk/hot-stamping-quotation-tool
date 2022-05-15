@@ -13,6 +13,7 @@ export function Toolbar(props) {
     const foilDisabled = props.foilDisabled;
     const reusableCliches = props.reusableCliches;
     const simulateFoilUseDisabled = props.simulateFoilUseDisabled;
+    const isConfigurationFinished = props.isConfigurationFinished;
 
     const [clicheOptionsOpen, setClicheOptionsOpen] = useState(false);
     const [foilOptionsOpen, setFoilOptionsOpen] = useState(false);
@@ -58,7 +59,7 @@ export function Toolbar(props) {
                     <img src='/reset-ideal-view.png' width="100%" />
                 </div>
             </span>
-            <span title="Insert cliche">
+            { !isConfigurationFinished && <span title="Insert cliche">
                 <div
                     className={"toolbar-option" + (clicheDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={openClicheOptions}>
@@ -71,8 +72,8 @@ export function Toolbar(props) {
                         Cliche {cliche.group_id}
                     </div>) }
                 </div>
-            </span>
-            <span title="Insert foil">
+            </span> }
+            { !isConfigurationFinished && <span title="Insert foil">
                 <div
                     className={"toolbar-option" + (foilDisabled ? ' toolbar-option-disabled' : '')}
                     onClick={openFoilOptions}>
@@ -83,7 +84,7 @@ export function Toolbar(props) {
                         {foilType.description}
                     </div>) }
                 </div>
-            </span>
+            </span> }
             <span title="Simulate foil use">
                 <div
                     className={"toolbar-option" + (simulateFoilUseDisabled ? ' toolbar-option-disabled' : '')}

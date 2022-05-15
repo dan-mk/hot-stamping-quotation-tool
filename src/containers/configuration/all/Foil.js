@@ -9,6 +9,7 @@ export function Foil(props) {
     const color = props.color;
     const id = props.id;
     const showOnlyPaper = props.showOnlyPaper;
+    const isConfigurationFinished = props.isConfigurationFinished;
 
     let style = {
         background: `${color}55`,
@@ -79,7 +80,7 @@ export function Foil(props) {
             <div style={styleRollBorder}></div>
             <div style={styleLabel}>
                 Foil {id}
-                { !showOnlyPaper &&
+                { !showOnlyPaper && !isConfigurationFinished &&
                     <b onMouseDown={prevent} onMouseUp={prevent} onWheel={prevent} onClick={onClick} style={styleX}>X</b> }
             </div>
         </>

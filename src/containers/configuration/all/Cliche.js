@@ -8,6 +8,7 @@ export function Cliche(props) {
     const id = props.id;
     const groupId = props.groupId;
     const showOnlyPaper = props.showOnlyPaper;
+    const isConfigurationFinished = props.isConfigurationFinished;
 
     let style = {
         background: '#ccc',
@@ -54,7 +55,7 @@ export function Cliche(props) {
             <div style={style}></div>
             <div style={styleLabel}>
                 Cliche {groupId}
-                { !showOnlyPaper && 
+                { !showOnlyPaper && !isConfigurationFinished &&
                     <b onMouseDown={prevent} onMouseUp={prevent} onWheel={prevent} onClick={onClick} style={styleX}>X</b> }
             </div>
         </>

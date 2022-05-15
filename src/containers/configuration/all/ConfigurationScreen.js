@@ -25,6 +25,8 @@ export function ConfigurationScreen(props) {
         pointerEvents: everythingSet ? 'all' : 'none',
     };
 
+    const isConfigurationFinished = (configuration.quotation_instances && Object.keys(configuration.quotation_instances).length > 0);
+
     const dispatch = useDispatch();
 
     const onClickTab = (artIndex) => {
@@ -71,7 +73,12 @@ export function ConfigurationScreen(props) {
                 <div id="workspace-container">
                     <ArtsTabs configuration={configuration} onClickTab={onClickTab} currentArt={currentArt} />
                     { arts.map((art, i) => {
-                        return <Workspace show={i + 1 === currentArt} key={i} art={art} configuration={configuration} />
+                        return <Workspace
+                            show={i + 1 === currentArt}
+                            key={i}
+                            art={art}
+                            configuration={configuration}
+                            isConfigurationFinished={isConfigurationFinished} />
                     }) }
                 </div>
                 <div id="resources-container">

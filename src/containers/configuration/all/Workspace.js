@@ -18,6 +18,7 @@ export function Workspace(props) {
     const paddingVertical = props.paddingVertical || 40;
     const artFragments = getArtFragments(art);
     const zoomBase = props.zoomBase || 1.25;
+    const isConfigurationFinished = props.isConfigurationFinished;
 
     const [zoom, setZoom] = useState(0);
     const [focusPoint, setFocusPoint] = useState({ x: 0, y: 0 });
@@ -321,7 +322,8 @@ export function Workspace(props) {
                     clicheDisabled={clicheDisabled}
                     foilDisabled={foilDisabled}
                     reusableCliches={reusableCliches}
-                    simulateFoilUseDisabled={simulateFoilUseDisabled} />
+                    simulateFoilUseDisabled={simulateFoilUseDisabled}
+                    isConfigurationFinished={isConfigurationFinished} />
             </div> }
             <div id="paper-container">
                 <div style={style} onWheel={onWheel} onMouseDown={onMouseDown} ref={refViewport}>
@@ -335,7 +337,8 @@ export function Workspace(props) {
                             focusPoint={focusPoint}
                             zoomMultiplier={zoomMultiplier}
                             currentStep={currentStep}
-                            showOnlyPaper={showOnlyPaper} />
+                            showOnlyPaper={showOnlyPaper}
+                            isConfigurationFinished={isConfigurationFinished} />
                     </div> }
                     { showFoilSimulation && 
                         <FoilSimulation configuration={configuration} art={art} currentStep={currentStep} setShowFoilSimulation={setShowFoilSimulation} /> }
@@ -349,7 +352,8 @@ export function Workspace(props) {
                     art={art}
                     onClickStep={onClickStep}
                     currentStep={currentStep}
-                    setCurrentStep={setCurrentStep} /> }
+                    setCurrentStep={setCurrentStep}
+                    isConfigurationFinished={isConfigurationFinished} /> }
             </div>
         </div>
     );

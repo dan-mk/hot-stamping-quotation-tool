@@ -84,7 +84,8 @@ export function QuotationInstanceScreen(props) {
                                                 step={step.id}
                                                 paddingHorizontal={8}
                                                 paddingVertical={32}
-                                                zoomBase={1.02} />
+                                                zoomBase={1.02}
+                                                isConfigurationFinished={true} />
                                         </div>
                                         <div className="quotation-instance-step-description">
                                             <h1>Art { art.id }, step { step.id }</h1>
