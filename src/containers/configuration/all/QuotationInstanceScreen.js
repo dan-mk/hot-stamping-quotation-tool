@@ -3,23 +3,7 @@ import { Workspace } from './Workspace';
 import api from './../../../helpers/api';
 import { useDispatch } from 'react-redux';
 import { customizeQuotationInstanceClichePrice, customizeQuotationInstanceFoilPrice, customizeQuotationInstanceProductionPrice } from '../../../redux/actions/configurationActions';
-
-function isNumeric(str) {
-    if (typeof str != "string") return false // we only process strings!  
-    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-}
-
-function numOfDecimalPlaces(num) {
-    var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-    if (!match) { return 0; }
-    return Math.max(
-        0,
-        // Number of digits right of decimal point.
-        (match[1] ? match[1].length : 0)
-        // Adjust for scientific notation.
-        - (match[2] ? +match[2] : 0));
-}
+import { isNumeric, numOfDecimalPlaces } from '../../../helpers';
 
 export function QuotationInstanceScreen(props) {
     const configuration = props.configuration;

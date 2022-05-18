@@ -39,6 +39,7 @@
     flex-grow: 1;
 }
 
-#resources-container {
-    width: 300px;
+#right-container {
+    background: rgb(225, 225, 225);
+    width: 260px;
 }

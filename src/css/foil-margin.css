@@ -1,0 +1,24 @@
+#foil-margin-subcontainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+#foil-margin-header {
+    padding: 13px 16px 0px;
+}
+
+#foil-margin-header h1 {
+    font-weight: normal;
+    font-size: 18px;
+    margin: 0;
+}
+
+#foil-margin-content {
+    flex-grow: 1;
+    padding: 2px 16px;
+}
+
+#foil-margin-content input {
+    width: 140px;
+}

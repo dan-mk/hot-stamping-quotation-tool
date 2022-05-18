@@ -72,7 +72,6 @@ export function OverallQuotationScreen(props) {
                             setNumberOfPages({ ...numberOfPages, [art.index]: newValue });
                         };
 
-
                         return (<div key={j}>
                             <input
                                 pattern="[0-9]{0,6}"

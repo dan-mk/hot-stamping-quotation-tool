@@ -10,6 +10,7 @@ import api from "../../../helpers/api";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../../redux/actions/uiActions";
+import { FoilMargin } from "./FoilMargin";
 
 export function ConfigurationScreen(props) {
     const configuration = props.configuration;
@@ -46,6 +47,7 @@ export function ConfigurationScreen(props) {
                 const artFragmentIds = getArtFragmentIdsByStep(configuration, art, stepIndex);
                 const response = await api.post('/calculate-offsets', {
                     art_fragment_ids: artFragmentIds,
+                    foil_margin: configuration.arts['1'].foil_margin,
                 });
                 const offsets = response.data.offsets;
                 dispatch(setFoilOffsets(art.index, stepIndex, offsets));
@@ -86,7 +88,8 @@ export function ConfigurationScreen(props) {
                             isConfigurationFinished={isConfigurationFinished} />
                     }) }
                 </div>
-                <div id="resources-container">
+                <div id="right-container">
+                    <FoilMargin configuration={configuration}/>
                     <Resources configuration={configuration} />
                 </div>
             </div>

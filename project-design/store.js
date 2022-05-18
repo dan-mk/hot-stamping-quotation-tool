@@ -66,6 +66,7 @@ let store = {
                     '1': {
                         id: '1',
                         art_id: '1',
+                        foil_margin: 0.5,
                         steps: {
                             '1': {
                                 id: '1',

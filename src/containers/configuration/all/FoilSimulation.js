@@ -64,6 +64,7 @@ export function FoilSimulation(props) {
             dispatch(setLoading(true));
             const response = await api.post('/calculate-offsets', {
                 art_fragment_ids: artFragmentIds,
+                foil_margin: configuration.arts['1'].foil_margin,
             });
             dispatch(setFoilOffsets(art.index, currentStep, response.data.offsets));
             dispatch(setLoading(false));

@@ -69,3 +69,20 @@ export function pixelsToCm(pixels, dpi = 300) {
 export function cmToPixels(cm, dpi = 300) {
     return parseInt(cm * dpi / 2.54);
 }
+
+export function isNumeric(str) {
+    if (typeof str != "string") return false // we only process strings!  
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
+export function numOfDecimalPlaces(num) {
+    var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) { return 0; }
+    return Math.max(
+        0,
+        // Number of digits right of decimal point.
+        (match[1] ? match[1].length : 0)
+        // Adjust for scientific notation.
+        - (match[2] ? +match[2] : 0));
+}
