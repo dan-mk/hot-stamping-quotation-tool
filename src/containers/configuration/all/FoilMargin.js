@@ -5,6 +5,7 @@ import './../../../css/foil-margin.css';
 
 export function FoilMargin(props) {
     const configuration = props.configuration;
+    const isConfigurationFinished = props.isConfigurationFinished;
 
     const dispatch = useDispatch();
 
@@ -23,6 +24,7 @@ export function FoilMargin(props) {
             </header>
             <div id="foil-margin-content">
                 <input
+                    readOnly={isConfigurationFinished}
                     value={configuration.arts['1'].foil_margin}
                     onChange={handleChange}
                     className="quotation-input" />

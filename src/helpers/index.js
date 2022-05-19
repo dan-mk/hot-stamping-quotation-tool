@@ -70,6 +70,14 @@ export function cmToPixels(cm, dpi = 300) {
     return parseInt(cm * dpi / 2.54);
 }
 
+export function roundToMultipleCeil(value, multiple) {
+    return Math.ceil(value / multiple) * multiple;
+}
+
+export function roundToMultipleClosest(value, multiple) {
+    return Math.round(value / multiple) * multiple;
+}
+
 export function isNumeric(str) {
     if (typeof str != "string") return false // we only process strings!  
     return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...

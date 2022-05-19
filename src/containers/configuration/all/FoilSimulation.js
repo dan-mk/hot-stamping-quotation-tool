@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getArtFragmentIdsByStep, pixelsToCm } from "./../../../helpers";
+import { getArtFragmentIdsByStep, pixelsToCm, roundToMultipleClosest } from "./../../../helpers";
 import api from '../../../helpers/api';
 import { useDispatch } from "react-redux";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
@@ -135,7 +135,7 @@ export function FoilSimulation(props) {
 
             if (i > 0) {
                 let level = document.createElement('div');
-                level.innerHTML = pixelsToCm(n) + ' cm';
+                level.innerHTML = roundToMultipleClosest(pixelsToCm(n), 0.5) + ' cm';
                 level.style.position = 'absolute';
                 level.style.whiteSpace = 'nowrap';
                 level.style.top = parseInt(resizeFactor * (sum - n + 0.5 * n) - 7) + 'px';

@@ -89,7 +89,7 @@ export function ConfigurationScreen(props) {
                     }) }
                 </div>
                 <div id="right-container">
-                    <FoilMargin configuration={configuration}/>
+                    <FoilMargin configuration={configuration} isConfigurationFinished={isConfigurationFinished} />
                     <Resources configuration={configuration} />
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, pixelsToCm } from './index';
+import { getAllFoils, getAllUniqueCliches, getAllNonUniqueCliches, pixelsToCm, roundToMultipleClosest, roundToMultipleCeil } from './index';
 import { getClichePrice, getFoilPrice, getProductionPrice, getTotalPrice } from './../config/Formulas';
 
 export function calculatePrices(configuration, quotationInstance, foilTypes) {
@@ -15,8 +15,8 @@ export function calculatePrices(configuration, quotationInstance, foilTypes) {
 
     cliches.forEach(cliche => {
         const price = parseFloat(getClichePrice(
-            parseFloat(pixelsToCm(cliche.width)),
-            parseFloat(pixelsToCm(cliche.height))
+            roundToMultipleClosest(pixelsToCm(cliche.width), 0.5),
+            roundToMultipleClosest(pixelsToCm(cliche.height), 0.5)
         ).toFixed(2));
         clichePrices[cliche.id] = {
             regular: price,
@@ -60,7 +60,13 @@ export function calculatePrices(configuration, quotationInstance, foilTypes) {
         });
 
         const foilUse = configuration.arts[artId].steps[stepId].foil_offsets;
-        const avgHeight = foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length;
+        let avgHeight;
+        if (foilUse.length === 1) {
+            avgHeight = roundToMultipleClosest(pixelsToCm(foilUse[0]), 0.5);
+        } else {
+            const avgPixelHeight = foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length;
+            avgHeight = roundToMultipleCeil(pixelsToCm(avgPixelHeight), 0.5);
+        } 
 
         const foilType = foilTypes[foil.foil_type_id];
         const foilRollWidthCm = foilType.width;
@@ -71,8 +77,8 @@ export function calculatePrices(configuration, quotationInstance, foilTypes) {
 
         const price = parseFloat(
             getFoilPrice(
-                parseFloat(pixelsToCm(foil.width)),
-                parseFloat(pixelsToCm(avgHeight * stampingsForStep)),
+                roundToMultipleClosest(pixelsToCm(foil.width), 0.5),
+                avgHeight * stampingsForStep,
                 foilRollWidthCm,
                 foilRollLengthCm,
                 foilRollPrice

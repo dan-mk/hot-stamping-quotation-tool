@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getAllUniqueCliches, getAllFoils, pixelsToCm } from './../../../helpers';
+import { getAllUniqueCliches, getAllFoils, pixelsToCm, roundToMultipleClosest } from './../../../helpers';
 import './../../../css/resources.css';
 
 export function Resources(props) {
@@ -25,7 +25,15 @@ export function Resources(props) {
                         </div>
                         <div>
                             Cliche {cliche.group_id}<br/>
-                            <small>{ pixelsToCm(cliche.width) + ' x ' + pixelsToCm(cliche.height) } cm</small>
+                            <small>
+                                {
+                                    roundToMultipleClosest(pixelsToCm(cliche.width), 0.5) + 
+                                    ' x ' + 
+                                    roundToMultipleClosest(pixelsToCm(cliche.height), 0.5) +
+                                    ' '
+                                }
+                                cm
+                            </small>
                         </div>
                     </li>
                 }) }
@@ -36,7 +44,7 @@ export function Resources(props) {
                         </div>
                         <div>
                             Foil {foil.id}<br/>
-                            <small>{ pixelsToCm(foil.width) } cm</small>
+                            <small>{ roundToMultipleClosest(pixelsToCm(foil.width), 0.5) } cm</small>
                         </div>
                     </li>
                 )) }
