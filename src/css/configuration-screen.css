@@ -31,6 +31,7 @@
 #bottom-container {
     display: flex;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 #workspace-container {
@@ -41,5 +42,7 @@
 
 #right-container {
     background: rgb(225, 225, 225);
+    display: flex;
+    flex-direction: column;
     width: 260px;
 }

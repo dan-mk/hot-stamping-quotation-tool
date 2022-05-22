@@ -1,6 +1,7 @@
 #resources-subcontainer {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #resources-header {
@@ -14,14 +15,18 @@
 }
 
 #resources-content {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
-    padding: 2px 16px;
+    gap: 14px;
+    overflow: auto;
+    margin: 0;
+    padding: 2px 16px 16px;
 }
 
 #resources-content li {
     display: flex;
     align-items: center;
-    margin-bottom: 14px;
 }
 
 #resources-content li div {
