@@ -15,6 +15,9 @@ function ClientList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const clients = useSelector(state => state.clients);
+    const orderedClients = Object.values(clients.data).sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    });
 
     const fetchClients = async () => {
         try {
@@ -43,7 +46,7 @@ function ClientList() {
             <List
                 className={classes.listContainer}
                 itemLayout="horizontal"
-                dataSource={Object.values(clients.data)}
+                dataSource={orderedClients}
                 renderItem={item => (
                     <List.Item className={classes.listItem} onClick={() => {
                         dispatch(setSelectedClient(item));
