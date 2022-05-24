@@ -27,9 +27,14 @@ export function Workspace(props) {
     const [viewportWidth, setViewportWidth] = useState(null);
     const [viewportHeight, setViewportHeight] = useState(null);
     const [selectedArtFragmentIds, setSelectedArtFragmentIds] = useState([]);
-    const [currentStep, setCurrentStep] = useState(props.step || 1);
+    let [currentStep, setCurrentStep] = useState(props.step || 1);
     const [showFoilSimulation, setShowFoilSimulation] = useState(false);
     const refViewport = useRef(null);
+
+    if (configuration.arts[art.index].steps[currentStep] === undefined) {
+        setCurrentStep(1);
+        currentStep = 1;
+    }
 
     const zoomMultiplier = Math.pow(zoomBase, zoom);
     const size = { height: art.height, width: art.width };

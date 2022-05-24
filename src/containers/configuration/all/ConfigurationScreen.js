@@ -7,7 +7,7 @@ import { getAllArtFragments, isEverythingSet, getArtFragmentIdsByStep } from './
 import { useEffect, useState } from "react";
 import './../../../css/configuration-screen.css';
 import api from "../../../helpers/api";
-import { setFoilOffsets } from "../../../redux/actions/configurationActions";
+import { deleteStep, setFoilOffsets } from "../../../redux/actions/configurationActions";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../../redux/actions/uiActions";
 import { FoilMargin } from "./FoilMargin";
@@ -40,7 +40,8 @@ export function ConfigurationScreen(props) {
         for (const artIndex in configuration.arts) {
             const art = { ...configuration.arts[artIndex], index: artIndex };
             for (const stepIndex in art.steps) {
-                if (art.steps[stepIndex].foil_offsets.length > 0) {
+                const stepHasNoResources = (Object.values(art.steps[stepIndex].cliches.data).length === 0);
+                if (art.steps[stepIndex].foil_offsets.length > 0 || stepHasNoResources) {
                     continue;
                 }
 
@@ -53,6 +54,19 @@ export function ConfigurationScreen(props) {
                 dispatch(setFoilOffsets(art.index, stepIndex, offsets));
             }
         }
+
+        for (const artIndex in configuration.arts) {
+            const art = { ...configuration.arts[artIndex], index: artIndex };
+            const stepIndexes = Object.keys(art.steps);
+            stepIndexes.reverse();
+            for (const stepIndex of stepIndexes) {
+                const stepHasNoResources = (Object.values(art.steps[stepIndex].cliches.data).length === 0);
+                if (stepHasNoResources) {
+                    dispatch(deleteStep(artIndex, stepIndex));
+                }
+            }
+        }
+
         setShowQuotationScreen(true);
         dispatch(setLoading(false));
     };
