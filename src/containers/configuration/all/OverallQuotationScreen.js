@@ -57,7 +57,7 @@ export function OverallQuotationScreen(props) {
                 </div>
                 <div>
                     <div></div>
-                    { arts.map((art, i) => <div key={i} className="overall-quotation-title-cell">Art {art.id}</div>) }
+                    { arts.map((art, i) => <div key={i} className="overall-quotation-title-cell">Art {art.index}</div>) }
                     <div></div>
                 </div>
                 <div className="overall-quotation-add-row" style={{ marginBottom: '10px' }}>
