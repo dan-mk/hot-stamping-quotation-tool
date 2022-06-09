@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './../../../css/quotation-screen.css';
 import { useState } from 'react';
 import api from './../../../helpers/api';
-import { addQuotationInstance, deleteQuotationInstance } from '../../../redux/actions/configurationActions';
+import { addQuotationInstance, deleteQuotationInstance, setDiscount } from '../../../redux/actions/configurationActions';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -88,10 +88,12 @@ export function OverallQuotationScreen(props) {
                 <div>
                     <div></div>
                     { arts.map((_, i) => <div key={i} className="overall-quotation-header-cell">Number of pages</div>) }
-                    <div className="overall-quotation-header-cell">Price</div>
+                    <div className="overall-quotation-header-cell" style={{ width: 80 }}>Price</div>
+                    <div className="overall-quotation-header-cell" style={{ width: 100 }}></div>
+                    <div className="overall-quotation-header-cell" style={{ width: 100 }}>Discount</div>
+                    <div className="overall-quotation-header-cell" style={{ width: 100 }}>Final price</div>
                 </div>
                 { Object.values(quotationInstances).map((quotationInstance, i) => {
-                    
 
                     const onClickDelete = (quotationInstance) => {
                         dispatch(deleteQuotationInstance(quotationInstance.id));
@@ -102,6 +104,14 @@ export function OverallQuotationScreen(props) {
                         setShowQuotationInstanceScreen(true);
                     };
 
+                    const handleChangeDiscount = (e) => {
+                        if (!e.target.validity.valid) {
+                            return;
+                        }
+                        const newValue = e.target.value === '' ? '' : parseInt(e.target.value);
+                        dispatch(setDiscount(quotationInstance.id, newValue));
+                    };
+
                     return (
                         <div key={i} className="overall-quotation-options-row">
                             <div style={{ marginTop: '5px' }}>{ i + 1 }</div>
@@ -110,15 +120,31 @@ export function OverallQuotationScreen(props) {
                                     {quotationInstance.number_of_pages[art.index]}
                                 </div>);
                             }) }
-                            <div>
+                            <div style={{ width: 80 }}>
                                 <span className="overall-quotation-price">
                                     $ { quotationInstance.total.custom }
                                 </span>
+                            </div>
+                            <div style={{ width: 100 }}>
                                 <button 
                                     className="quotation-button"
                                     onClick={onClickCustomize}>
                                     Customize
                                 </button>
+                            </div>
+                            <div style={{ width: 100 }}>
+                                <input
+                                    pattern="[0-9]{0,6}"
+                                    value={quotationInstance.discount}
+                                    onChange={handleChangeDiscount}
+                                    className="quotation-input" />
+                            </div>
+                            <div style={{ width: 100 }}>
+                                <span className="overall-quotation-price">
+                                    $ { quotationInstance.total.custom - quotationInstance.discount }
+                                </span>
+                            </div>
+                            <div>
                                 <img src="/times-solid.svg" onClick={() => onClickDelete(quotationInstance)} style={{ width: '12px', cursor: 'pointer' }}/>
                             </div>
                         </div>

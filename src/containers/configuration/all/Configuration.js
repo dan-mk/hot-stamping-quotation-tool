@@ -11,7 +11,6 @@ function Configuration() {
   const dispatch = useDispatch();
 
   const configuration = useSelector(state => state.configurations.selected);
-  // const arts = useSelector(state => state.arts);
 
   const fetchConfiguration = async () => {
     if (configuration) {

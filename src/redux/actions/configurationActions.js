@@ -14,6 +14,7 @@ import {
     CUSTOMIZE_QUOTATION_INSTANCE_CLICHE_PRICE,
     CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
     SET_FOIL_MARGIN,
+    SET_QUOTATION_INSTANCE_DISCOUNT,
 } from "../constants/actionTypes";
 
 export const setConfigurations = (configurations) => {
@@ -164,6 +165,16 @@ export const setFoilMargin = (foil_margin) => {
         type: SET_FOIL_MARGIN,
         payload: {
             foil_margin,
+        }
+    };
+}
+
+export const setDiscount = (quotation_instance_id, discount) => {
+    return {
+        type: SET_QUOTATION_INSTANCE_DISCOUNT,
+        payload: {
+            quotation_instance_id,
+            discount,
         }
     };
 }

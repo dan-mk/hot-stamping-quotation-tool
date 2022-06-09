@@ -16,6 +16,7 @@ import {
     CUSTOMIZE_QUOTATION_INSTANCE_CLICHE_PRICE,
     CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
     SET_FOIL_MARGIN,
+    SET_QUOTATION_INSTANCE_DISCOUNT,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -150,6 +151,7 @@ const configurationReducer = produce((draft, {type, payload}) => {
                 foils: foils,
                 production: production,
                 total: total,
+                discount: 0,
                 observations: '',
                 totalOfStampings
             };
@@ -201,6 +203,12 @@ const configurationReducer = produce((draft, {type, payload}) => {
                     step.foil_offsets = [];
                 });
             });
+        } break;
+        case SET_QUOTATION_INSTANCE_DISCOUNT: {
+            const { quotation_instance_id, discount } = payload;
+            const configuration = draft.selected;
+
+            configuration.quotation_instances[quotation_instance_id].discount = discount;
         } break;
         default:
             break;

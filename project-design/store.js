@@ -125,6 +125,7 @@ let store = {
                             regular: 150,
                             custom: 120,
                         },
+                        discount: 100,
                         observations: '',
                     },
                 }
