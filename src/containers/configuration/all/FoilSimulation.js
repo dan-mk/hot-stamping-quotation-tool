@@ -172,8 +172,9 @@ export function FoilSimulation(props) {
         totalLevel.style.textAlign = 'right';
         totalLevel.style.position = 'absolute';
         totalLevel.style.whiteSpace = 'nowrap';
-        totalLevel.style.bottom = '-100px';
+        totalLevel.style.bottom = '-68px';
         totalLevel.style.right = `0`;
+        totalLevel.style.lineHeight = '1.1';
         verticalLine.appendChild(totalLevel);
 
         const closeButton = document.createElement('img');
