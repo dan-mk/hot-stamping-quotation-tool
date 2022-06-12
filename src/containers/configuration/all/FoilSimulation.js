@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getArtFragmentIdsByStep, pixelsToCm, roundToMultipleClosest } from "./../../../helpers";
+import { cmToPixels, getArtFragmentIdsByStep, pixelsToCm, roundToMultipleCeil, roundToMultipleClosest } from "./../../../helpers";
 import api from '../../../helpers/api';
 import { useDispatch } from "react-redux";
 import { setFoilOffsets } from "../../../redux/actions/configurationActions";
@@ -78,6 +78,7 @@ export function FoilSimulation(props) {
 
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
+        const mainCtx = mainCanvas.getContext('2d');
 
         canvas.style.display = 'block';
         canvas.style.height = '100%';
@@ -85,17 +86,35 @@ export function FoilSimulation(props) {
         canvas.style.position = 'absolute';
         canvas.style.objectFit = 'contain';
         canvas.style.objectPosition = 'top';
-        canvas.height = mainCanvas.height + foilUse.reduce((sum, n) => sum + n, 0);
+        canvas.height = mainCanvas.height + foilUse.reduce((sum, n, i) => {
+            let h = n;
+            if (i === foilUse.length - 1) {
+                h = Math.min(h, cmToPixels(configuration.arts[art.index].foil_margin) + 0.3 * mainCanvas.height);
+            }
+            return sum + h;
+        }, 0);
         canvas.width = mainCanvas.width;
 
-        ctx.globalAlpha = 0.4;
+        const colors = ['#ff0000', '#0000ff', '#00ff00', '#6a0dad', '#ffa500'];
+
         ctx.drawImage(mainCanvas, 0, 0);
         let sum = 0;
         foilUse.forEach((n, i) => {
             sum += n;
-            ctx.globalAlpha = 0.4 + ((i + 1) * 0.6 / foilUse.length);
+            mainCtx.globalCompositeOperation = 'source-in';
+            mainCtx.fillStyle = (i === foilUse.length - 1 ? 'gray' : colors[i % colors.length]);
+            mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
             ctx.drawImage(mainCanvas, 0, sum);
         });
+
+        const gradient = ctx.createLinearGradient(
+            0, mainCanvas.height + foilUse.slice(0, -1).reduce((sum, n) => sum + n, 0), 0, canvas.height
+        );
+        gradient.addColorStop(0, "#ffffff00");
+        gradient.addColorStop(1, "white");
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         refContainer.current.innerHTML = '';
         refContainer.current.appendChild(canvas);
@@ -122,6 +141,7 @@ export function FoilSimulation(props) {
         refContainer.current.appendChild(verticalLine);
 
         let sum = 0;
+        let totalHeight = 0;
         [0, ...foilUse].forEach((n, i) => {
             sum += n;
 
@@ -135,7 +155,8 @@ export function FoilSimulation(props) {
 
             if (i > 0) {
                 let level = document.createElement('div');
-                level.innerHTML = roundToMultipleClosest(pixelsToCm(n), 0.5) + ' cm';
+                level.innerHTML = '~' + roundToMultipleClosest(pixelsToCm(n), 0.5) + ' cm';
+                totalHeight += roundToMultipleClosest(pixelsToCm(n), 0.5);
                 level.style.position = 'absolute';
                 level.style.whiteSpace = 'nowrap';
                 level.style.top = parseInt(resizeFactor * (sum - n + 0.5 * n) - 7) + 'px';
@@ -143,6 +164,17 @@ export function FoilSimulation(props) {
                 refContainer.current.appendChild(level);
             }
         });
+
+        const averageHeight = roundToMultipleCeil(pixelsToCm(foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length), 0.5);
+
+        let totalLevel = document.createElement('div');
+        totalLevel.innerHTML = 'total:<br> <b>~' + totalHeight + ' cm</b><br>average:<br> <b>~' + averageHeight + ' cm / stamp</b>';
+        totalLevel.style.textAlign = 'right';
+        totalLevel.style.position = 'absolute';
+        totalLevel.style.whiteSpace = 'nowrap';
+        totalLevel.style.bottom = '-100px';
+        totalLevel.style.right = `0`;
+        verticalLine.appendChild(totalLevel);
 
         const closeButton = document.createElement('img');
         closeButton.setAttribute('src', '/times-solid.svg');

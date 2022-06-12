@@ -12,7 +12,7 @@
 
 #calculate-container {
     display: flex;
-    padding: 20px;
+    padding: 14px 20px;
 }
 
 #calculate-container button {
