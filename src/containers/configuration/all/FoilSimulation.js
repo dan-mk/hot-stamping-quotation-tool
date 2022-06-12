@@ -167,15 +167,17 @@ export function FoilSimulation(props) {
 
         const averageHeight = roundToMultipleCeil(pixelsToCm(foilUse.reduce((sum, n) => sum + n, 0) / foilUse.length), 0.5);
 
-        let totalLevel = document.createElement('div');
-        totalLevel.innerHTML = 'total:<br> <b>~' + totalHeight + ' cm</b><br>average:<br> <b>~' + averageHeight + ' cm / stamp</b>';
-        totalLevel.style.textAlign = 'right';
-        totalLevel.style.position = 'absolute';
-        totalLevel.style.whiteSpace = 'nowrap';
-        totalLevel.style.bottom = '-68px';
-        totalLevel.style.right = `0`;
-        totalLevel.style.lineHeight = '1.1';
-        verticalLine.appendChild(totalLevel);
+        if (foilUse.length > 1) {
+            let totalLevel = document.createElement('div');
+            totalLevel.innerHTML = 'total:<br> <b>~' + totalHeight + ' cm</b><br>average:<br> <b>~' + averageHeight + ' cm / stamp</b>';
+            totalLevel.style.textAlign = 'right';
+            totalLevel.style.position = 'absolute';
+            totalLevel.style.whiteSpace = 'nowrap';
+            totalLevel.style.bottom = '-68px';
+            totalLevel.style.right = `0`;
+            totalLevel.style.lineHeight = '1.1';
+            verticalLine.appendChild(totalLevel);
+        }
 
         const closeButton = document.createElement('img');
         closeButton.setAttribute('src', '/times-solid.svg');
