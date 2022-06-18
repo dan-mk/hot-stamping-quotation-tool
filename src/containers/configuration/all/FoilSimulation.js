@@ -127,7 +127,10 @@ export function FoilSimulation(props) {
         ctx.fillRect(cmToPixels(2.35), 0, cmToPixels(0.1), sum + cmToPixels(0.08));
 
         const gradient = ctx.createLinearGradient(
-            0, mainCanvas.height + foilUse.slice(0, -1).reduce((sum, n) => sum + n, 0), 0, canvas.height
+            0, mainCanvas.height + cmToPixels(configuration.arts[art.index].foil_margin) + foilUse.slice(0, -1).reduce((sum, n) => {
+                return sum + n
+            }, 0),
+            0, canvas.height
         );
         gradient.addColorStop(0, "#ffffff00");
         gradient.addColorStop(1, "white");
