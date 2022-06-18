@@ -62,6 +62,7 @@ let store = {
                 next_cliche_group_id: 2,
                 next_foil_id: 2,
                 next_quotation_instance_id: 2,
+                observations: '',
                 arts: {
                     '1': {
                         id: '1',

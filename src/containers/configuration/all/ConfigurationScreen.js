@@ -77,6 +77,7 @@ export function ConfigurationScreen(props) {
             next_cliche_group_id: configuration.next_cliche_group_id,
             next_foil_id: configuration.next_foil_id,
             next_quotation_instance_id: configuration.next_quotation_instance_id,
+            observations: configuration.observations,
             arts: configuration.arts,
             quotation_instances: configuration.quotation_instances,
         });

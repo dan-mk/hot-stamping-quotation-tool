@@ -17,6 +17,7 @@ import {
     CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
     SET_FOIL_MARGIN,
     SET_QUOTATION_INSTANCE_DISCOUNT,
+    SET_OVERALL_QUOTATION_OBSERVATIONS,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -209,6 +210,11 @@ const configurationReducer = produce((draft, {type, payload}) => {
             const configuration = draft.selected;
 
             configuration.quotation_instances[quotation_instance_id].discount = discount;
+        } break;
+        case SET_OVERALL_QUOTATION_OBSERVATIONS: {
+            const { observations } = payload;
+            const configuration = draft.selected;
+            configuration.observations = observations;
         } break;
         default:
             break;

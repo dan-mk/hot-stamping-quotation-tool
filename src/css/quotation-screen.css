@@ -28,6 +28,24 @@
     width: 20px;
 }
 
+#quotation-container footer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    font-weight: bold;
+    gap: 4px;
+    padding: 10px 46px 20px;
+}
+
+.overall-quotation-textarea {
+    display: block;
+    padding: 4px 5px;
+    resize: none;
+    height: 200px;
+    max-width: 800px;
+    width: 100%;
+}
+
 #overall-quotation-content-container {
     display: flex;
     flex-direction: column;

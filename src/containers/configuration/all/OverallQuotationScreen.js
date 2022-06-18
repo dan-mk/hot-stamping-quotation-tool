@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import './../../../css/quotation-screen.css';
 import { useState } from 'react';
 import api from './../../../helpers/api';
-import { addQuotationInstance, deleteQuotationInstance, setDiscount } from '../../../redux/actions/configurationActions';
+import {
+    addQuotationInstance,
+    deleteQuotationInstance,
+    setDiscount,
+    setOverallQuotationObservations
+} from '../../../redux/actions/configurationActions';
 
 export function OverallQuotationScreen(props) {
     const configuration = props.configuration;
@@ -33,6 +38,10 @@ export function OverallQuotationScreen(props) {
             dispatch(addQuotationInstance(numberOfPages, foilTypes));
             setNumberOfPages({});
         }
+    };
+
+    const handleChangeObservations = (e) => {
+        dispatch(setOverallQuotationObservations(e.target.value));
     };
 
     return (
@@ -155,6 +164,10 @@ export function OverallQuotationScreen(props) {
                     <div>No quotations simulated yet</div>
                 </div> }
             </div>
+            <footer>
+                <span>Observations</span>
+                <textarea className="overall-quotation-textarea" value={configuration.observations} onChange={handleChangeObservations} />
+            </footer>
         </div>
         { showQuotationInstanceScreen && <QuotationInstanceScreen
                                             configuration={configuration}

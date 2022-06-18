@@ -15,6 +15,7 @@ import {
     CUSTOMIZE_QUOTATION_INSTANCE_PRODUCTION_PRICE,
     SET_FOIL_MARGIN,
     SET_QUOTATION_INSTANCE_DISCOUNT,
+    SET_OVERALL_QUOTATION_OBSERVATIONS,
 } from "../constants/actionTypes";
 
 export const setConfigurations = (configurations) => {
@@ -175,6 +176,15 @@ export const setDiscount = (quotation_instance_id, discount) => {
         payload: {
             quotation_instance_id,
             discount,
+        }
+    };
+}
+
+export const setOverallQuotationObservations = (observations) => {
+    return {
+        type: SET_OVERALL_QUOTATION_OBSERVATIONS,
+        payload: {
+            observations,
         }
     };
 }
