@@ -18,6 +18,7 @@ export function ConfigurationScreen(props) {
     const arts = configuration.quotation.arts;
     const [currentArt, setCurrentArt] = useState(1);
     const [showQuotationScreen, setShowQuotationScreen] = useState(false);
+    const [updateTimeout, setUpdateTimeout] = useState(null);
     const quotationInstances = configuration.quotation_instances;
 
     const allArtFragments = getAllArtFragments(configuration);
@@ -72,15 +73,21 @@ export function ConfigurationScreen(props) {
     };
 
     useEffect(() => {
-        api.put(`/configurations/${configuration.id}`, {
-            next_cliche_id: configuration.next_cliche_id,
-            next_cliche_group_id: configuration.next_cliche_group_id,
-            next_foil_id: configuration.next_foil_id,
-            next_quotation_instance_id: configuration.next_quotation_instance_id,
-            observations: configuration.observations,
-            arts: configuration.arts,
-            quotation_instances: configuration.quotation_instances,
-        });
+        clearTimeout(updateTimeout);
+
+        const newUpdateTimeout = setTimeout(() => {
+            api.put(`/configurations/${configuration.id}`, {
+                next_cliche_id: configuration.next_cliche_id,
+                next_cliche_group_id: configuration.next_cliche_group_id,
+                next_foil_id: configuration.next_foil_id,
+                next_quotation_instance_id: configuration.next_quotation_instance_id,
+                observations: configuration.observations,
+                arts: configuration.arts,
+                quotation_instances: configuration.quotation_instances,
+            });
+        }, 500);
+
+        setUpdateTimeout(newUpdateTimeout);
     }, [JSON.stringify(configuration)]);
 
     return (
